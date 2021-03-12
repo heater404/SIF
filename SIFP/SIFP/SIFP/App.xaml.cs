@@ -5,6 +5,7 @@ using SIFP.Services;
 using SIFP.Services.Interfaces;
 using SIFP.Views;
 using System.Windows;
+using Tool;
 
 namespace SIFP
 {
@@ -26,6 +27,7 @@ namespace SIFP
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<MenuModule>();
+            moduleCatalog.AddModule<ToolModule>();
         }
     }
 }

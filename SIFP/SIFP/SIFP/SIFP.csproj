@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Modules\Menu\Menu.csproj" />
+    <ProjectReference Include="..\Modules\Tool\Tool.csproj" />
     <ProjectReference Include="..\SIFP.Core\SIFP.Core.csproj" />
     <ProjectReference Include="..\Services\SIFP.Services.Interfaces\SIFP.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Services\SIFP.Services\SIFP.Services.csproj" />

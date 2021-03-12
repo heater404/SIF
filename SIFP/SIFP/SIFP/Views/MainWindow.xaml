@@ -13,8 +13,8 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
     <DockPanel LastChildFill="True">
-        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
-        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
+        <ContentControl Margin="20" prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
+        <ContentControl Margin="20" prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -22,15 +22,34 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
-            <ContentControl Grid.Column="0" prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftRegion}" />
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <ListBox SelectedIndex="0" Style="{StaticResource MaterialDesignToolVerticalToggleListBox}">
+                    <ListBoxItem Content="{materialDesign:PackIcon Kind=FormatAlignLeft}" />
+                    <ListBoxItem Content="{materialDesign:PackIcon Kind=FormatAlignCenter}" />
+                    <ListBoxItem Content="{materialDesign:PackIcon Kind=FormatAlignRight}" />
+                    <ListBoxItem Content="{materialDesign:PackIcon Kind=FormatAlignJustify}" />
+                </ListBox>
 
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftRegion}" />
+            </StackPanel>
+            
+                     
             <GridSplitter
                 Grid.Column="1"
                 Width="3"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center" />
+                HorizontalAlignment="Center"
+                VerticalAlignment="Stretch" />
 
-            <ContentControl Grid.Column="2" prism:RegionManager.RegionName="{x:Static core:RegionNames.RightRegion}" />
+            <StackPanel Grid.Column="2" Orientation="Vertical">
+                <ListBox SelectedIndex="0" Style="{StaticResource MaterialDesignToolToggleListBox}">
+                    <ListBoxItem ToolTip="RegisterList" Content="{materialDesign:PackIcon Kind=ViewListOutline}"/>
+                    <ListBoxItem Content="{materialDesign:PackIcon Kind=FormatAlignCenter}" />
+                    <ListBoxItem Content="{materialDesign:PackIcon Kind=FormatAlignRight}" />
+                    <ListBoxItem Content="{materialDesign:PackIcon Kind=FormatAlignJustify}" />
+                </ListBox>
+                <ContentControl  prism:RegionManager.RegionName="{x:Static core:RegionNames.RightRegion}" />
+            </StackPanel>
+            
         </Grid>
     </DockPanel>
 </Window>
