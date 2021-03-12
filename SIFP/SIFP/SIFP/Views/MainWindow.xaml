@@ -12,7 +12,25 @@
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
-    <Grid>
-        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
-    </Grid>
+    <DockPanel LastChildFill="True">
+        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
+        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Grid.Column="0" prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftRegion}" />
+
+            <GridSplitter
+                Grid.Column="1"
+                Width="3"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center" />
+
+            <ContentControl Grid.Column="2" prism:RegionManager.RegionName="{x:Static core:RegionNames.RightRegion}" />
+        </Grid>
+    </DockPanel>
 </Window>

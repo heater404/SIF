@@ -1,6 +1,6 @@
-﻿using Prism.Ioc;
+﻿using Menu;
+using Prism.Ioc;
 using Prism.Modularity;
-using SIFP.Modules.ModuleName;
 using SIFP.Services;
 using SIFP.Services.Interfaces;
 using SIFP.Views;
@@ -25,7 +25,7 @@ namespace SIFP
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<ModuleNameModule>();
+            moduleCatalog.AddModule<MenuModule>();
         }
     }
 }
