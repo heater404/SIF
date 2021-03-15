@@ -15,12 +15,12 @@ namespace Menu
         }
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            regionManager.RequestNavigate(RegionNames.MenuRegion, "MenuView");
+            regionManager.RequestNavigate(RegionNames.MenuRegion, typeof(MenuView).Name);
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<MenuView>("MenuView");
+            containerRegistry.RegisterForNavigation<MenuView>(typeof(MenuView).Name);
         }
     }
 }

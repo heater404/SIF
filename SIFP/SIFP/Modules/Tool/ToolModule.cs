@@ -16,12 +16,12 @@ namespace Tool
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            regionManager.RequestNavigate(RegionNames.ToolRegion, "ToolView");
+            regionManager.RequestNavigate(RegionNames.ToolRegion, typeof(ToolView).Name);
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<ToolView>("ToolView");
+            containerRegistry.RegisterForNavigation<ToolView>(typeof(ToolView).Name);
         }
     }
 }
