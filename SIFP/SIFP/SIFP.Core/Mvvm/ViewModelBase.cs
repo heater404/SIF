@@ -7,7 +7,7 @@ namespace SIFP.Core.Mvvm
     {
         protected ViewModelBase()
         {
-
+            
         }
 
         public virtual void Destroy()

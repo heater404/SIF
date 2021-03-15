@@ -1,4 +1,5 @@
-﻿using Prism.Regions;
+﻿using Prism.Events;
+using Prism.Regions;
 using System;
 
 namespace SIFP.Core.Mvvm
@@ -6,10 +7,11 @@ namespace SIFP.Core.Mvvm
     public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
     {
         protected IRegionManager RegionManager { get; private set; }
-
-        public RegionViewModelBase(IRegionManager regionManager)
+        protected IEventAggregator EventAggregator { get; private set; }
+        public RegionViewModelBase(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             RegionManager = regionManager;
+            EventAggregator = eventAggregator;
         }
 
         public virtual void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)

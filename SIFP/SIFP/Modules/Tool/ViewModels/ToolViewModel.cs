@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using SIFP.Core.Mvvm;
@@ -19,7 +20,7 @@ namespace Tool.ViewModels
             set { SetProperty(ref _message, value); }
         }
 
-        public ToolViewModel(IRegionManager regionManager ):base(regionManager)
+        public ToolViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             Message = "Tool";
         }

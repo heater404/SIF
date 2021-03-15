@@ -1,5 +1,6 @@
 ﻿using Menu.Views;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using SIFP.Core;
@@ -21,7 +22,7 @@ namespace Menu.ViewModels
             set { SetProperty(ref _message, value); }
         }
 
-        public MenuViewModel(IRegionManager regionManager):base(regionManager)
+        public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) :base(regionManager, eventAggregator)
         {
             Message = "MenuModule";
         }
