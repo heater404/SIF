@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Serilog;
 using SIFP.Core.Enums;
 using SIFP.Core.Models;
 using System;

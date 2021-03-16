@@ -2,6 +2,7 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Serilog;
 using SIFP.Core.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,17 @@ namespace Tool.ViewModels
 {
     public class ToolViewModel : RegionViewModelBase
     {
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set { SetProperty(ref _message, value); }
-        }
+        public DelegateCommand ConnectCtrlCmd { get; private set; }
+
 
         public ToolViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
-            Message = "Tool";
+            ConnectCtrlCmd = new DelegateCommand(ConnectCtrl);
+        }
+
+        private void ConnectCtrl()
+        {
+
         }
     }
 }
