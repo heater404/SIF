@@ -20,8 +20,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Modules\SIFP.Modules.ModuleName\SIFP.Modules.ModuleName.csproj" />
-  </ItemGroup>
-
 </Project>

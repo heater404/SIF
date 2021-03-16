@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SIFP.Modules.ModuleName.Views
+namespace Tool.Views
 {
     /// <summary>
     /// Interaction logic for ViewA.xaml
     /// </summary>
-    public partial class ViewA : UserControl
+    public partial class ToolView : UserControl
     {
-        public ViewA()
+        public ToolView()
         {
             InitializeComponent();
         }
