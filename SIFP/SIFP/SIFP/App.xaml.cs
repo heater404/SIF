@@ -1,9 +1,9 @@
-﻿using Menu;
+﻿using Services;
+using Services.Interfaces;
+using Menu;
 using Prism.Ioc;
 using Prism.Modularity;
 using Serilog;
-using SIFP.Services;
-using SIFP.Services.Interfaces;
 using SIFP.Views;
 using System.Text;
 using System.Windows;
@@ -39,7 +39,8 @@ namespace SIFP
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ICommunicationService, CommunicationService>();
+            containerRegistry.RegisterSingleton<ICommunication, Communication>();
+            containerRegistry.RegisterSingleton<ICommClient, SktClient>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

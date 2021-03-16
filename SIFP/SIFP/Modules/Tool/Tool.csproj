@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
@@ -9,7 +9,10 @@
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\SIFP.Services.Interfaces\SIFP.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Services\CommunicationServices\Services.csproj" />
     <ProjectReference Include="..\..\SIFP.Core\SIFP.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>
