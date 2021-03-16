@@ -1,4 +1,4 @@
-# 前端：WPF（.NetCore3.1）
+# 前端：WPF（.Net5）
 
 ## Prism.Unity（8.0.0）+MaterialDesign（4.0.0）
 
