@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
@@ -12,8 +12,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Modules\Menu\Menu.csproj" />
     <ProjectReference Include="..\Modules\Tool\Tool.csproj" />
+    <ProjectReference Include="..\Services\CommunicationServices\Services.csproj" />
+    <ProjectReference Include="..\Services\ICommunicationServices\Services.Interfaces.csproj" />
     <ProjectReference Include="..\SIFP.Core\SIFP.Core.csproj" />
-    <ProjectReference Include="..\Services\SIFP.Services.Interfaces\SIFP.Services.Interfaces.csproj" />
-    <ProjectReference Include="..\Services\SIFP.Services\SIFP.Services.csproj" />
   </ItemGroup>
 </Project>
