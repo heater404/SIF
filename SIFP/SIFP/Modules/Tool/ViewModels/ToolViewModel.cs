@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
+using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,13 @@ namespace Tool.ViewModels
         public ToolViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             ConnectCtrlCmd = new DelegateCommand(ConnectCtrl);
+
+            EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(RecvConnectCameraReply);
+        }
+
+        private void RecvConnectCameraReply(ConnectCameraReply reply)
+        {
+            
         }
 
         private void ConnectCtrl()

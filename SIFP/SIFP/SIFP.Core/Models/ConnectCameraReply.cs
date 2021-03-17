@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIFP.Core.Models
 {
-    public class OpenCameraReply:MsgHeader
+    public class ConnectCameraReply:MsgHeader
     {
         [FieldOrder(1)]
         public UInt32 CamChipID { get; private set; }

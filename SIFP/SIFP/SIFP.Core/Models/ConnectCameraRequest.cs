@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SIFP.Core.Models
 {
-    public class OpenCameraRequest:MsgHeader
+    public class ConnectCameraRequest:MsgHeader
     {
         [FieldOrder(0)]
         public DevTypeE CameraType { set; private get; }

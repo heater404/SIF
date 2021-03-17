@@ -5,13 +5,14 @@ using System.Text;
 namespace SIFP.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class MsgTypeAttribute : Attribute
+    public class RecvMsgAttribute : Attribute
     {
         public UInt32 MsgType;
-
-        public MsgTypeAttribute(UInt32 msgType)
+        public Type DataType;
+        public RecvMsgAttribute(UInt32 msgType,Type type)
         {
             this.MsgType = msgType;
+            this.DataType = type;
         }
     }
 }
