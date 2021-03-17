@@ -16,75 +16,37 @@
         <DockPanel LastChildFill="True">
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
-            <Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.LayoutTransform>
-                            <RotateTransform Angle="90" />
-                        </StackPanel.LayoutTransform>
-                        <StackPanel.Resources>
-                            <Style BasedOn="{StaticResource MaterialDesignTabRadioButton}" TargetType="RadioButton">
-                                <Setter Property="Margin" Value="5" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <RadioButton Content="FIRST" IsChecked="True" />
-                        <RadioButton Content="SECOND" IsChecked="False" />
-                        <RadioButton Content="THIRD" IsChecked="False" />
-                    </StackPanel>
-
-                    <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftRegion}" />
+            <StackPanel
+                Margin="0,5,0,0"
+                DockPanel.Dock="Bottom"
+                Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <Style BasedOn="{StaticResource MaterialDesignTabRadioButton}" TargetType="RadioButton">
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                        <Style BasedOn="{StaticResource MaterialDesignFlatButton}" TargetType="Button">
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button
+                        Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Content="ConfigCamera"
+                        Foreground="{StaticResource MaterialDesignDarkForeground}" />
+                    <RadioButton Content="Depth" IsChecked="True" />
+                    <RadioButton Content="RegMap" IsChecked="False" />
                 </StackPanel>
 
-                <GridSplitter
-                    Grid.Column="1"
-                    Width="3"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch" />
-
-                <StackPanel Grid.Column="2" Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style BasedOn="{StaticResource MaterialDesignTabRadioButton}" TargetType="RadioButton">
-                                <Setter Property="Margin" Value="5" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <RadioButton Content="FIRST" IsChecked="True" />
-                        <RadioButton Content="SECOND" IsChecked="False" />
-                        <RadioButton Content="THIRD" IsChecked="False" />
-                    </StackPanel>
-                    <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.RightRegion}" />
-                </StackPanel>
-            </Grid>
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.RightRegion}" />
+            </StackPanel>
         </DockPanel>
         <materialDesign:DrawerHost.RightDrawerContent>
-            <!--<ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.WatchLogRegion}" />-->
-            <!--  这里用Region好像不行，估计是因为RightDrawerContent不属于MainWindow  -->
-            <ListView ItemsSource="{Binding WatchLogs}">
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Command="{Binding ClearWatchLogsCmd}" Header="Clear" />
-                        <MenuItem Command="{Binding SaveWatchLogsCmd}" Header="Save" />
-                    </ContextMenu>
-                </ListView.ContextMenu>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Lev}" Value="Error">
-                                <Setter Property="Foreground" Value="#FFFF0000" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Lev}" Value="Warning">
-                                <Setter Property="Foreground" Value="#FFF0B400" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.WatchLogRegion}" />
         </materialDesign:DrawerHost.RightDrawerContent>
+
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftRegion}" />
+        </materialDesign:DrawerHost.LeftDrawerContent>
     </materialDesign:DrawerHost>
 </Window>

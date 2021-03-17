@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
+using SIFP.Core.Enums;
 using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
@@ -32,7 +33,7 @@ namespace Tool.ViewModels
 
         private void ConnectCtrl()
         {
-
+            this.EventAggregator.GetEvent<WatchLogEvent>().Publish(new WatchLogModel("qwhfoiqhofiqh", WatchLogLevel.Error));
         }
     }
 }

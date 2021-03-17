@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SIFP.Core.Models
 {
-    public class WatchLog
+    public class WatchLogModel
     {
-        public WatchLog(string msg, WatchLogLevel lev)
+        public WatchLogModel(string msg, WatchLogLevel lev)
         {
             this.Time = DateTime.Now;
             this.Message = msg;

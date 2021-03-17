@@ -11,6 +11,8 @@ using Tool;
 using BinarySerialization;
 using System.IO;
 using SIFP.Core.Models;
+using WatchLog;
+using ConfigCamera;
 
 namespace SIFP
 {
@@ -48,8 +50,10 @@ namespace SIFP
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<MenuModule>();
+            //moduleCatalog.AddModule<MenuModule>();
             moduleCatalog.AddModule<ToolModule>();
+            moduleCatalog.AddModule<WatchLogModule>();
+            moduleCatalog.AddModule<ConfigCameraModule>();
         }
     }
 }
