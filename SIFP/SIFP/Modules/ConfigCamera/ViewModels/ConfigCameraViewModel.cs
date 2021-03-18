@@ -223,12 +223,12 @@ namespace ConfigCamera.ViewModels
 
             for (uint i = 3; i < 6; i++)//分频 2的时候频率太高不需要
             {
-                Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00") + "MHz", SelectedModel = i, IsShow = Visibility.Visible });
+                Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00"), SelectedModel = i, IsShow = Visibility.Visible });
             }
             for (uint i = 6; i <= 30; i++)//分频
             {
                 if (i % 2 == 0)
-                    Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00") + "MHz", SelectedModel = i, IsShow = Visibility.Visible });
+                    Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00"), SelectedModel = i, IsShow = Visibility.Visible });
             }
         }
 

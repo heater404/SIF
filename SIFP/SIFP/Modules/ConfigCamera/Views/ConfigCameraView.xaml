@@ -11,13 +11,6 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <conver:IntegrationTimeConverter x:Key="IntConver" />
-        <conver:NumSubFramePerFrameVisibilityConverter x:Key="VisibilityConver" />
-        <conver:SubFrameModeVisibilityConverter x:Key="SubFrameModeConver" />
-        <conver:FourBgEnableConverter x:Key="4BgEnableConver" />
-        <conver:FourBgVisibilityConverter x:Key="4BgVisibilityConver" />
-    </UserControl.Resources>
     <DockPanel LastChildFill="True">
         <Button
             Margin="5"
@@ -51,6 +44,12 @@
                     Margin="10"
                     Header="WorkMode">
                     <Grid Margin="0,10">
+                        <Grid.Resources>
+                            <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
+                                <Setter Property="Margin" Value="10,0,0,0" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </Grid.Resources>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -95,17 +94,24 @@
                     Header="Frequency&amp;IntegrationTime">
                     <Grid>
                         <Grid.Resources>
+                            <conver:IntegrationTimeConverter x:Key="IntConver" />
+                            <conver:NumSubFramePerFrameVisibilityConverter x:Key="VisibilityConver" />
+                            <conver:SubFrameModeVisibilityConverter x:Key="SubFrameModeConver" />
+                            <conver:FourBgEnableConverter x:Key="4BgEnableConver" />
+                            <conver:FourBgVisibilityConverter x:Key="4BgVisibilityConver" />
+
                             <Style BasedOn="{StaticResource MaterialDesignBody1TextBlock}" TargetType="TextBlock">
-                                <Setter Property="Width" Value="30" />
+                                <Setter Property="Width" Value="20" />
                                 <Setter Property="TextAlignment" Value="Center" />
                                 <Setter Property="VerticalAlignment" Value="Center" />
                             </Style>
                             <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
-                                <Setter Property="Width" Value="100" />
                                 <Setter Property="Margin" Value="10,0,0,0" />
+                                <Setter Property="Width" Value="130" />
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                                 <Setter Property="DisplayMemberPath" Value="Description" />
                                 <Setter Property="SelectedValuePath" Value="SelectedModel" />
+                                <Setter Property="materialDesign:TextFieldAssist.SuffixText" Value="MHz" />
                             </Style>
 
                             <Style TargetType="ComboBoxItem">
@@ -125,10 +131,10 @@
 
                             <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="TextBox">
                                 <Setter Property="materialDesign:TextFieldAssist.SuffixText" Value="us" />
-                                <Setter Property="Width" Value="50"/>
+                                <Setter Property="Width" Value="50" />
                             </Style>
                         </Grid.Resources>
-                        <Grid Margin="0,0,10,0">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
@@ -142,10 +148,7 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
-                                <Grid
-                                    Grid.Row="0"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
+                                <Grid Grid.Row="0" Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -161,6 +164,8 @@
                                     <Slider
                                         x:Name="Slider0"
                                         Grid.Column="2"
+                                        TickFrequency="{Binding DiscreteHorizontal.TickFrequency}"
+                                        TickPlacement="None"
                                         Value="{Binding IntegrationTimes[0].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="ValueChanged">
@@ -168,16 +173,10 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Slider>
-                                    <TextBox
-                                        Grid.Column="3"
-                                        
-                                        Text="{Binding ElementName=Slider0, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider0, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <Grid
-                                    Grid.Row="1"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
+                                <Grid Grid.Row="1" Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -185,49 +184,20 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="N2" />
+                                    <TextBlock Grid.Column="0" Text="N2" />
                                     <ComboBox
                                         Grid.Column="1"
-                                        Width="90"
-                                        Margin="10,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        DisplayMemberPath="Description"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[0].Phase5_8Div}"
-                                        SelectedValuePath="SelectedModel">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-                                    </ComboBox>
+                                        SelectedValue="{Binding PLLDLLDivs[0].Phase5_8Div}" />
 
                                     <Slider
                                         x:Name="Slider1"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="20,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[0].Phase5_8Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider1, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider1, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <Grid
-                                    Grid.Row="2"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
+                                <Grid Grid.Row="2" Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -235,22 +205,10 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="{Binding SpecialFrameModes[0]}" />
-
+                                    <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[0]}" />
                                     <Slider
                                         x:Name="Slider2"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="10,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[0].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
                                         <Slider.IsEnabled>
                                             <MultiBinding Converter="{StaticResource 4BgEnableConver}">
@@ -260,10 +218,7 @@
                                             </MultiBinding>
                                         </Slider.IsEnabled>
                                     </Slider>
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider2, Path=Value, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider2, Path=Value, UpdateSourceTrigger=PropertyChanged}">
                                         <TextBox.IsEnabled>
                                             <MultiBinding Converter="{StaticResource 4BgEnableConver}">
                                                 <Binding Path="NumSubFramePerFrame[0]" />
@@ -282,10 +237,7 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
-                                <Grid
-                                    Grid.Row="0"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
+                                <Grid Grid.Row="0" Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -293,49 +245,20 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="N3" />
+                                    <TextBlock Grid.Column="0" Text="N3" />
                                     <ComboBox
                                         Grid.Column="1"
-                                        Width="90"
-                                        Margin="10,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        DisplayMemberPath="Description"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[1].Phase1_4Div}"
-                                        SelectedValuePath="SelectedModel">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-                                    </ComboBox>
+                                        SelectedValue="{Binding PLLDLLDivs[1].Phase1_4Div}" />
 
                                     <Slider
                                         x:Name="Slider3"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="20,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[1].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider3, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider3, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <Grid
-                                    Grid.Row="1"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
+                                <Grid Grid.Row="1" Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -343,49 +266,20 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="N4" />
+                                    <TextBlock Grid.Column="0" Text="N4" />
                                     <ComboBox
                                         Grid.Column="1"
-                                        Width="90"
-                                        Margin="10,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        DisplayMemberPath="Description"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[1].Phase5_8Div}"
-                                        SelectedValuePath="SelectedModel">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-                                    </ComboBox>
+                                        SelectedValue="{Binding PLLDLLDivs[1].Phase5_8Div}" />
 
                                     <Slider
                                         x:Name="Slider4"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="20,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[1].Phase5_8Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider4, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider4, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <Grid
-                                    Grid.Row="2"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
+                                <Grid Grid.Row="2" Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -393,22 +287,10 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="{Binding SpecialFrameModes[1]}" />
-
+                                    <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[1]}" />
                                     <Slider
                                         x:Name="Slider5"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="10,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[1].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
                                         <Slider.IsEnabled>
                                             <MultiBinding Converter="{StaticResource 4BgEnableConver}">
@@ -418,10 +300,7 @@
                                             </MultiBinding>
                                         </Slider.IsEnabled>
                                     </Slider>
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider5, Path=Value, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider5, Path=Value, UpdateSourceTrigger=PropertyChanged}">
                                         <TextBox.IsEnabled>
                                             <MultiBinding Converter="{StaticResource 4BgEnableConver}">
                                                 <Binding Path="NumSubFramePerFrame[1]" />
@@ -440,10 +319,7 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
-                                <Grid
-                                    Grid.Row="0"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
+                                <Grid Grid.Row="0" Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -451,55 +327,20 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="N5" />
+                                    <TextBlock Grid.Column="0" Text="N5" />
                                     <ComboBox
                                         Grid.Column="1"
-                                        Width="90"
-                                        Margin="10,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        DisplayMemberPath="Description"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[2].Phase1_4Div}"
-                                        SelectedValuePath="SelectedModel">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-                                    </ComboBox>
+                                        SelectedValue="{Binding PLLDLLDivs[2].Phase1_4Div}" />
 
                                     <Slider
                                         x:Name="Slider6"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="20,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
-                                        Value="{Binding IntegrationTimes[2].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="ValueChanged">
-                                                <i:InvokeCommandAction Command="{Binding FourBgSyncCmd}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Slider>
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider6, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-
+                                        Value="{Binding IntegrationTimes[2].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider6, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <Grid
-                                    Grid.Row="1"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
+                                <Grid Grid.Row="1" Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -507,49 +348,20 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="N6" />
+                                    <TextBlock Grid.Column="0" Text="N6" />
                                     <ComboBox
                                         Grid.Column="1"
-                                        Width="90"
-                                        Margin="10,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        DisplayMemberPath="Description"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[2].Phase5_8Div}"
-                                        SelectedValuePath="SelectedModel">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-                                    </ComboBox>
+                                        SelectedValue="{Binding PLLDLLDivs[2].Phase5_8Div}" />
 
                                     <Slider
                                         x:Name="Slider7"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="20,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[2].Phase5_8Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider7, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider7, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <Grid
-                                    Grid.Row="2"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
+                                <Grid Grid.Row="2" Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -557,22 +369,10 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="{Binding SpecialFrameModes[2]}" />
-
+                                    <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[2]}" />
                                     <Slider
                                         x:Name="Slider8"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="10,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[2].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
                                         <Slider.IsEnabled>
                                             <MultiBinding Converter="{StaticResource 4BgEnableConver}">
@@ -582,10 +382,7 @@
                                             </MultiBinding>
                                         </Slider.IsEnabled>
                                     </Slider>
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider8, Path=Value, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider8, Path=Value, UpdateSourceTrigger=PropertyChanged}">
                                         <TextBox.IsEnabled>
                                             <MultiBinding Converter="{StaticResource 4BgEnableConver}">
                                                 <Binding Path="NumSubFramePerFrame[2]" />
@@ -604,10 +401,7 @@
                                     <RowDefinition Height="auto" />
                                     <RowDefinition Height="auto" />
                                 </Grid.RowDefinitions>
-                                <Grid
-                                    Grid.Row="0"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
+                                <Grid Grid.Row="0" Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -615,49 +409,20 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="N7" />
+                                    <TextBlock Grid.Column="0" Text="N7" />
                                     <ComboBox
                                         Grid.Column="1"
-                                        Width="90"
-                                        Margin="10,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        DisplayMemberPath="Description"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[3].Phase1_4Div}"
-                                        SelectedValuePath="SelectedModel">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-                                    </ComboBox>
+                                        SelectedValue="{Binding PLLDLLDivs[3].Phase1_4Div}" />
 
                                     <Slider
                                         x:Name="Slider9"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="20,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[3].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider9, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider9, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <Grid
-                                    Grid.Row="1"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
+                                <Grid Grid.Row="1" Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -665,49 +430,20 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="N8" />
+                                    <TextBlock Grid.Column="0" Text="N8" />
                                     <ComboBox
                                         Grid.Column="1"
-                                        Width="90"
-                                        Margin="10,0,0,0"
-                                        HorizontalContentAlignment="Center"
-                                        DisplayMemberPath="Description"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[3].Phase5_8Div}"
-                                        SelectedValuePath="SelectedModel">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-                                    </ComboBox>
+                                        SelectedValue="{Binding PLLDLLDivs[3].Phase5_8Div}" />
 
                                     <Slider
                                         x:Name="Slider10"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="20,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[3].Phase5_8Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider10, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider10, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
-                                <Grid
-                                    Grid.Row="2"
-                                    Margin="0,10"
-                                    Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
+                                <Grid Grid.Row="2" Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
@@ -715,22 +451,10 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        Width="30"
-                                        Text="{Binding SpecialFrameModes[3]}" />
-
+                                    <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[3]}" />
                                     <Slider
                                         x:Name="Slider11"
                                         Grid.Column="2"
-                                        MinWidth="100"
-                                        Margin="10,0,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        AutoToolTipPlacement="BottomRight"
-                                        LargeChange="100"
-                                        Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}"
-                                        Minimum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}"
-                                        SmallChange="10"
                                         Value="{Binding IntegrationTimes[3].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
                                         <Slider.IsEnabled>
                                             <MultiBinding Converter="{StaticResource 4BgEnableConver}">
@@ -740,10 +464,7 @@
                                             </MultiBinding>
                                         </Slider.IsEnabled>
                                     </Slider>
-                                    <TextBox
-                                        Grid.Column="3"
-                                        Width="40"
-                                        Text="{Binding ElementName=Slider11, Path=Value, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider11, Path=Value, UpdateSourceTrigger=PropertyChanged}">
                                         <TextBox.IsEnabled>
                                             <MultiBinding Converter="{StaticResource 4BgEnableConver}">
                                                 <Binding Path="NumSubFramePerFrame[3]" />
@@ -752,7 +473,6 @@
                                             </MultiBinding>
                                         </TextBox.IsEnabled>
                                     </TextBox>
-
                                 </Grid>
                             </Grid>
                         </Grid>
