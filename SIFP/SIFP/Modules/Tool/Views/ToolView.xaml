@@ -10,29 +10,15 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <DockPanel LastChildFill="True">
-        <ToolBarTray DockPanel.Dock="Right" IsLocked="True">
-            <ToolBar
-                Margin="5"
-                ClipToBounds="False"
-                Style="{DynamicResource MaterialDesignToolBar}">
-                <Button
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                    CommandParameter="{x:Static Dock.Right}"
-                    Content="{materialDesign:PackIcon Size=25,
-                                                      Kind=ArrowLeftBold}"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    ToolTip="WatchLogs" />
-            </ToolBar>
-        </ToolBarTray>
         <ToolBarTray DockPanel.Dock="Left" IsLocked="True">
             <ToolBar
                 Margin="5"
                 ClipToBounds="False"
                 Style="{DynamicResource MaterialDesignToolBar}">
-                <ToggleButton Command="{Binding ConnectCtrlCmd}" ToolTip="connect or disconnect">
+                <ToggleButton
+                    Margin="5,0,5,0"
+                    Command="{Binding ConnectCtrlCmd}"
+                    ToolTip="connect or disconnect">
                     <ToggleButton.Style>
                         <Style BasedOn="{StaticResource MaterialDesignOutlinedButton}" TargetType="ToggleButton">
                             <Style.Triggers>
@@ -56,7 +42,10 @@
                     </ToggleButton.Style>
                 </ToggleButton>
                 <Separator />
-                <ToggleButton ToolTip="OpenCamera or CloseCamera">
+                <ToggleButton
+                    Margin="5,0,5,0"
+                    Command="{Binding StreamingCtrlCmd}"
+                    ToolTip="OpenCamera or CloseCamera">
                     <ToggleButton.Style>
                         <Style BasedOn="{StaticResource MaterialDesignOutlinedButton}" TargetType="ToggleButton">
                             <Style.Triggers>
@@ -74,14 +63,15 @@
                                             <materialDesign:PackIcon Kind="CameraOff" />
                                         </Setter.Value>
                                     </Setter>
-
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
+                <Separator />
                 <Button
-                    Margin="5,0,0,0"
+                    Margin="5,0,5,0"
+                    Command="{Binding CaptureDataShowCmd}"
                     Content="{materialDesign:PackIcon Kind=TrayArrowDown}"
                     Style="{StaticResource MaterialDesignOutlinedButton}"
                     ToolTip="Capture Data" />

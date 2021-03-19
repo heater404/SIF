@@ -12,18 +12,37 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <DockPanel LastChildFill="True">
-        <Button
-            Margin="5"
-            HorizontalAlignment="Right"
-            HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"
-            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-            CommandParameter="{x:Static Dock.Left}"
-            Content="{materialDesign:PackIcon Kind=ArrowLeft,
-                                              Size=30}"
-            DockPanel.Dock="Top"
-            Foreground="{StaticResource MaterialDesignDarkForeground}"
-            Style="{StaticResource MaterialDesignFlatButton}" />
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Width="90"
+                Height="35"
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                Command="{Binding ApplyConfigCameraCmd}"
+                Content="Apply"
+                Foreground="{StaticResource MaterialDesignDarkForeground}"
+                Style="{StaticResource MaterialDesignOutlinedButton}" />
+            <Button
+                Grid.Column="1"
+                Margin="10"
+                HorizontalAlignment="Right"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                CommandParameter="{x:Static Dock.Left}"
+                Content="{materialDesign:PackIcon Kind=ArrowLeft,
+                                                  Size=30}"
+                Foreground="{StaticResource MaterialDesignDarkForeground}"
+                Style="{StaticResource MaterialDesignFlatButton}" />
+        </Grid>
+
 
         <ScrollViewer
             Margin="0,5,0,0"
@@ -92,7 +111,7 @@
                     Grid.Row="1"
                     Margin="10"
                     Header="Frequency&amp;IntegrationTime">
-                    <Grid>
+                    <Grid Margin="0,10">
                         <Grid.Resources>
                             <conver:IntegrationTimeConverter x:Key="IntConver" />
                             <conver:NumSubFramePerFrameVisibilityConverter x:Key="VisibilityConver" />
@@ -101,7 +120,7 @@
                             <conver:FourBgVisibilityConverter x:Key="4BgVisibilityConver" />
 
                             <Style BasedOn="{StaticResource MaterialDesignBody1TextBlock}" TargetType="TextBlock">
-                                <Setter Property="Width" Value="20" />
+                                <Setter Property="Width" Value="40" />
                                 <Setter Property="TextAlignment" Value="Center" />
                                 <Setter Property="VerticalAlignment" Value="Center" />
                             </Style>
@@ -111,15 +130,15 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                                 <Setter Property="DisplayMemberPath" Value="Description" />
                                 <Setter Property="SelectedValuePath" Value="SelectedModel" />
-                                <Setter Property="materialDesign:TextFieldAssist.SuffixText" Value="MHz" />
+                                <Setter Property="materialDesign:TextFieldAssist.SuffixText" Value=" MHz" />
                             </Style>
 
                             <Style TargetType="ComboBoxItem">
                                 <Setter Property="Visibility" Value="{Binding IsShow}" />
                             </Style>
-                            <Style BasedOn="{StaticResource MaterialDesignDiscreteSlider}" TargetType="Slider">
+                            <Style BasedOn="{StaticResource MaterialDesignSlider}" TargetType="Slider">
                                 <Setter Property="MinWidth" Value="120" />
-                                <Setter Property="Margin" Value="20,0,0,0" />
+                                <Setter Property="Margin" Value="10,0,0,0" />
                                 <Setter Property="HorizontalAlignment" Value="Stretch" />
                                 <Setter Property="VerticalAlignment" Value="Center" />
                                 <Setter Property="AutoToolTipPlacement" Value="BottomRight" />
@@ -309,7 +328,6 @@
                                             </MultiBinding>
                                         </TextBox.IsEnabled>
                                     </TextBox>
-
                                 </Grid>
                             </Grid>
 
@@ -479,11 +497,15 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox
-                    Grid.Row="2"
-                    Margin="10"
-                    Header="FPS">
+                <GroupBox Grid.Row="2" Margin="10">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Foreground="Black" Text="FPS : " />
+                            <TextBlock Text="{Binding ElementName=FPSSlider, Path=Value}" />
+                        </StackPanel>
+                    </GroupBox.Header>
                     <Slider
+                        x:Name="FPSSlider"
                         MinWidth="100"
                         Margin="10,10"
                         HorizontalAlignment="Stretch"
@@ -500,78 +522,11 @@
                     Margin="10"
                     Header="Resolution">
                     <Grid Margin="0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Grid Grid.Column="1" Margin="10,0,10,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <!--<StackPanel
-                                Grid.Column="0"
-                                VerticalAlignment="Top"
-                                IsEnabled="{Binding CanXStep}"
-                                Orientation="Horizontal">
-                                <TextBlock Text="XStep : " />
-                                <ComboBox
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    ItemsSource="{Binding Step}"
-                                    SelectedIndex="{Binding XStepSelectedIndex, ValidatesOnExceptions=True}" />
-                            </StackPanel>
-
-                            <StackPanel
-                                Grid.Column="1"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Top"
-                                Orientation="Horizontal">
-                                <TextBlock Text="YStep : " />
-                                <ComboBox
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    ItemsSource="{Binding Step}"
-                                    SelectedIndex="{Binding YStepSelectedIndex, ValidatesOnExceptions=True}" />
-                            </StackPanel>-->
-
-                            <!--<StackPanel
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Orientation="Vertical">
-                                <CheckBox
-                                    HorizontalAlignment="Left"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Content="Analog Binning"
-                                    IsChecked="{Binding AnalogBinning, ValidatesOnExceptions=True}" />
-                                <CheckBox
-                                    Margin="0,10,0,0"
-                                    HorizontalAlignment="Left"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Content="Digital Binning"
-                                    IsChecked="{Binding DigitalBinning}"
-                                    IsEnabled="{Binding CanDigitalBinning}" />
-                            </StackPanel>-->
-
-                            <StackPanel
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                VerticalAlignment="Bottom"
-                                Orientation="Horizontal">
-                                <TextBlock FontWeight="Bold" Text="Resolution : " />
-                                <TextBlock FontWeight="Bold" Text="{Binding Resolution}" />
-                            </StackPanel>
-                        </Grid>
+                        <ComboBox materialDesign:TextFieldAssist.PrefixText="Resolution : " Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                            <ComboBoxItem Content="640*480" IsSelected="True" />
+                            <ComboBoxItem Content="320*240" />
+                            <ComboBoxItem Content="160*120" />
+                        </ComboBox>
                     </Grid>
                 </GroupBox>
 
@@ -597,17 +552,7 @@
                     </Grid>
                 </GroupBox>
 
-                <Border Grid.Row="5" Margin="10">
-                    <Button
-                        Width="90"
-                        Height="30"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        HorizontalContentAlignment="Center"
-                        Command="{Binding ApplyConfigCameraCmd}"
-                        Content="Apply"
-                        Style="{DynamicResource MyButtonStyle}" />
-                </Border>
+
             </Grid>
         </ScrollViewer>
     </DockPanel>
