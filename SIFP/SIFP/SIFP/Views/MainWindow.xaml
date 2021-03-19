@@ -12,7 +12,7 @@
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
-    <materialDesign:DrawerHost>
+    <materialDesign:DrawerHost x:Name="DrawerHost">
         <DockPanel LastChildFill="True">
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
@@ -30,7 +30,7 @@
                         <Button
                             Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                             CommandParameter="{x:Static Dock.Left}"
-                            Content="{materialDesign:PackIcon Kind=Menu,
+                            Content="{materialDesign:PackIcon Kind=Settings,
                                                               Size=25}"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             ToolTip="ConfigCamera" />
@@ -67,7 +67,51 @@
         </materialDesign:DrawerHost.RightDrawerContent>
 
         <materialDesign:DrawerHost.LeftDrawerContent>
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftDrawerRegion}" />
+            <HeaderedContentControl>
+                <HeaderedContentControl.Header>
+                    <DockPanel>
+                        <Button
+                            HorizontalAlignment="Center"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Content="{materialDesign:PackIcon Kind=Close, Size=20}"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource MaterialDesignFlatButton}" />
+                        <ToggleButton
+                            HorizontalAlignment="Right"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Checked="ToggleButton_Checked"
+                            DockPanel.Dock="Right"
+                            Unchecked="ToggleButton_Unchecked">
+                            <ToggleButton.Style>
+                                <Style BasedOn="{StaticResource MaterialDesignFlatButton}" TargetType="ToggleButton">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <materialDesign:PackIcon Kind="LockOpen" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="False">
+                                            <Setter Property="Content">
+                                                <Setter.Value>
+                                                    <materialDesign:PackIcon Kind="LockOpenVariant" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </DockPanel>
+                </HeaderedContentControl.Header>
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftDrawerRegion}" />
+            </HeaderedContentControl>
         </materialDesign:DrawerHost.LeftDrawerContent>
     </materialDesign:DrawerHost>
 </Window>

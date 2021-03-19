@@ -6,12 +6,13 @@ using System.Text;
 namespace SIFP.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class RecvMsgAttribute : MsgTypeAttribute
+    public class MsgTypeAttribute : Attribute
     {
-        public Type DataType;
-        public RecvMsgAttribute(MsgTypeE msgType, Type type) : base(msgType)
+        public MsgTypeE MsgType;
+
+        public MsgTypeAttribute(MsgTypeE msgType)
         {
-            this.DataType = type;
+            this.MsgType = msgType;
         }
     }
 }

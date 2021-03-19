@@ -48,7 +48,13 @@ namespace Services
             if (null == client)
                 return false;
 
-            return client.Open();
+            if (client.Open())
+            {
+                Subscribe();
+                return true;
+            }
+
+            return false;
         }
 
         public bool Close()
@@ -59,6 +65,22 @@ namespace Services
             return client.Close();
         }
 
+        private void Subscribe()
+        {
+            List<UInt32> msgTable = new List<uint>();
+            foreach (var item in procMap)
+            {
+                msgTable.Add((UInt32)item.Key.MsgType);
+            }
+
+            HelloRequest msg = new HelloRequest
+            {
+                MsgNum = (UInt32)msgTable.Count,
+                MsgTable = msgTable.ToArray(),
+            };
+
+            this.client.SendAsync(msg);
+        }
 
         private void AnalyseOnePacket()
         {
@@ -95,12 +117,12 @@ namespace Services
             var msgType = BitConverter.ToUInt32(data, 12);
             foreach (var proc in procMap)
             {
-                if (msgType == proc.Key.MsgType)
+                if (msgType == (UInt32)proc.Key.MsgType)
                 {
                     msg = BinaryDeserialize(data, proc.Key.DataType);
                     break;
                 }
-               
+
             }
             return 0;   // rcv done
         }
@@ -138,7 +160,7 @@ namespace Services
             if (client == null)
                 return false;
 
-            MsgHeader msg = new ConnectCameraRequest
+            ConnectCameraRequest msg = new ConnectCameraRequest
             {
                 CameraType = DevTypeE.TOF,
                 Reset = false,
@@ -155,7 +177,7 @@ namespace Services
             return false;
         }
 
-        [RecvMsg(0x122,typeof(ConfigCameraRequest))]
+        [RecvMsg(MsgTypeE.ConfigAlgReplyType, typeof(ConfigCameraReply))]
         private void CmdProConfigCameraReply(MsgHeader pkt)
         {
             if (!(pkt is ConfigCameraReply msg))
@@ -168,7 +190,7 @@ namespace Services
             }
         }
 
-        [RecvMsg(0x120,typeof(ConnectCameraReply))]
+        [RecvMsg(MsgTypeE.ConnectCameraReplyType, typeof(ConnectCameraReply))]
         private void CmdProConnectCameraReply(MsgHeader pkt)
         {
             if (!(pkt is ConnectCameraReply msg))

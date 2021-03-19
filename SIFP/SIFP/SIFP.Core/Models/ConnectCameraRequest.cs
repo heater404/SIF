@@ -1,4 +1,5 @@
 ﻿using BinarySerialization;
+using SIFP.Core.Attributes;
 using SIFP.Core.Enums;
 using SIFP.Core.Models;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SIFP.Core.Models
 {
+    [MsgType(MsgTypeE.ConnectCameraRequestType)]
     public class ConnectCameraRequest:MsgHeader
     {
         [FieldOrder(0)]

@@ -42,8 +42,6 @@ namespace Services
                 {
                     client = new UdpClient(8901);
                     client.Client.ReceiveBufferSize = 1 * 1024 * 1024;
-                    
-
                     client.BeginReceive(RecvDataCallBack, null);
                 }
                 catch (SocketException se)
@@ -60,7 +58,7 @@ namespace Services
         {
             try
             {
-                
+
                 if (client != null)
                 {
                     RecvDatas.Add(client.EndReceive(ar, ref remoteEP));
@@ -83,6 +81,12 @@ namespace Services
             if (null == client)
                 return 0;
 
+            msg.PktSN = 0x12345678;
+            msg.TotalMsgNum = 1;
+            msg.MsgSn = 0;
+            msg.MsgType = msg.GetMsgType();
+            msg.MsgLen = msg.GetMsgLen();
+            msg.Timeout = 0xFFFFFFFF;
             byte[] datagram = BinarySerialize(msg);
 
             return await client.SendAsync(datagram, datagram.Length);
