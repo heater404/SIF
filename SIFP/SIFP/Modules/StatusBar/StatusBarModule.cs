@@ -1,26 +1,27 @@
-﻿using Menu.Views;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using SIFP.Core;
+using StatusBar.Views;
 
-namespace Menu
+namespace StatusBar
 {
-    public class MenuModule : IModule
+    public class StatusBarModule : IModule
     {
         private IRegionManager regionManager;
-        public MenuModule(IRegionManager regionManager)
+        public StatusBarModule(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
         }
+
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            regionManager.RegisterViewWithRegion(RegionNames.MenuRegion, typeof(MenuView));
+            this.regionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, typeof(StatusBarView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+
         }
     }
 }

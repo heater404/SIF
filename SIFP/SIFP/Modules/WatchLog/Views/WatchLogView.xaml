@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="WatchLog.Views.WatchLogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bh="clr-namespace:SIFP.Core.Behaviors;assembly=SIFP.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:WatchLog.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <ListView ItemsSource="{Binding WatchLogs}">
+        <ListView.ContextMenu>
+            <ContextMenu>
+                <MenuItem Command="{Binding ClearWatchLogsCmd}" Header="Clear" />
+                <MenuItem Command="{Binding SaveWatchLogsCmd}" Header="Save" />
+            </ContextMenu>
+        </ListView.ContextMenu>
+        <i:Interaction.Behaviors>
+            <bh:ListBoxScrollToBottomBehavior />
+        </i:Interaction.Behaviors>
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Lev}" Value="Error">
+                        <Setter Property="Foreground" Value="#FFFF0000" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Lev}" Value="Warning">
+                        <Setter Property="Foreground" Value="#FFF0B400" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ListView.ItemContainerStyle>
+    </ListView>
+</UserControl>

@@ -16,75 +16,58 @@
         <DockPanel LastChildFill="True">
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
-            <Grid Margin="0,5,0,0" DockPanel.Dock="Bottom">
+            <Grid Margin="0,5,0,0" DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.LayoutTransform>
-                            <RotateTransform Angle="90" />
-                        </StackPanel.LayoutTransform>
-                        <StackPanel.Resources>
-                            <Style BasedOn="{StaticResource MaterialDesignTabRadioButton}" TargetType="RadioButton">
-                                <Setter Property="Margin" Value="5" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <RadioButton Content="FIRST" IsChecked="True" />
-                        <RadioButton Content="SECOND" IsChecked="False" />
-                        <RadioButton Content="THIRD" IsChecked="False" />
-                    </StackPanel>
+                <ToolBarTray Grid.Column="0" IsLocked="True">
+                    <ToolBar
+                        Margin="5"
+                        ClipToBounds="False"
+                        Style="{DynamicResource MaterialDesignToolBar}">
+                        <Button
+                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Content="{materialDesign:PackIcon Kind=Menu,
+                                                              Size=25}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            ToolTip="ConfigCamera" />
+                        <RadioButton
+                            Content="Depth"
+                            IsChecked="True"
+                            Style="{StaticResource MaterialDesignTabRadioButton}" />
+                    </ToolBar>
+                </ToolBarTray>
 
-                    <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftRegion}" />
-                </StackPanel>
-
-                <GridSplitter
-                    Grid.Column="1"
-                    Width="3"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Stretch" />
-
-                <StackPanel Grid.Column="2" Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style BasedOn="{StaticResource MaterialDesignTabRadioButton}" TargetType="RadioButton">
-                                <Setter Property="Margin" Value="5" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <RadioButton Content="FIRST" IsChecked="True" />
-                        <RadioButton Content="SECOND" IsChecked="False" />
-                        <RadioButton Content="THIRD" IsChecked="False" />
-                    </StackPanel>
-                    <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.RightRegion}" />
-                </StackPanel>
+                <ToolBarTray Grid.Column="1" IsLocked="True">
+                    <ToolBar
+                        Margin="5"
+                        ClipToBounds="False"
+                        Style="{DynamicResource MaterialDesignToolBar}">
+                        <Button
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Right}"
+                            Content="{materialDesign:PackIcon Size=25,
+                                                              Kind=ArrowLeftBold}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            ToolTip="WatchLogs" />
+                    </ToolBar>
+                </ToolBarTray>
             </Grid>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" DockPanel.Dock="Bottom" />
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MainRegion}" />
         </DockPanel>
         <materialDesign:DrawerHost.RightDrawerContent>
-            <!--<ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.WatchLogRegion}" />-->
-            <!--  这里用Region好像不行，估计是因为RightDrawerContent不属于MainWindow  -->
-            <ListView ItemsSource="{Binding WatchLogs}">
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Command="{Binding ClearWatchLogsCmd}" Header="Clear" />
-                        <MenuItem Command="{Binding SaveWatchLogsCmd}" Header="Save" />
-                    </ContextMenu>
-                </ListView.ContextMenu>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Lev}" Value="Error">
-                                <Setter Property="Foreground" Value="#FFFF0000" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Lev}" Value="Warning">
-                                <Setter Property="Foreground" Value="#FFF0B400" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.WatchLogRegion}" />
         </materialDesign:DrawerHost.RightDrawerContent>
+
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftDrawerRegion}" />
+        </materialDesign:DrawerHost.LeftDrawerContent>
     </materialDesign:DrawerHost>
 </Window>

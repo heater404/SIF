@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SIFP.Core.Mvvm
 {
-    public class WatchLogEvent : PubSubEvent<WatchLog> { }
+    public class WatchLogEvent : PubSubEvent<WatchLogModel> { }
 
     public class ConnectCameraReplyEvent : PubSubEvent<ConnectCameraReply> { }
 

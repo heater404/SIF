@@ -44,16 +44,6 @@
                     Icon="{materialDesign:PackIcon Kind=ContentPaste}" />
             </MenuItem>
         </Menu>
-
-        <Button
-            HorizontalAlignment="Right"
-            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-            CommandParameter="{x:Static Dock.Right}"
-            Content="{materialDesign:PackIcon Size=25,
-                                              Kind=ArrowLeftBold}"
-            DockPanel.Dock="Right"
-            Style="{StaticResource MaterialDesignFlatButton}"
-            ToolTip="WatchLogs" />
     </DockPanel>
 
 </UserControl>
