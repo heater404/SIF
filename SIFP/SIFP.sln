@@ -23,13 +23,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services.Interfaces", "SIFP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "SIFP\Services\CommunicationServices\Services.csproj", "{A2DCD509-7755-4D53-9B39-A630AC3583AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WatchLog", "SIFP\Modules\WatchLog\WatchLog.csproj", "{904776E0-CB29-4EE8-87B3-938CE86F72AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WatchLog", "SIFP\Modules\WatchLog\WatchLog.csproj", "{904776E0-CB29-4EE8-87B3-938CE86F72AB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigCamera", "SIFP\Modules\ConfigCamera\ConfigCamera.csproj", "{EF1C8B57-18EB-4B4B-9865-72BBA1F66A0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusBar", "SIFP\Modules\StatusBar\StatusBar.csproj", "{0B4C0633-9AE0-4D22-B484-51310CA7559C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatusBar", "SIFP\Modules\StatusBar\StatusBar.csproj", "{0B4C0633-9AE0-4D22-B484-51310CA7559C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaptureDataDialog", "SIFP\Modules\CaptureDataDialog\CaptureDataDialog.csproj", "{EC7ABE85-A6F4-4DCA-8D2C-0110B0393034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptureDataDialog", "SIFP\Modules\CaptureDataDialog\CaptureDataDialog.csproj", "{EC7ABE85-A6F4-4DCA-8D2C-0110B0393034}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaitingDialog", "SIFP\Modules\WaitingDialog\WaitingDialog.csproj", "{2EF69BF7-FC6B-4972-A2CD-37E80EEC1B9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{EC7ABE85-A6F4-4DCA-8D2C-0110B0393034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC7ABE85-A6F4-4DCA-8D2C-0110B0393034}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC7ABE85-A6F4-4DCA-8D2C-0110B0393034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF69BF7-FC6B-4972-A2CD-37E80EEC1B9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF69BF7-FC6B-4972-A2CD-37E80EEC1B9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF69BF7-FC6B-4972-A2CD-37E80EEC1B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF69BF7-FC6B-4972-A2CD-37E80EEC1B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{EF1C8B57-18EB-4B4B-9865-72BBA1F66A0F} = {2CC5DFBF-A81F-459D-A3F6-CD8D16DC551A}
 		{0B4C0633-9AE0-4D22-B484-51310CA7559C} = {2CC5DFBF-A81F-459D-A3F6-CD8D16DC551A}
 		{EC7ABE85-A6F4-4DCA-8D2C-0110B0393034} = {2CC5DFBF-A81F-459D-A3F6-CD8D16DC551A}
+		{2EF69BF7-FC6B-4972-A2CD-37E80EEC1B9C} = {2CC5DFBF-A81F-459D-A3F6-CD8D16DC551A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE17A21F-6118-4EB9-BD8F-BA1574DA4920}

@@ -7,6 +7,8 @@ namespace Services.Interfaces
     {
         bool Open();
         bool Close();
-        Task<bool?> ConnectCameraAsync(int millisecondsTimeout);
+        bool? ConnectCamera(int millisecondsTimeout);
+
+        bool? DisconnectCamera(int millisecondsTimeout);
     }
 }

@@ -21,7 +21,7 @@ namespace SIFP.Core.Enums
         ConfigCameraRequestType=0x121,
         ConfigCameraReplyType=0x122,
 
-        CloseCameraRequestType =0x12E,
+        DisconnectCameraRequestType =0x12E,
 
         StartStreamingRequestType=0x12f,
 

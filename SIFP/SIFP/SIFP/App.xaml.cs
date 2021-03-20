@@ -15,6 +15,8 @@ using WatchLog;
 using ConfigCamera;
 using StatusBar;
 using CaptureDataDialog.Views;
+using SIFP.Core;
+using WaitingDialog.Views;
 
 namespace SIFP
 {
@@ -48,7 +50,8 @@ namespace SIFP
         {
             containerRegistry.RegisterSingleton<ICommClient, SktClient>();
             containerRegistry.RegisterSingleton<ICommunication, Communication>();
-            containerRegistry.RegisterDialog<CaptureDataView>(typeof(CaptureDataView).Name);
+            containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
+            containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

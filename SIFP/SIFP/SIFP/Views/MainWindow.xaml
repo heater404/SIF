@@ -76,7 +76,8 @@
                             VerticalContentAlignment="Center"
                             Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                             CommandParameter="{x:Static Dock.Left}"
-                            Content="{materialDesign:PackIcon Kind=Close, Size=20}"
+                            Content="{materialDesign:PackIcon Kind=Close,
+                                                              Size=20}"
                             DockPanel.Dock="Right"
                             Style="{StaticResource MaterialDesignFlatButton}" />
                         <ToggleButton

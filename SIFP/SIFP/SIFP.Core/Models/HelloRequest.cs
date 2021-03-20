@@ -21,7 +21,13 @@ namespace SIFP.Core.Models
         [FieldOrder(3)]
         public UInt32[] MsgTable { get; set; }
 
+        [FieldOrder(4)]
         [FieldCount(1500)]
         public byte[] Reserve { get; set; }
+
+        public override uint GetMsgLen()
+        {
+            return 6 + 4 + (UInt32)MsgTable.Length * 4 + 1500;
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace ConfigCamera.ViewModels
 
         private void InitDefaultConfigCamera()
         {
-            string path = @"Config\ConfigCamera.json";
+            string path = @"Configs\ConfigCamera.json";
             if (!File.Exists(path))
             {
                 return;

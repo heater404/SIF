@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SIFP.Core.Enums
 {
-    public enum WatchLogLevel
+    public enum LogLevel
     {
         Info = 0,
         Warning,

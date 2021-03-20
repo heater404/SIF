@@ -7,6 +7,7 @@ using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -79,7 +80,7 @@ namespace Services
                 MsgTable = msgTable.ToArray(),
             };
 
-            this.client.SendAsync(msg);
+            this.client.Send(msg);
         }
 
         private void AnalyseOnePacket()
@@ -93,7 +94,7 @@ namespace Services
                 {
                     foreach (var proc in procMap)
                         if (msg.MsgType == proc.Key.MsgType)
-                            proc.Value?.BeginInvoke(msg, null, null);
+                            proc.Value?.Invoke(msg);
                 }
             }
         }
@@ -107,12 +108,6 @@ namespace Services
         /// <returns>是否接收正确 0表示正常， 非0表示异常</returns>
         private int RecvOnePkt(byte[] data, out MsgHeader msg)
         {
-            //Console.WriteLine("RecvOnePkt:");
-            //Console.WriteLine("PktSN = " + pkt.Header.PktSN.ToString());
-            //Console.WriteLine("MsgSn = " + pkt.Header.MsgSn.ToString());
-            //Console.WriteLine("MsgType = 0x" + pkt.Header.MsgType.ToString("x"));
-            //Console.WriteLine("MsgLen = " + pkt.Header.MsgLen.ToString());
-            //Console.WriteLine("TotalMsgLen = " + pkt.Header.TotalMsgLen.ToString());
             msg = null;
             var msgType = BitConverter.ToUInt32(data, 12);
             foreach (var proc in procMap)
@@ -122,8 +117,15 @@ namespace Services
                     msg = BinaryDeserialize(data, proc.Key.DataType);
                     break;
                 }
-
             }
+
+            //Debug.WriteLine("RecvOnePkt:");
+            //Debug.WriteLine("PktSN = " + msg.PktSN.ToString());
+            //Debug.WriteLine("MsgSn = " + msg.MsgSn.ToString());
+            //Debug.WriteLine("MsgType = 0x" + msg.MsgType.ToString("x"));
+            //Debug.WriteLine("MsgLen = " + msg.MsgLen.ToString());
+            //Debug.WriteLine("TotalMsgLen = " + msg.TotalMsgNum.ToString());
+
             return 0;   // rcv done
         }
 
@@ -134,12 +136,12 @@ namespace Services
         }
 
         private bool configCameraSuccess;
-        public async Task<bool?> ConfigCameraAsync(ConfigCameraRequest configCamera, int millisecondsTimeout)
+        public bool? ConfigCamera(ConfigCameraRequest configCamera, int millisecondsTimeout)
         {
             if (client == null)
                 return false;
 
-            if (await this.client.SendAsync(configCamera) > 0)
+            if (this.client.Send(configCamera) > 0)
             {
                 if (waitHandle.WaitOne(millisecondsTimeout))
                     return configCameraSuccess;
@@ -155,7 +157,7 @@ namespace Services
         /// </summary>
         /// <param name="millisecondsTimeout">请求后等待Reply的时间</param>
         /// <returns>可为null的bool类型，为true则表示OpenCamera成功，为false则表示OpenCamera失败，为Null则表示在指定的时间内没有收到Reply</returns>
-        public async Task<bool?> ConnectCameraAsync(int millisecondsTimeout)
+        public bool? ConnectCamera(int millisecondsTimeout)
         {
             if (client == null)
                 return false;
@@ -166,12 +168,31 @@ namespace Services
                 Reset = false,
             };
 
-            if (await this.client.SendAsync(msg) > 0)
+            if (this.client.Send(msg) > 0)
             {
                 if (waitHandle.WaitOne(millisecondsTimeout))
                     return CamChipID != 0xdeadbeef;
                 else
                     return null;
+            }
+
+            return false;
+        }
+
+        public bool? DisconnectCamera(int millisecondsTimeout)
+        {
+            if (client == null)
+                return false;
+
+            DisconnectCameraRequest msg = new DisconnectCameraRequest
+            {
+
+            };
+
+            if (this.client.Send(msg) > 0)
+            {
+                //同步等待
+                return true;
             }
 
             return false;
@@ -193,7 +214,7 @@ namespace Services
         [RecvMsg(MsgTypeE.ConnectCameraReplyType, typeof(ConnectCameraReply))]
         private void CmdProConnectCameraReply(MsgHeader pkt)
         {
-            if (!(pkt is ConnectCameraReply msg))
+            if (pkt is not ConnectCameraReply msg)
                 return;
 
             this.CamChipID = msg.CamChipID;

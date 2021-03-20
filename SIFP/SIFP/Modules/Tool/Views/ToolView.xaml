@@ -18,6 +18,7 @@
                 <ToggleButton
                     Margin="5,0,5,0"
                     Command="{Binding ConnectCtrlCmd}"
+                    IsChecked="{Binding IsConnected, Mode=OneWay}"
                     ToolTip="connect or disconnect">
                     <ToggleButton.Style>
                         <Style BasedOn="{StaticResource MaterialDesignOutlinedButton}" TargetType="ToggleButton">
@@ -45,6 +46,7 @@
                 <ToggleButton
                     Margin="5,0,5,0"
                     Command="{Binding StreamingCtrlCmd}"
+                    IsChecked="{Binding IsStreaming, Mode=OneWay}"
                     ToolTip="OpenCamera or CloseCamera">
                     <ToggleButton.Style>
                         <Style BasedOn="{StaticResource MaterialDesignOutlinedButton}" TargetType="ToggleButton">
