@@ -14,5 +14,11 @@ namespace SIFP.Core.Mvvm
 
     public class ConfigCameraReplyEvent : PubSubEvent<ConfigCameraReply> { }
 
+    public class StopStreamingReplyEvent : PubSubEvent<StopStreamingReply> { };
 
+    public class CloseWaitingDialogEvent : PubSubEvent { }
+
+    public class OpenPointCloudEvent : PubSubEvent<string> { }
+
+    public class ClosePointCloudEvent : PubSubEvent { }
 }

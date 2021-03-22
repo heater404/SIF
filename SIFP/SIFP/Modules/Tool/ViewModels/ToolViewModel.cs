@@ -17,11 +17,32 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Tool.ViewModels
 {
     public class ToolViewModel : RegionViewModelBase
     {
+        private bool isEnable = true;
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set { isEnable = value; RaisePropertyChanged(); }
+        }
+
+        private bool isConnected = false;
+        public bool IsConnected
+        {
+            get { return isConnected; }
+            set { isConnected = value; RaisePropertyChanged(); }
+        }
+
+        private bool isStreaming = false;
+        public bool IsStreaming
+        {
+            get { return isStreaming; }
+            set { isStreaming = value; RaisePropertyChanged(); }
+        }
         public DelegateCommand ConnectCtrlCmd { get; private set; }
         public DelegateCommand StreamingCtrlCmd { get; private set; }
 
@@ -29,14 +50,21 @@ namespace Tool.ViewModels
         private IDialogService dialogService;
         private ICommunication comm;
         private Process processor = null;
+        private LensCaliArgs lensArgs = new LensCaliArgs();
+        private Size resolution = new Size();
         public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             this.comm = comm;
             this.dialogService = dialogService;
-            CaptureDataShowCmd = new DelegateCommand(CaptureDataShow);
+            CaptureDataShowCmd = new DelegateCommand(CaptureDataShow).ObservesCanExecute(() => IsStreaming);
             ConnectCtrlCmd = new DelegateCommand(ConnectCtrl);
-            StreamingCtrlCmd = new DelegateCommand(StreamingCtrl);
-            EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(RecvConnectCameraReply);
+            StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => IsConnected);
+            EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply);
+        }
+
+        private void RecvConfigCameraReply(ConfigCameraReply reply)
+        {
+            resolution = new Size(reply.OutImageWidth, reply.OutImageHeight - reply.AddInfoLines);
         }
 
         private void CaptureDataShow()
@@ -44,22 +72,93 @@ namespace Tool.ViewModels
             dialogService.ShowDialog(DialogNames.CaptureDataDialog);
         }
 
-        private void StreamingCtrl()
+        private async void StreamingCtrl()
         {
-
+            IsEnable = false;
+            dialogService.Show(DialogNames.WaitingDialog, result => this.IsEnable = true);
+            if (!isStreaming)
+            {
+                if (await Task.Run(() => StreamingOn()))
+                {
+                    this.PrintNoticeLog("StreamingOn Success", LogLevel.Warning);
+                    this.PrintWatchLog("StreamingOn Success", LogLevel.Warning);
+                    IsStreaming = true;
+                }
+                else 
+                {
+                    IsStreaming = false;
+                }
+            }
+            else
+            {
+                if (await Task.Run(() => StreamingOff()))
+                {
+                    this.PrintNoticeLog("StreamingOff Success", LogLevel.Warning);
+                    this.PrintWatchLog("StreamingOff Success", LogLevel.Warning);
+                    IsStreaming = false;
+                }
+                else
+                {
+                    IsStreaming = true;
+                }
+            }
+            EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
         }
 
-        private void RecvConnectCameraReply(ConnectCameraReply reply)
-        {
 
+        private bool StreamingOn()
+        {
+            var res = comm.StartStreaming(2000);
+            if (res.HasValue)
+            {
+                if (!res.Value)
+                {
+                    this.PrintNoticeLog("StreamingOn Fail", LogLevel.Error);
+                    this.PrintWatchLog("StreamingOn Fail", LogLevel.Error);
+                    return false;
+                }  
+            }
+            else
+            {
+                this.PrintNoticeLog("StreamingOn Timeout", LogLevel.Error);
+                this.PrintWatchLog("StreamingOn Timeout", LogLevel.Error);
+                return false;
+            }
+            
+            string args = resolution.Width + "*" + resolution.Height + "_" + this.lensArgs.ToString();
+            EventAggregator.GetEvent<OpenPointCloudEvent>().Publish(args);
+            return true;
+        }
+
+        private bool StreamingOff()
+        {
+            var res = comm.StopStreaming(5000);
+            if (res.HasValue)
+            {
+                if (!res.Value)
+                {
+                    this.PrintNoticeLog("StreamingOff Fail", LogLevel.Error);
+                    this.PrintWatchLog("StreamingOff Fail", LogLevel.Error);
+                    return false;
+                }
+            }
+            else
+            {
+                this.PrintNoticeLog("StreamingOff Timeout", LogLevel.Error);
+                this.PrintWatchLog("StreamingOff Timeout", LogLevel.Error);
+                return false;
+            }
+            
+            EventAggregator.GetEvent<ClosePointCloudEvent>().Publish();
+            return true;
         }
 
         private async void ConnectCtrl()
         {
-            
+            IsEnable = false;
+            dialogService.Show(DialogNames.WaitingDialog, result => this.IsEnable = true);
             if (!isConnected)
             {
-                dialogService.Show(DialogNames.WaitingDialog);
                 if (await Task.Run(ConnectCamera))
                 {
                     this.PrintNoticeLog("ConnectCamera Success", LogLevel.Warning);
@@ -68,7 +167,8 @@ namespace Tool.ViewModels
                 }
                 else
                 {
-                    IsConnected = false;
+                    if (await Task.Run(DisconnectCamera))
+                        IsConnected = false;
                 }
             }
             else
@@ -84,20 +184,9 @@ namespace Tool.ViewModels
                     IsConnected = true;
                 }
             }
-        }
-        private bool isConnected = false;
-        public bool IsConnected
-        {
-            get { return isConnected; }
-            set { isConnected = value; RaisePropertyChanged(); }
+            EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
         }
 
-        private bool isStreaming=false;
-        public bool IsStreaming
-        {
-            get { return isStreaming; }
-            set { isStreaming = value; RaisePropertyChanged(); }
-        }
         private bool ConnectCamera()
         {
             processor = LaunchAssembly(@"PowerDataProcessor\PowerDataProcessor.exe", out AssemblyExitCode code);
@@ -198,6 +287,14 @@ namespace Tool.ViewModels
 
         private bool DisconnectCamera()
         {
+            if (isStreaming)
+            {
+                if (!StreamingOff())
+                    return false;
+                else
+                    IsStreaming = false;
+            }
+
             var res = comm.DisconnectCamera(3000);
             if (res.HasValue)
             {

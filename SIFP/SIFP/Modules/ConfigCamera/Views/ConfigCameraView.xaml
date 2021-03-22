@@ -11,18 +11,9 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
 
-            <GroupBox
+    <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Visible">
+        <GroupBox
                 Grid.Row="0"
                 Margin="10"
                 Header="WorkMode">
@@ -70,6 +61,7 @@
                     </ComboBox>
                 </Grid>
             </GroupBox>
+
 
             <GroupBox
                 Grid.Row="1"
@@ -147,8 +139,6 @@
                                 <Slider
                                     x:Name="Slider0"
                                     Grid.Column="2"
-                                    TickFrequency="{Binding DiscreteHorizontal.TickFrequency}"
-                                    TickPlacement="None"
                                     Value="{Binding IntegrationTimes[0].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="ValueChanged">
@@ -516,7 +506,7 @@
                 </Grid>
             </GroupBox>
 
-            <Button
+        <Button
                 Grid.Row="5"
                 Width="90"
                 Height="35"
@@ -528,6 +518,5 @@
                 Content="Apply"
                 Foreground="{StaticResource MaterialDesignDarkForeground}"
                 Style="{StaticResource MaterialDesignOutlinedButton}" />
-        </Grid>
     </ScrollViewer>
 </UserControl>

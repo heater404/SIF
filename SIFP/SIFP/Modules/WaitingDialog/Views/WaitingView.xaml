@@ -19,21 +19,18 @@
             <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterOwner" />
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
-                    <WindowChrome
-                        CaptionHeight="0"
-                        GlassFrameThickness="3"
-                        NonClientFrameEdges="None"
-                        ResizeBorderThickness="0" />
+                    <WindowChrome CaptionHeight="0" ResizeBorderThickness="0" />
                 </Setter.Value>
             </Setter>
             <Setter Property="WindowStyle" Value="None" />
             <Setter Property="ShowInTaskbar" Value="False" />
-            <Setter Property="SizeToContent" Value="WidthAndHeight" />
+            <Setter Property="Width" Value="150" />
+            <Setter Property="Height" Value="150" />
         </Style>
     </prism:Dialog.WindowStyle>
     <ProgressBar
-        Width="150"
-        Height="150"
+        Width="100"
+        Height="100"
         IsIndeterminate="True"
         Style="{StaticResource MaterialDesignCircularProgressBar}"
         Value="35" />

@@ -179,6 +179,46 @@ namespace Services
             return false;
         }
 
+        public bool? StartStreaming(int millisecondsTimeout)
+        {
+            if (client == null)
+                return false;
+
+            StartStreamingRequest msg = new StartStreamingRequest
+            {
+               
+            };
+
+            if (this.client.Send(msg) > 0)
+            {
+                //todo:同步等待
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool? StopStreaming(int millisecondsTimeout)
+        {
+            if (client == null)
+                return false;
+
+            StopStreamingRequest msg = new StopStreamingRequest
+            {
+                
+            };
+
+            if (this.client.Send(msg) > 0)
+            {
+                if (waitHandle.WaitOne(millisecondsTimeout))
+                    return true;
+                else
+                   return null;
+            }
+
+            return false;
+        }
+
         public bool? DisconnectCamera(int millisecondsTimeout)
         {
             if (client == null)
@@ -198,7 +238,7 @@ namespace Services
             return false;
         }
 
-        [RecvMsg(MsgTypeE.ConfigAlgReplyType, typeof(ConfigCameraReply))]
+        [RecvMsg(MsgTypeE.ConfigCameraReplyType, typeof(ConfigCameraReply))]
         private void CmdProConfigCameraReply(MsgHeader pkt)
         {
             if (!(pkt is ConfigCameraReply msg))
@@ -221,6 +261,18 @@ namespace Services
             if (waitHandle.Set())
             {
                 eventAggregator.GetEvent<ConnectCameraReplyEvent>().Publish(msg);
+            }
+        }
+
+        [RecvMsg(MsgTypeE.StopStreamingReplyType,typeof(StopStreamingReply))]
+        private void CmdProcStopStreamingReply(MsgHeader pkt)
+        {
+            if (pkt is not StopStreamingReply msg)
+                return;
+
+            if (waitHandle.Set())
+            {
+                eventAggregator.GetEvent<StopStreamingReplyEvent>().Publish(msg);
             }
         }
     }

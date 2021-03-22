@@ -2,6 +2,9 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
+using Services.Interfaces;
+using SIFP.Core;
 using SIFP.Core.Attributes;
 using SIFP.Core.Enums;
 using SIFP.Core.Models;
@@ -19,11 +22,88 @@ namespace ConfigCamera.ViewModels
 {
     public class ConfigCameraViewModel : RegionViewModelBase
     {
-        public ConfigCameraViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        private ICommunication comm;
+        private IDialogService dialogService;
+        public ConfigCameraViewModel(IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
+            this.comm = communication;
+            this.dialogService = dialogService;
             InitDefaultConfigCamera();
             InitConfigs();
             InitWorkMode();
+
+            FourBgSyncCmd = new DelegateCommand(FourBgSync);
+            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCamera);
+        }
+
+        private async void ApplyConfigCamera()
+        {
+            dialogService.Show(DialogNames.WaitingDialog);
+            var res = await Task.Run(() => comm.ConfigCamera(GetCurrentConifg(), 5000));
+            if (res.HasValue)
+            {
+                if (res.Value)
+                {
+                    this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
+                    this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
+                }
+                else
+                {
+                    this.PrintNoticeLog("ConfigCamera Fail", LogLevel.Error);
+                    this.PrintWatchLog("ConfigCamera Fail", LogLevel.Error);
+                }
+            }
+            else
+            {
+                this.PrintNoticeLog("ConfigCamera Timeout", LogLevel.Error);
+                this.PrintWatchLog("ConfigCamera Timeout", LogLevel.Error);
+            }
+            EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
+        }
+
+        private ConfigCameraRequest GetCurrentConifg()
+        {
+            SubWorkModeAttribute attribute = ((SubWorkModeE)subWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();
+
+            ConfigCameraRequest request = new ConfigCameraRequest
+            {
+                ConfigCamera = new ConfigCameraModel
+                {
+                    DoReset = config.DoReset,
+                    StandByMode = config.StandByMode,
+                    SysXtalClkKHz = config.SysXtalClkKHz,
+                    WorkMode = WorkModeIndex,
+                    SubWorkMode = SubWorkModeIndex,
+                    SubFrameModes = config.SubFrameModes,
+                    SpecialFrameModes = config.SpecialFrameModes,
+                    DifferentialBG = config.DifferentialBG,
+                    FrameSeqSchedule = config.FrameSeqSchedule,
+                    IntegrationTimes = integrationTimes,
+                    PLLDLLDivs = pLLDLLDivs,
+                    NumSubFramePerFrame = config.NumSubFramePerFrame,
+                    NumDepthSequencePerDepthMap = config.NumDepthSequencePerDepthMap,
+                    MIPI_FS_FE_Pos = config.MIPI_FS_FE_Pos,
+                    MIPIFrameRate = this.fps * attribute.NumDepthMapPerDepth,
+                    SequencerRepeatMode = config.SequencerRepeatMode,
+                    TriggerMode = config.TriggerMode,
+                    ROISetting = config.ROISetting,
+                    BinningMode = config.BinningMode,
+                    MirrorMode = config.MirrorMode,
+                    TSensorMode = config.TSensorMode,
+                    PerformClkChanges = config.PerformClkChanges,
+                    ClkDivOverride = config.ClkDivOverride,
+                }
+            };
+            return request;
+        }
+
+        private void FourBgSync()
+        {
+            if (subWorkModeIndex.GetTAttribute<SubWorkModeAttribute>().IsAsync)
+            {
+                IntegrationTimes[1].SpecialPhaseInt = IntegrationTimes[0].Phase1_4Int;
+                IntegrationTimes[3].SpecialPhaseInt = IntegrationTimes[2].Phase1_4Int;
+            }
         }
 
         /// <summary>
@@ -48,6 +128,9 @@ namespace ConfigCamera.ViewModels
             //初始化的时候默认的SubWorkMode,其实是根据默认的WorkMode
             FilterSubWorkMode((WorkModeE)workModeIndex);
         }
+
+        public DelegateCommand ApplyConfigCameraCmd { get; set; }
+        public DelegateCommand FourBgSyncCmd { get; set; }
 
         private void InitConfigs()
         {

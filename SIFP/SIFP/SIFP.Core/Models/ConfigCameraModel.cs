@@ -24,60 +24,61 @@ namespace SIFP.Core.Models
         public SubWorkModeE SubWorkMode { get; set; }
 
         [FieldOrder(6)]
-        public SubFrameModeE[] SubFrameModes { get; set; } = new SubFrameModeE[4];
+        [FieldCount(4)]
+        public SubFrameModeE[] SubFrameModes { get; set; } 
 
         [FieldOrder(7)]
-        public SpecialFrameModeE[] SpecialFrameModes { get; set; } = new SpecialFrameModeE[4];
-
+        [FieldCount(4)]
+        public SpecialFrameModeE[] SpecialFrameModes { get; set; }
         [FieldOrder(8)]
         public UInt32 DifferentialBG { get; set; }
 
         [FieldOrder(9)]
         public FrameSeqSchedule FrameSeqSchedule { get; set; }
 
-        [FieldCount(4)]
         [FieldOrder(10)]
+        [FieldCount(4)]
         public IntegrationTime[] IntegrationTimes { get; set; }
 
-        [FieldLength(11)]
+        [FieldOrder(11)]
         [FieldCount(4)]
         public PLLDLLDiv[] PLLDLLDivs { get; set; }
 
-        [FieldLength(12)]
+        [FieldOrder(12)]
         [FieldCount(4)]
         public UInt32[] NumSubFramePerFrame { get; set; }
 
-        [FieldLength(13)]
+        [FieldOrder(13)]
         public UInt32 NumDepthSequencePerDepthMap { get; set; }
 
-        [FieldLength(14)]
+        [FieldOrder(14)]
         public MIPI_FS_FE_PosE MIPI_FS_FE_Pos { get; set; }
 
-        [FieldLength(15)]
+        [FieldOrder(15)]
         public UInt32 MIPIFrameRate { get; set; }
 
-        [FieldLength(16)]
+        [FieldOrder(16)]
         public SequencerRepeatModeE SequencerRepeatMode { get; set; }
 
-        [FieldLength(17)]
+        [FieldOrder(17)]
         public TriggerModeE TriggerMode { get; set; }
 
-        [FieldLength(18)]
+        [FieldOrder(18)]
         public ROISetting ROISetting { get; set; }
 
-        [FieldLength(19)]
+        [FieldOrder(19)]
         public BinningModeE BinningMode { get; set; }
 
-        [FieldLength(20)]
+        [FieldOrder(20)]
         public MirrorModeE MirrorMode { get; set; }
 
-        [FieldLength(21)]
+        [FieldOrder(21)]
         public TSensorModeE TSensorMode { get; set; }
 
-        [FieldLength(22)]
+        [FieldOrder(22)]
         public uint PerformClkChanges { get; set; }
 
-        [FieldLength(23)]
+        [FieldOrder(23)]
         public ClkDIvOverride ClkDivOverride { get; set; }
     }
 }

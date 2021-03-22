@@ -63,7 +63,23 @@
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MainRegion}" />
         </DockPanel>
         <materialDesign:DrawerHost.RightDrawerContent>
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.WatchLogRegion}" />
+            <HeaderedContentControl>
+                <HeaderedContentControl.Header>
+                    <DockPanel>
+                        <Button
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Right}"
+                            Content="{materialDesign:PackIcon Kind=Close,
+                                                              Size=20}"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource MaterialDesignFlatButton}" />
+                    </DockPanel>
+                </HeaderedContentControl.Header>
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.WatchLogRegion}" />
+            </HeaderedContentControl>
         </materialDesign:DrawerHost.RightDrawerContent>
 
         <materialDesign:DrawerHost.LeftDrawerContent>
@@ -86,7 +102,9 @@
                             VerticalContentAlignment="Center"
                             Checked="ToggleButton_Checked"
                             DockPanel.Dock="Right"
-                            Unchecked="ToggleButton_Unchecked">
+                            IsChecked="True"
+                            Unchecked="ToggleButton_Unchecked"
+                            Visibility="Collapsed">
                             <ToggleButton.Style>
                                 <Style BasedOn="{StaticResource MaterialDesignFlatButton}" TargetType="ToggleButton">
                                     <Style.Triggers>

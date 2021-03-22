@@ -12,5 +12,10 @@ namespace SIFP.Core.Models
     {
         [FieldOrder(1)]
         public ConfigCameraModel ConfigCamera { get; set; }
+
+        public override uint GetMsgLen()
+        {
+            return 232;
+        }
     }
 }

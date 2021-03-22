@@ -11,7 +11,7 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <StatusBar Margin="0,5,0,0" Background="{StaticResource MaterialDesignToolBarBackground}">
-        <StatusBarItem>
+        <!--<StatusBarItem>
             <StackPanel Orientation="Horizontal">
                 <Ellipse
                     Width="15"
@@ -29,7 +29,7 @@
                     Fill="#FFF0B400" />
             </StackPanel>
         </StatusBarItem>
-        <Separator />
+        <Separator />-->
         <StatusBarItem>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="Sensor : " />

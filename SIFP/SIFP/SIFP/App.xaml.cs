@@ -17,6 +17,7 @@ using StatusBar;
 using CaptureDataDialog.Views;
 using SIFP.Core;
 using WaitingDialog.Views;
+using PointCloud;
 
 namespace SIFP
 {
@@ -61,6 +62,7 @@ namespace SIFP
             moduleCatalog.AddModule<WatchLogModule>();
             moduleCatalog.AddModule<ConfigCameraModule>();
             moduleCatalog.AddModule<StatusBarModule>();
+            moduleCatalog.AddModule<PointCloudModule>();
         }
     }
 }
