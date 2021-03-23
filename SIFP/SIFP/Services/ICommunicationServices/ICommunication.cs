@@ -17,5 +17,10 @@ namespace Services.Interfaces
         bool? StopStreaming(int millisecondsTimeout);
 
         bool? ConfigCamera(ConfigCameraRequest configCamera, int millisecondsTimeout);
+
+        bool? ConfigAlg(ConfigAlgRequest configAlg, int millisecondsTimeout);
+
+        bool? AlgoAddCapture(UInt32 opt, UInt32 pos, UInt32 ID, UInt32 type,
+               UInt32 frameNum, UInt32 cycle);
     }
 }

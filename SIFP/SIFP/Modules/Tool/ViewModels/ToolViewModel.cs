@@ -60,6 +60,11 @@ namespace Tool.ViewModels
             ConnectCtrlCmd = new DelegateCommand(ConnectCtrl);
             StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => IsConnected);
             EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply);
+            EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
+            {
+                if (isConnected)
+                    Task.Run(() => DisconnectCamera()).Wait();
+            });
         }
 
         private void RecvConfigCameraReply(ConfigCameraReply reply)
@@ -84,7 +89,7 @@ namespace Tool.ViewModels
                     this.PrintWatchLog("StreamingOn Success", LogLevel.Warning);
                     IsStreaming = true;
                 }
-                else 
+                else
                 {
                     IsStreaming = false;
                 }
@@ -116,7 +121,7 @@ namespace Tool.ViewModels
                     this.PrintNoticeLog("StreamingOn Fail", LogLevel.Error);
                     this.PrintWatchLog("StreamingOn Fail", LogLevel.Error);
                     return false;
-                }  
+                }
             }
             else
             {
@@ -124,7 +129,7 @@ namespace Tool.ViewModels
                 this.PrintWatchLog("StreamingOn Timeout", LogLevel.Error);
                 return false;
             }
-            
+
             string args = resolution.Width + "*" + resolution.Height + "_" + this.lensArgs.ToString();
             EventAggregator.GetEvent<OpenPointCloudEvent>().Publish(args);
             return true;
@@ -148,7 +153,7 @@ namespace Tool.ViewModels
                 this.PrintWatchLog("StreamingOff Timeout", LogLevel.Error);
                 return false;
             }
-            
+
             EventAggregator.GetEvent<ClosePointCloudEvent>().Publish();
             return true;
         }
@@ -163,6 +168,22 @@ namespace Tool.ViewModels
                 {
                     this.PrintNoticeLog("ConnectCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConnectCamera Success", LogLevel.Warning);
+
+                    comm.ConfigAlg(new ConfigAlgRequest
+                    {
+                        ByPassSocAlgorithm = true,
+                        ReturnRawData = true,
+                        ReturnAmplitudeImage = false,
+                        ReturnBGImage = false,
+                        ReturnConfidence = false,
+                        ReturnDepthIamge = false,
+                        ReturnFlagMap = false,
+                        ReturnGrayImage = false,
+                        ReturnPointcloud = false,
+                    }, 3000);
+
+                    this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
+
                     IsConnected = true;
                 }
                 else
@@ -245,7 +266,7 @@ namespace Tool.ViewModels
 
             ProcessStartInfo startInfo = new ProcessStartInfo(path);
             startInfo.UseShellExecute = true;
-            startInfo.WindowStyle = ProcessWindowStyle.Normal;
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
             Process pro = Process.Start(startInfo);
             pro.PriorityClass = ProcessPriorityClass.AboveNormal;

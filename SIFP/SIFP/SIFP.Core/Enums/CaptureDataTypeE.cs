@@ -12,4 +12,11 @@ namespace SIFP.Core.Enums
         Raw_Depth = 4,
         Depth_Gray = 5
     }
+
+    public enum CaptureOpt : UInt32
+    {
+        Add=0,
+        Delete=1,
+        AddToLoacl=2,
+    }
 }

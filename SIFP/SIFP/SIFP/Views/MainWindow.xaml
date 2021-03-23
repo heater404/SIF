@@ -9,6 +9,7 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{materialDesign:MaterialDesignFont}"
+    SizeChanged="Window_SizeChanged"
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
@@ -83,7 +84,7 @@
         </materialDesign:DrawerHost.RightDrawerContent>
 
         <materialDesign:DrawerHost.LeftDrawerContent>
-            <HeaderedContentControl>
+            <HeaderedContentControl VerticalAlignment="Top" VerticalContentAlignment="Top">
                 <HeaderedContentControl.Header>
                     <DockPanel>
                         <Button
@@ -129,7 +130,10 @@
                         </ToggleButton>
                     </DockPanel>
                 </HeaderedContentControl.Header>
-                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftDrawerRegion}" />
+                <ContentControl
+                    VerticalAlignment="Top"
+                    VerticalContentAlignment="Top"
+                    prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftDrawerRegion}" />
             </HeaderedContentControl>
         </materialDesign:DrawerHost.LeftDrawerContent>
     </materialDesign:DrawerHost>

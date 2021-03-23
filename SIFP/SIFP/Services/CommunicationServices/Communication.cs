@@ -8,6 +8,7 @@ using SIFP.Core.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -238,6 +239,79 @@ namespace Services
             return false;
         }
 
+        public bool? ConfigAlg(ConfigAlgRequest configAlg, int millisecondsTimeout)
+        {
+            if (client == null)
+                return false;
+
+            if (this.client.Send(configAlg) > 0)
+            {
+                if (waitHandle.WaitOne(millisecondsTimeout))
+                    return configCameraSuccess;
+                else
+                    return null;
+            }
+            return false;
+        }
+
+        private bool captureAck;
+        public bool? AlgoAddCapture(UInt32 opt, UInt32 pos, UInt32 ID, UInt32 type,
+               UInt32 frameNum, UInt32 cycle)
+        {
+            if (null == client)
+                return false;
+
+            UInt32 num = MaxDivisor(frameNum, cycle);
+            List<Int32> sn = Enumerable.Range(0, (int)num).ToList<Int32>();
+
+            UInt32 cnt = frameNum / num;
+
+            CaptureRequest msg = new CaptureRequest()
+            {
+                CaptureOpt = opt,
+                CapturePos = pos,
+                CaptureID = ID,
+                CaptureType = type,
+                CaptureCnt = cnt,
+                CaptureCycle = cycle,
+                CaptureNum = num,
+                CaptureSN = sn.ToArray<Int32>(),
+            };
+
+            if (0 < client.Send(msg))
+            {
+                if (waitHandle.WaitOne((int)frameNum * 1000))
+                    return this.captureAck;
+                else
+                    return null;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 求不超过cycle的frameNum的最大因数
+        /// </summary>
+        /// <param name="frameNun"></param>
+        /// <param name="cycle"></param>
+        /// <returns></returns>
+        private static UInt32 MaxDivisor(UInt32 frameNun, UInt32 cycle)
+        {
+            UInt32 ret = 0;
+
+            var min = Math.Min(frameNun, cycle);
+
+            for (UInt32 i = min; i > 0; i--)
+            {
+                if (0 == frameNun % i)
+                {
+                    ret = i;
+                    break;
+                }
+            }
+
+            return ret;
+        }
+
         [RecvMsg(MsgTypeE.ConfigCameraReplyType, typeof(ConfigCameraReply))]
         private void CmdProConfigCameraReply(MsgHeader pkt)
         {
@@ -273,6 +347,31 @@ namespace Services
             if (waitHandle.Set())
             {
                 eventAggregator.GetEvent<StopStreamingReplyEvent>().Publish(msg);
+            }
+        }
+
+        [RecvMsg(MsgTypeE.ConfigAlgReplyType,typeof(ConfigAlgReply))]
+        private void CmdProcConfigAlgReply(MsgHeader pkt)
+        {
+            if (pkt is not ConfigAlgReply msg)
+                return;
+
+            if (waitHandle.Set())
+            {
+                eventAggregator.GetEvent<ConfigAlgReplyEvent>().Publish(msg);
+            }
+        }
+
+        [RecvMsg(MsgTypeE.CaptureReplyType,typeof(CaptureReply))]
+        private void CmdProcCaptureReply(MsgHeader pkt)
+        {
+            if (pkt is not CaptureReply msg)
+                return;
+
+            this.captureAck = msg.ACK;
+            if (waitHandle.Set())
+            {
+                eventAggregator.GetEvent<CaptureReplyEvent>().Publish(msg);
             }
         }
     }
