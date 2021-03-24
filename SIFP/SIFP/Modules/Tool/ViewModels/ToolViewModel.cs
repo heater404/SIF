@@ -66,7 +66,6 @@ namespace Tool.ViewModels
             set { canCaptureCtrlCmd = value; RaisePropertyChanged(); }
         }
 
-
         public DelegateCommand ConnectCtrlCmd { get; private set; }
         public DelegateCommand StreamingCtrlCmd { get; private set; }
 
@@ -405,30 +404,33 @@ namespace Tool.ViewModels
                     IsStreaming = false;
             }
 
-            var res = comm.DisconnectCamera(3000);
-            if (res.HasValue)
+            if (isConnected)
             {
-                if (!res.Value)
+                var res = comm.DisconnectCamera(3000);
+                if (res.HasValue)
                 {
-                    this.PrintNoticeLog("DisonnectCamera Fail", LogLevel.Error);
-                    this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
+                    if (!res.Value)
+                    {
+                        this.PrintNoticeLog("DisonnectCamera Fail", LogLevel.Error);
+                        this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
+                        return false;
+                    }
+                }
+                else
+                {
+                    this.PrintNoticeLog("DisonnectCamera Timeout", LogLevel.Error);
+                    this.PrintWatchLog("DisonnectCamera Timeout", LogLevel.Error);
+                    return false;
+                }
+
+                if (!comm.Close())
+                {
+                    this.PrintNoticeLog("Close CommClient Fail", LogLevel.Error);
+                    this.PrintWatchLog("Close Commlient Fail", LogLevel.Error);
                     return false;
                 }
             }
-            else
-            {
-                this.PrintNoticeLog("DisonnectCamera Timeout", LogLevel.Error);
-                this.PrintWatchLog("DisonnectCamera Timeout", LogLevel.Error);
-                return false;
-            }
-
-            if (!comm.Close())
-            {
-                this.PrintNoticeLog("Close CommClient Fail", LogLevel.Error);
-                this.PrintWatchLog("Close Commlient Fail", LogLevel.Error);
-                return false;
-            }
-
+            
             if (!KillAssembly(processor))
                 return false;
 
