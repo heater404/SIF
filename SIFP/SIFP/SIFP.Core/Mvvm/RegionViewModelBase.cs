@@ -6,7 +6,7 @@ using System;
 
 namespace SIFP.Core.Mvvm
 {
-    public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
+    public class RegionViewModelBase : ViewModelBase, IConfirmNavigationRequest
     {
         protected IRegionManager RegionManager { get; private set; }
         protected IEventAggregator EventAggregator { get; private set; }

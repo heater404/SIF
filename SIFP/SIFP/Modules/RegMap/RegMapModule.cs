@@ -1,12 +1,12 @@
-﻿using PointCloud.Views;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using RegMap.Views;
 using SIFP.Core;
 
-namespace PointCloud
+namespace RegMap
 {
-    public class PointCloudModule : IModule
+    public class RegMapModule : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {

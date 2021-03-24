@@ -19,6 +19,11 @@ using SIFP.Core;
 using WaitingDialog.Views;
 using PointCloud;
 using NotificationDialog.Views;
+using ConfigCamera.Views;
+using ConfigAlg;
+using ConfigAlg.Views;
+using PointCloud.Views;
+using RegMap.Views;
 
 namespace SIFP
 {
@@ -55,6 +60,12 @@ namespace SIFP
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
             containerRegistry.RegisterDialog<NotificationView>(DialogNames.NotificationDialog);
+
+
+            containerRegistry.RegisterForNavigation<ConfigCameraView>();
+            containerRegistry.RegisterForNavigation<ConfigAlgView>();
+            containerRegistry.RegisterForNavigation<PointCloudView>();
+            containerRegistry.RegisterForNavigation<RegMapView>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -65,6 +76,7 @@ namespace SIFP
             moduleCatalog.AddModule<ConfigCameraModule>();
             moduleCatalog.AddModule<StatusBarModule>();
             moduleCatalog.AddModule<PointCloudModule>();
+            moduleCatalog.AddModule<ConfigAlgModule>();
         }
     }
 }
