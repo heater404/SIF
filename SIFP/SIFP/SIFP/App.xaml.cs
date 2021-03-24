@@ -24,6 +24,7 @@ using ConfigAlg;
 using ConfigAlg.Views;
 using PointCloud.Views;
 using RegMap.Views;
+using RegMap;
 
 namespace SIFP
 {
@@ -62,10 +63,10 @@ namespace SIFP
             containerRegistry.RegisterDialog<NotificationView>(DialogNames.NotificationDialog);
 
 
-            containerRegistry.RegisterForNavigation<ConfigCameraView>();
-            containerRegistry.RegisterForNavigation<ConfigAlgView>();
-            containerRegistry.RegisterForNavigation<PointCloudView>();
-            containerRegistry.RegisterForNavigation<RegMapView>();
+            containerRegistry.RegisterForNavigation<ConfigCameraView>(ViewNames.ConfigCameraView);
+            containerRegistry.RegisterForNavigation<ConfigAlgView>(ViewNames.ConfigAlgView);
+            containerRegistry.RegisterForNavigation<PointCloudView>(ViewNames.PointCloudView);
+            containerRegistry.RegisterForNavigation<RegMapView>(ViewNames.RegMapView);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -74,9 +75,11 @@ namespace SIFP
             moduleCatalog.AddModule<ToolModule>();
             moduleCatalog.AddModule<WatchLogModule>();
             moduleCatalog.AddModule<ConfigCameraModule>();
+            moduleCatalog.AddModule<ConfigAlgModule>();
             moduleCatalog.AddModule<StatusBarModule>();
             moduleCatalog.AddModule<PointCloudModule>();
-            moduleCatalog.AddModule<ConfigAlgModule>();
+            moduleCatalog.AddModule<RegMapModule>();
+            
         }
     }
 }

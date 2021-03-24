@@ -33,13 +33,13 @@ namespace SIFP.ViewModels
             set { isLeftDrawerOpen = value; RaisePropertyChanged(); }
         }
 
-        public DelegateCommand<Type> OpenLeftDrawerCmd { get; set; }
+        public DelegateCommand<string> OpenLeftDrawerCmd { get; set; }
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
-            OpenLeftDrawerCmd = new DelegateCommand<Type>(view =>
+            OpenLeftDrawerCmd = new DelegateCommand<string>(view =>
               {
-                  regionManager.RequestNavigate(RegionNames.LeftDrawerRegion, "ConfigCameraView");
+                  regionManager.RequestNavigate(RegionNames.LeftDrawerRegion, view);
                   IsLeftDrawerOpen = true;
               });
 

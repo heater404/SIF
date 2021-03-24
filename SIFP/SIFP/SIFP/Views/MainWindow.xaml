@@ -30,31 +30,31 @@
                         Style="{DynamicResource MaterialDesignToolBar}">
                         <Button
                             Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ViewTypes.ConfigCameraType}"
+                            CommandParameter="{x:Static core:ViewNames.ConfigCameraView}"
                             Content="{materialDesign:PackIcon Kind=Settings,
                                                               Size=25}"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             ToolTip="ConfigCamera" />
-                        <Button
+                        <!--<Button
                             Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ViewTypes.ConfigAlgType}"
+                            CommandParameter="{x:Static core:ViewNames.ConfigAlgView}"
                             Content="{materialDesign:PackIcon Kind=Settings,
                                                               Size=25}"
                             Style="{StaticResource MaterialDesignFlatButton}"
-                            ToolTip="ConfigCamera" />
+                            ToolTip="ConfigAlg" />-->
 
                         <RadioButton
                             Command="{Binding MainRegionNavigationCmd}"
-                            CommandParameter="{x:Static local:ViewTypes.PointCloudType}"
+                            CommandParameter="{x:Static core:ViewNames.PointCloudView}"
                             Content="PointCloud"
                             IsChecked="True"
                             Style="{StaticResource MaterialDesignTabRadioButton}" />
-                        <RadioButton
+                        <!--<RadioButton
                             Command="{Binding MainRegionNavigationCmd}"
-                            CommandParameter="{x:Static local:ViewTypes.RegMapType}"
+                            CommandParameter="{x:Static core:ViewNames.RegMapView}"
                             Content="RegMap"
                             IsChecked="False"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" />
+                            Style="{StaticResource MaterialDesignTabRadioButton}" />-->
                     </ToolBar>
                 </ToolBarTray>
 
