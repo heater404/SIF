@@ -18,6 +18,7 @@ using CaptureDataDialog.Views;
 using SIFP.Core;
 using WaitingDialog.Views;
 using PointCloud;
+using NotificationDialog.Views;
 
 namespace SIFP
 {
@@ -53,6 +54,7 @@ namespace SIFP
             containerRegistry.RegisterSingleton<ICommunication, Communication>();
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
+            containerRegistry.RegisterDialog<NotificationView>(DialogNames.NotificationDialog);
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

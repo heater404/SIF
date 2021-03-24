@@ -8,5 +8,6 @@ namespace SIFP.Core
     {
         public const string CaptureDataDialog = "CaptureDataView";
         public const string WaitingDialog = "WaitingView";
+        public const string NotificationDialog = "NotificationView";
     }
 }

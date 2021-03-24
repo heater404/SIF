@@ -110,18 +110,26 @@ namespace Tool.ViewModels
                 dialogService.ShowDialog(DialogNames.CaptureDataDialog, CaptureCallback);
             else
             {
-                var res = MessageBox.Show("It is capturing......Are you sure to stop capture？？？", "Notice", MessageBoxButton.YesNo);
-                if (res == MessageBoxResult.Yes)
+                var param = new DialogParameters
                 {
-                    comm.AlgoDelCapture((UInt32)CapturePosition.Pos, (UInt32)CaptureID.ID);
+                    { "notice", "Capturing....... Are you sure to stop???" }
+                };
+                dialogService.ShowDialog(DialogNames.NotificationDialog, param, result =>
+                 {
+                     if (result.Result == ButtonResult.Yes)
+                     {
+                         comm.AlgoDelCapture((UInt32)CapturePosition.Pos, (UInt32)CaptureID.ID);
 
-                    CanCaptureCtrlCmd = true;
-                    CanStreamingCtrlCmd = true;
-                    CanConnectCtrlCmd = true;
-                    IsCapturing = false;
-                }
-                else
-                    IsCapturing = true;
+                         CanCaptureCtrlCmd = true;
+                         CanStreamingCtrlCmd = true;
+                         CanConnectCtrlCmd = true;
+                         IsCapturing = false;
+                     }
+                     else
+                     {
+                         IsCapturing = true;
+                     }
+                 });
             }
         }
 
