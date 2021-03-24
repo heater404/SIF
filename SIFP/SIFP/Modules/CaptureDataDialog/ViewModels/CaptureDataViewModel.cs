@@ -44,9 +44,12 @@ namespace CaptureDataDialog.ViewModels
                 CaptureDataTypes.Add(new ComboBoxItemMode<CaptureDataTypeE> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
             }
 
-            foreach (UInt32 item in new UInt32[] { 1, 5, 10, 20, 30, 50, 100, 150, 200, 300 })
+            foreach (UInt32 item in new UInt32[] { 1, 5, 10, 20, 30, 50, 100, 200, 300, 0xFFFFFFFF })
             {
-                CaptureDataNums.Add(new ComboBoxItemMode<UInt32> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
+                if (item == 0xffffffff)
+                    CaptureDataNums.Add(new ComboBoxItemMode<UInt32> { Description = "continue", SelectedModel = item, IsShow = Visibility.Visible });
+                else
+                    CaptureDataNums.Add(new ComboBoxItemMode<UInt32> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
             }
 
             CaptureOkCmd = new DelegateCommand(CaptureOK);
