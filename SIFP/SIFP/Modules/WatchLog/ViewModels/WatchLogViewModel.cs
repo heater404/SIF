@@ -12,13 +12,14 @@ using System.Threading.Tasks;
 using SIFP.Core.Models;
 using System.IO;
 using SIFP.Core.Enums;
+using System.Windows;
 
 namespace WatchLog.ViewModels
 {
     public class WatchLogViewModel : RegionViewModelBase
     {
-        private ObservableCollection<WatchLogModel> watchLogs = new ObservableCollection<WatchLogModel>();
-        public ObservableCollection<WatchLogModel> WatchLogs
+        private ObservableCollection<LogModel> watchLogs = new ObservableCollection<LogModel>();
+        public ObservableCollection<LogModel> WatchLogs
         {
             get { return WatchLogs1; }
             set { WatchLogs1 = value; RaisePropertyChanged(); }
@@ -26,17 +27,13 @@ namespace WatchLog.ViewModels
 
         public DelegateCommand ClearWatchLogsCmd { get; private set; }
         public DelegateCommand SaveWatchLogsCmd { get; private set; }
-        public ObservableCollection<WatchLogModel> WatchLogs1 { get => watchLogs; set => watchLogs = value; }
+        public ObservableCollection<LogModel> WatchLogs1 { get => watchLogs; set => watchLogs = value; }
 
         public WatchLogViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             ClearWatchLogsCmd = new DelegateCommand(ClearWatchLogs);
             SaveWatchLogsCmd = new DelegateCommand(SaveWatchLogs);
             this.EventAggregator.GetEvent<WatchLogEvent>().Subscribe(AddWatchLog);
-
-            AddWatchLog(new WatchLogModel("AAAACC", WatchLogLevel.Error));
-            AddWatchLog(new WatchLogModel("AEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEECCCDWWWWWWWWWWWWWWWWWWWWWWWWWWWWBBBBFFFFFFFFFF", WatchLogLevel.Warning));
-            AddWatchLog(new WatchLogModel("CC", WatchLogLevel.Info));
         }
 
         private void SaveWatchLogs()
@@ -62,9 +59,9 @@ namespace WatchLog.ViewModels
             WatchLogs.Clear();
         }
 
-        private void AddWatchLog(WatchLogModel log)
+        private void AddWatchLog(LogModel log)
         {
-            WatchLogs.Add(log);
+            Application.Current.Dispatcher.Invoke(() => WatchLogs.Add(log));
         }
     }
 }

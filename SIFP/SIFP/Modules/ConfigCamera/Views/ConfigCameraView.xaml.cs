@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Prism.Events;
+using SIFP.Core.Mvvm;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,13 @@ namespace ConfigCamera.Views
     /// </summary>
     public partial class ConfigCameraView : UserControl
     {
-        public ConfigCameraView()
+        public ConfigCameraView(IEventAggregator eventAggregator)
         {
             InitializeComponent();
+            eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Subscribe(size=>
+            {
+                this.Height =Math.Max(size.Height-80,0);
+            });
         }
     }
 }

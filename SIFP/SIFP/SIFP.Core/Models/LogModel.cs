@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SIFP.Core.Models
 {
-    public class WatchLogModel
+    public class LogModel
     {
-        public WatchLogModel(string msg, WatchLogLevel lev)
+        public LogModel(string msg, LogLevel lev)
         {
             this.Time = DateTime.Now;
             this.Message = msg;
@@ -18,7 +18,7 @@ namespace SIFP.Core.Models
         
         public string Message { get;private set; }
 
-        public WatchLogLevel Lev { get;private set; }
+        public LogLevel Lev { get;private set; }
 
         public override string ToString()
         {

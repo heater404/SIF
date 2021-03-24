@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SIFP.Core.Models
 {
-    public struct FrameSeqSchedule
+    public class FrameSeqSchedule
     {
         [FieldOrder(1)]
         //the first frame num in a depth map, value starts from 0 to 3

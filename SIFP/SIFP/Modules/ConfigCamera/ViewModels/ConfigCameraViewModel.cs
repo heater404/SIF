@@ -2,6 +2,9 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
+using Services.Interfaces;
+using SIFP.Core;
 using SIFP.Core.Attributes;
 using SIFP.Core.Enums;
 using SIFP.Core.Models;
@@ -14,16 +17,118 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ConfigCamera.ViewModels
 {
     public class ConfigCameraViewModel : RegionViewModelBase
     {
-        public ConfigCameraViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        private ICommunication comm;
+        private IDialogService dialogService;
+        public ConfigCameraViewModel(IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
+            this.comm = communication;
+            this.dialogService = dialogService;
             InitDefaultConfigCamera();
             InitConfigs();
             InitWorkMode();
+
+            FourBgSyncCmd = new DelegateCommand(FourBgSync);
+            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCamera);
+
+            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera);
+        }
+
+        private async void ApplyConfigCamera()
+        {
+            dialogService.Show(DialogNames.WaitingDialog);
+            var res = await Task.Run(() => comm.ConfigCamera(GetCurrentConfig(), 5000));
+            if (res.HasValue)
+            {
+                if (res.Value)
+                {
+                    this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
+                    this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
+                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.subWorkModeIndex);
+                }
+                else
+                {
+                    this.PrintNoticeLog("ConfigCamera Fail", LogLevel.Error);
+                    this.PrintWatchLog("ConfigCamera Fail", LogLevel.Error);
+                }
+            }
+            else
+            {
+                this.PrintNoticeLog("ConfigCamera Timeout", LogLevel.Error);
+                this.PrintWatchLog("ConfigCamera Timeout", LogLevel.Error);
+            }
+            EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
+        }
+
+        private ConfigCameraRequest GetCurrentConfig()
+        {
+            SubWorkModeAttribute attribute = ((SubWorkModeE)subWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();
+
+            ConfigCameraRequest request = new ConfigCameraRequest
+            {
+                ConfigCamera = new ConfigCameraModel
+                {
+                    DoReset = config.DoReset,
+                    StandByMode = config.StandByMode,
+                    SysXtalClkKHz = config.SysXtalClkKHz,
+                    WorkMode = this.WorkModeIndex,
+                    SubWorkMode = this.SubWorkModeIndex,
+                    SubFrameModes = config.SubFrameModes,
+                    SpecialFrameModes = config.SpecialFrameModes,
+                    DifferentialBG = config.DifferentialBG,
+                    FrameSeqSchedule = config.FrameSeqSchedule,
+                    IntegrationTimes = this.integrationTimes,
+                    PLLDLLDivs = this.pLLDLLDivs,
+                    NumSubFramePerFrame = config.NumSubFramePerFrame,
+                    NumDepthSequencePerDepthMap = config.NumDepthSequencePerDepthMap,
+                    MIPI_FS_FE_Pos = config.MIPI_FS_FE_Pos,
+                    MIPIFrameRate = this.fps * attribute.NumDepthMapPerDepth,
+                    SequencerRepeatMode = config.SequencerRepeatMode,
+                    TriggerMode = config.TriggerMode,
+                    ROISetting = this.GetCurrentROISetting(),
+                    BinningMode = config.BinningMode,
+                    MirrorMode = this.MirrorMode,
+                    TSensorMode = config.TSensorMode,
+                    PerformClkChanges = config.PerformClkChanges,
+                    ClkDivOverride = config.ClkDivOverride,
+                }
+            };
+            return request;
+        }
+
+        private ROISetting GetCurrentROISetting()
+        {
+            string roi=string.Empty;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                roi = selectedResolution.Content.ToString();
+            });
+
+            var roiSetting = new ROISetting
+            {
+                XStart = config.ROISetting.XStart,
+                XSize = UInt16.Parse(roi.Split('*')[0]),
+                XStep = config.ROISetting.XStep,
+                YStart = config.ROISetting.YStart,
+                YSize = UInt16.Parse(roi.Split('*')[1]),
+                YStep = config.ROISetting.YStep,
+            };
+
+            return roiSetting;
+        }
+
+        private void FourBgSync()
+        {
+            if (subWorkModeIndex.GetTAttribute<SubWorkModeAttribute>().IsAsync)
+            {
+                IntegrationTimes[1].SpecialPhaseInt = IntegrationTimes[0].Phase1_4Int;
+                IntegrationTimes[3].SpecialPhaseInt = IntegrationTimes[2].Phase1_4Int;
+            }
         }
 
         /// <summary>
@@ -49,6 +154,9 @@ namespace ConfigCamera.ViewModels
             FilterSubWorkMode((WorkModeE)workModeIndex);
         }
 
+        public DelegateCommand ApplyConfigCameraCmd { get; set; }
+        public DelegateCommand FourBgSyncCmd { get; set; }
+
         private void InitConfigs()
         {
             GetFrequencies();
@@ -57,7 +165,7 @@ namespace ConfigCamera.ViewModels
 
         private void InitDefaultConfigCamera()
         {
-            string path = @"Config\ConfigCamera.json";
+            string path = @"Configs\ConfigCamera.json";
             if (!File.Exists(path))
             {
                 return;
@@ -156,7 +264,7 @@ namespace ConfigCamera.ViewModels
             this.PLLDLLDivs = config.PLLDLLDivs;
             this.FPS = config.MIPIFrameRate;
             //this.BinningMode = config.BinningMode;
-            this.MirrorMode = config.MirrorMode;
+            //this.MirrorMode = config.MirrorMode;
             this.NumSubFramePerFrame = config.NumSubFramePerFrame;
             this.SubFrameModes = config.SubFrameModes;
             this.SpecialFrameModes = config.SpecialFrameModes;
@@ -241,6 +349,12 @@ namespace ConfigCamera.ViewModels
             IntegrationTimeRange = new Tuple<uint, uint>(uint.Parse(ranges[0]), uint.Parse(ranges[1]));
         }
 
+        private ComboBoxItem selectedResolution;
+        public ComboBoxItem SelectedResolution
+        {
+            get { return selectedResolution; }
+            set { selectedResolution = value; RaisePropertyChanged(); }
+        }
 
         private UInt32 fps = 25;
 

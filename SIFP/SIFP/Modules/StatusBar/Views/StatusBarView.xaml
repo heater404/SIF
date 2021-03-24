@@ -10,8 +10,8 @@
     d:DesignWidth="300"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <StatusBar Margin="0,5,0,0" Background="{StaticResource MaterialDesignToolBarBackground}">
-        <StatusBarItem>
+    <StatusBar Background="{StaticResource MaterialDesignToolBarBackground}">
+        <!--<StatusBarItem Margin="8,0,8,0">
             <StackPanel Orientation="Horizontal">
                 <Ellipse
                     Width="15"
@@ -29,21 +29,38 @@
                     Fill="#FFF0B400" />
             </StackPanel>
         </StatusBarItem>
-        <Separator />
-        <StatusBarItem>
-            <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="Sensor : 38.5°" />
+        <Separator />-->
+        <StatusBarItem Margin="8,0,8,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="Sensor : " />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding SensorTemp, StringFormat={}{0}℃}" />
+            </StackPanel>
         </StatusBarItem>
         <Separator />
-        <StatusBarItem>
-            <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="ChipID : 0x261a" />
+        <StatusBarItem Margin="8,0,8,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="ChipID : " />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding CamChipID}" />
+                <TextBlock
+                    Margin="5,0,0,0"
+                    Foreground="{StaticResource MaterialDesignDarkForeground}"
+                    Text="ChipName : " />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding CamName}" />
+            </StackPanel>
         </StatusBarItem>
         <Separator />
-        <StatusBarItem>
-            <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="Resolution : 640*480" />
+        <StatusBarItem Margin="8,0,8,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="Resolution : " />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding Resolution}" />
+            </StackPanel>
         </StatusBarItem>
         <Separator />
-        <StatusBarItem>
-            <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="WorkeMode : _4Phase_Gray" />
+        <StatusBarItem Margin="8,0,8,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="WorkMode : " />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding WorkMode}" />
+            </StackPanel>
         </StatusBarItem>
         <Separator />
         <StatusBarItem HorizontalAlignment="Center">

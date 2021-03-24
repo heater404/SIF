@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace SIFP.Core.Models
 {
-    public class ConnectCameraReply:MsgHeader
+    public class ConnectCameraReply : MsgHeader
     {
         [FieldOrder(1)]
-        public UInt32 CamChipID { get; private set; }
+        public UInt32 CamChipID { get; set; }
 
         [FieldLength(64)]
         [FieldOrder(2)]
-        public string CamName { get; private set; }
+        public string CamName { get; set; }
 
         [FieldOrder(3)]
-        public UInt32 MaxImageWidth { get; private set; }
+        public UInt32 MaxImageWidth { get; set; }
 
         [FieldOrder(4)]
-        public UInt32 MaxImageHeight { get; private set; }
+        public UInt32 MaxImageHeight { get; set; }
     }
 }

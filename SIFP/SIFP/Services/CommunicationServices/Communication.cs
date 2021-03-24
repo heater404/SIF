@@ -7,6 +7,8 @@ using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,7 +50,13 @@ namespace Services
             if (null == client)
                 return false;
 
-            return client.Open();
+            if (client.Open())
+            {
+                Subscribe();
+                return true;
+            }
+
+            return false;
         }
 
         public bool Close()
@@ -59,6 +67,22 @@ namespace Services
             return client.Close();
         }
 
+        private void Subscribe()
+        {
+            List<UInt32> msgTable = new List<uint>();
+            foreach (var item in procMap)
+            {
+                msgTable.Add((UInt32)item.Key.MsgType);
+            }
+
+            HelloRequest msg = new HelloRequest
+            {
+                MsgNum = (UInt32)msgTable.Count,
+                MsgTable = msgTable.ToArray(),
+            };
+
+            this.client.Send(msg);
+        }
 
         private void AnalyseOnePacket()
         {
@@ -71,7 +95,7 @@ namespace Services
                 {
                     foreach (var proc in procMap)
                         if (msg.MsgType == proc.Key.MsgType)
-                            proc.Value?.BeginInvoke(msg, null, null);
+                            proc.Value?.Invoke(msg);
                 }
             }
         }
@@ -85,23 +109,24 @@ namespace Services
         /// <returns>是否接收正确 0表示正常， 非0表示异常</returns>
         private int RecvOnePkt(byte[] data, out MsgHeader msg)
         {
-            //Console.WriteLine("RecvOnePkt:");
-            //Console.WriteLine("PktSN = " + pkt.Header.PktSN.ToString());
-            //Console.WriteLine("MsgSn = " + pkt.Header.MsgSn.ToString());
-            //Console.WriteLine("MsgType = 0x" + pkt.Header.MsgType.ToString("x"));
-            //Console.WriteLine("MsgLen = " + pkt.Header.MsgLen.ToString());
-            //Console.WriteLine("TotalMsgLen = " + pkt.Header.TotalMsgLen.ToString());
             msg = null;
             var msgType = BitConverter.ToUInt32(data, 12);
             foreach (var proc in procMap)
             {
-                if (msgType == proc.Key.MsgType)
+                if (msgType == (UInt32)proc.Key.MsgType)
                 {
                     msg = BinaryDeserialize(data, proc.Key.DataType);
                     break;
                 }
-               
             }
+
+            //Debug.WriteLine("RecvOnePkt:");
+            //Debug.WriteLine("PktSN = " + msg.PktSN.ToString());
+            //Debug.WriteLine("MsgSn = " + msg.MsgSn.ToString());
+            //Debug.WriteLine("MsgType = 0x" + msg.MsgType.ToString("x"));
+            //Debug.WriteLine("MsgLen = " + msg.MsgLen.ToString());
+            //Debug.WriteLine("TotalMsgLen = " + msg.TotalMsgNum.ToString());
+
             return 0;   // rcv done
         }
 
@@ -112,12 +137,12 @@ namespace Services
         }
 
         private bool configCameraSuccess;
-        public async Task<bool?> ConfigCameraAsync(ConfigCameraRequest configCamera, int millisecondsTimeout)
+        public bool? ConfigCamera(ConfigCameraRequest configCamera, int millisecondsTimeout)
         {
             if (client == null)
                 return false;
 
-            if (await this.client.SendAsync(configCamera) > 0)
+            if (this.client.Send(configCamera) > 0)
             {
                 if (waitHandle.WaitOne(millisecondsTimeout))
                     return configCameraSuccess;
@@ -133,18 +158,18 @@ namespace Services
         /// </summary>
         /// <param name="millisecondsTimeout">请求后等待Reply的时间</param>
         /// <returns>可为null的bool类型，为true则表示OpenCamera成功，为false则表示OpenCamera失败，为Null则表示在指定的时间内没有收到Reply</returns>
-        public async Task<bool?> ConnectCameraAsync(int millisecondsTimeout)
+        public bool? ConnectCamera(int millisecondsTimeout)
         {
             if (client == null)
                 return false;
 
-            MsgHeader msg = new ConnectCameraRequest
+            ConnectCameraRequest msg = new ConnectCameraRequest
             {
                 CameraType = DevTypeE.TOF,
                 Reset = false,
             };
 
-            if (await this.client.SendAsync(msg) > 0)
+            if (this.client.Send(msg) > 0)
             {
                 if (waitHandle.WaitOne(millisecondsTimeout))
                     return CamChipID != 0xdeadbeef;
@@ -155,7 +180,158 @@ namespace Services
             return false;
         }
 
-        [RecvMsg(0x122,typeof(ConfigCameraRequest))]
+        public bool? StartStreaming(int millisecondsTimeout)
+        {
+            if (client == null)
+                return false;
+
+            StartStreamingRequest msg = new StartStreamingRequest
+            {
+
+            };
+
+            if (this.client.Send(msg) > 0)
+            {
+                //todo:同步等待
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool? StopStreaming(int millisecondsTimeout)
+        {
+            if (client == null)
+                return false;
+
+            StopStreamingRequest msg = new StopStreamingRequest
+            {
+
+            };
+
+            if (this.client.Send(msg) > 0)
+            {
+                if (waitHandle.WaitOne(millisecondsTimeout))
+                    return true;
+                else
+                    return null;
+            }
+
+            return false;
+        }
+
+        public bool? DisconnectCamera(int millisecondsTimeout)
+        {
+            if (client == null)
+                return false;
+
+            DisconnectCameraRequest msg = new DisconnectCameraRequest
+            {
+
+            };
+
+            if (this.client.Send(msg) > 0)
+            {
+                //同步等待
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool? ConfigAlg(ConfigAlgRequest configAlg, int millisecondsTimeout)
+        {
+            if (client == null)
+                return false;
+
+            if (this.client.Send(configAlg) > 0)
+            {
+                if (waitHandle.WaitOne(millisecondsTimeout))
+                    return configCameraSuccess;
+                else
+                    return null;
+            }
+            return false;
+        }
+
+        private bool captureAck;
+        public bool? AlgoAddCapture(UInt32 opt, UInt32 pos, UInt32 ID, UInt32 type,
+               UInt32 frameNum, UInt32 cycle)
+        {
+            if (null == client)
+                return false;
+
+            UInt32 num = MaxDivisor(frameNum, cycle);
+            List<Int32> sn = Enumerable.Range(0, (int)num).ToList<Int32>();
+
+            UInt32 cnt = frameNum / num;
+
+            CaptureRequest msg = new CaptureRequest()
+            {
+                CaptureOpt = opt,
+                CapturePos = pos,
+                CaptureID = ID,
+                CaptureType = type,
+                CaptureCnt = cnt,
+                CaptureCycle = cycle,
+                CaptureNum = num,
+                CaptureSN = sn.ToArray<Int32>(),
+            };
+
+            if (0 < client.Send(msg))
+            {
+                if (waitHandle.WaitOne((int)frameNum * 1000))
+                    return this.captureAck;
+                else
+                    return null;
+            }
+            return false;
+        }
+
+        public bool AlgoDelCapture(UInt32 pos, UInt32 ID)
+        {
+            if (null == client)
+                return false;
+
+            CaptureRequest msg = new CaptureRequest()
+            {
+                CaptureOpt = 1,
+                CapturePos = pos,
+                CaptureID = ID,
+                CaptureType = 0,
+                CaptureCnt = 0,
+                CaptureCycle = 0,
+                CaptureNum = 0,
+            };
+
+            return client.Send(msg) > 0;
+        }
+
+        /// <summary>
+        /// 求不超过cycle的frameNum的最大因数
+        /// </summary>
+        /// <param name="frameNun"></param>
+        /// <param name="cycle"></param>
+        /// <returns></returns>
+        private static UInt32 MaxDivisor(UInt32 frameNun, UInt32 cycle)
+        {
+            UInt32 ret = 0;
+
+            var min = Math.Min(frameNun, cycle);
+
+            for (UInt32 i = min; i > 0; i--)
+            {
+                if (0 == frameNun % i)
+                {
+                    ret = i;
+                    break;
+                }
+            }
+
+            return ret;
+        }
+
+        [RecvMsg(MsgTypeE.ConfigCameraReplyType, typeof(ConfigCameraReply))]
         private void CmdProConfigCameraReply(MsgHeader pkt)
         {
             if (!(pkt is ConfigCameraReply msg))
@@ -168,16 +344,53 @@ namespace Services
             }
         }
 
-        [RecvMsg(0x120,typeof(ConnectCameraReply))]
+        [RecvMsg(MsgTypeE.ConnectCameraReplyType, typeof(ConnectCameraReply))]
         private void CmdProConnectCameraReply(MsgHeader pkt)
         {
-            if (!(pkt is ConnectCameraReply msg))
+            if (pkt is not ConnectCameraReply msg)
                 return;
 
             this.CamChipID = msg.CamChipID;
             if (waitHandle.Set())
             {
                 eventAggregator.GetEvent<ConnectCameraReplyEvent>().Publish(msg);
+            }
+        }
+
+        [RecvMsg(MsgTypeE.StopStreamingReplyType, typeof(StopStreamingReply))]
+        private void CmdProcStopStreamingReply(MsgHeader pkt)
+        {
+            if (pkt is not StopStreamingReply msg)
+                return;
+
+            if (waitHandle.Set())
+            {
+                eventAggregator.GetEvent<StopStreamingReplyEvent>().Publish(msg);
+            }
+        }
+
+        [RecvMsg(MsgTypeE.ConfigAlgReplyType, typeof(ConfigAlgReply))]
+        private void CmdProcConfigAlgReply(MsgHeader pkt)
+        {
+            if (pkt is not ConfigAlgReply msg)
+                return;
+
+            if (waitHandle.Set())
+            {
+                eventAggregator.GetEvent<ConfigAlgReplyEvent>().Publish(msg);
+            }
+        }
+
+        [RecvMsg(MsgTypeE.CaptureReplyType, typeof(CaptureReply))]
+        private void CmdProcCaptureReply(MsgHeader pkt)
+        {
+            if (pkt is not CaptureReply msg)
+                return;
+
+            this.captureAck = msg.ACK;
+            if (waitHandle.Set())
+            {
+                eventAggregator.GetEvent<CaptureReplyEvent>().Publish(msg);
             }
         }
     }

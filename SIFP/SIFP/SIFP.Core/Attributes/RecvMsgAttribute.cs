@@ -1,17 +1,16 @@
-﻿using System;
+﻿using SIFP.Core.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SIFP.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class RecvMsgAttribute : Attribute
+    public class RecvMsgAttribute : MsgTypeAttribute
     {
-        public UInt32 MsgType;
         public Type DataType;
-        public RecvMsgAttribute(UInt32 msgType,Type type)
+        public RecvMsgAttribute(MsgTypeE msgType, Type type) : base(msgType)
         {
-            this.MsgType = msgType;
             this.DataType = type;
         }
     }

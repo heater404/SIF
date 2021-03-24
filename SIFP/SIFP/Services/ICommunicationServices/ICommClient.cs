@@ -14,6 +14,6 @@ namespace Services.Interfaces
         bool Open();
         bool Close();
 
-        Task<int> SendAsync(MsgHeader msg);
+        int Send(MsgHeader msg);
     }
 }

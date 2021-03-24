@@ -4,12 +4,13 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>SIFP</AssemblyName>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Config\ConfigCamera.json" />
+    <None Remove="Configs\ConfigCamera.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\ConfigCamera.json">
+    <Content Include="Configs\ConfigCamera.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -21,8 +22,10 @@
     <ProjectReference Include="..\Modules\CaptureDataDialog\CaptureDataDialog.csproj" />
     <ProjectReference Include="..\Modules\ConfigCamera\ConfigCamera.csproj" />
     <ProjectReference Include="..\Modules\Menu\Menu.csproj" />
+    <ProjectReference Include="..\Modules\PointCloud\PointCloud.csproj" />
     <ProjectReference Include="..\Modules\StatusBar\StatusBar.csproj" />
     <ProjectReference Include="..\Modules\Tool\Tool.csproj" />
+    <ProjectReference Include="..\Modules\WaitingDialog\WaitingDialog.csproj" />
     <ProjectReference Include="..\Modules\WatchLog\WatchLog.csproj" />
     <ProjectReference Include="..\Services\CommunicationServices\Services.csproj" />
     <ProjectReference Include="..\Services\ICommunicationServices\Services.Interfaces.csproj" />
