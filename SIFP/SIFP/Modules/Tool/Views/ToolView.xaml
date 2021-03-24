@@ -8,7 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    IsEnabled="{Binding IsEnable}"
     mc:Ignorable="d">
     <DockPanel LastChildFill="True">
         <ToolBarTray DockPanel.Dock="Left" IsLocked="True">
@@ -72,12 +71,33 @@
                     </ToggleButton.Style>
                 </ToggleButton>
                 <Separator />
-                <Button
+                <ToggleButton
                     Margin="5,0,5,0"
                     Command="{Binding CaptureDataShowCmd}"
-                    Content="{materialDesign:PackIcon Kind=TrayArrowDown}"
-                    Style="{StaticResource MaterialDesignOutlinedButton}"
-                    ToolTip="Capture Data" />
+                    IsChecked="{Binding IsCapturing, Mode=OneWay}"
+                    ToolTip="Capture Data or Cancel Capture">
+                    <ToggleButton.Style>
+                        <Style BasedOn="{StaticResource MaterialDesignOutlinedButton}" TargetType="ToggleButton">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="CloseThick" />
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}" />
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <materialDesign:PackIcon Kind="TrayArrowDown" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
             </ToolBar>
         </ToolBarTray>
     </DockPanel>

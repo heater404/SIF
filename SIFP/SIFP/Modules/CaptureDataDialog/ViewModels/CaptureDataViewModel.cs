@@ -55,19 +55,19 @@ namespace CaptureDataDialog.ViewModels
 
         private void CaptureCancel()
         {
-            this.RequestClose.Invoke(null);
+            this.RequestClose.Invoke(new DialogResult(ButtonResult.Cancel));
         }
 
         private async void CaptureOK()
         {
-            this.RequestClose.Invoke(null);
+            this.RequestClose.Invoke(new DialogResult(ButtonResult.OK));
 
             UInt32 type = (UInt32)(0 << 10)
                                 | (UInt32)((1 << 9)
                                 | (UInt32)((CaptureDataType == CaptureDataTypeE.Raw ? 0 : 1) << 8)
                                 | (UInt32)CaptureDataType);
 
-            var res = await Task.Run(() => comm.AlgoAddCapture(2, 0x8001, 0x9997, type, captureDataNum, 1));
+            var res = await Task.Run(() => comm.AlgoAddCapture((UInt32)CaptureOpt.AddToLoacl, (UInt32)CapturePosition.Pos, (UInt32)CaptureID.ID, type, captureDataNum, 1));
 
             if (res.HasValue)
             {

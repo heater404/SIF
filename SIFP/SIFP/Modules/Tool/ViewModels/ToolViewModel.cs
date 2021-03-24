@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using MaterialDesignThemes.Wpf;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -23,13 +24,6 @@ namespace Tool.ViewModels
 {
     public class ToolViewModel : RegionViewModelBase
     {
-        private bool isEnable = true;
-        public bool IsEnable
-        {
-            get { return isEnable; }
-            set { isEnable = value; RaisePropertyChanged(); }
-        }
-
         private bool isConnected = false;
         public bool IsConnected
         {
@@ -43,6 +37,36 @@ namespace Tool.ViewModels
             get { return isStreaming; }
             set { isStreaming = value; RaisePropertyChanged(); }
         }
+
+        private bool isCapturing = false;
+        public bool IsCapturing
+        {
+            get { return isCapturing; }
+            set { isCapturing = value; RaisePropertyChanged(); }
+        }
+
+        private bool canConnectCtrlCmd = true;
+        public bool CanConnectCtrlCmd
+        {
+            get { return canConnectCtrlCmd; }
+            set { canConnectCtrlCmd = value; RaisePropertyChanged(); }
+        }
+
+        private bool canStreamingCtrlCmd = false;
+        public bool CanStreamingCtrlCmd
+        {
+            get { return canStreamingCtrlCmd; }
+            set { canStreamingCtrlCmd = value; RaisePropertyChanged(); }
+        }
+
+        private bool canCaptureCtrlCmd = false;
+        public bool CanCaptureCtrlCmd
+        {
+            get { return canCaptureCtrlCmd; }
+            set { canCaptureCtrlCmd = value; RaisePropertyChanged(); }
+        }
+
+
         public DelegateCommand ConnectCtrlCmd { get; private set; }
         public DelegateCommand StreamingCtrlCmd { get; private set; }
 
@@ -56,31 +80,80 @@ namespace Tool.ViewModels
         {
             this.comm = comm;
             this.dialogService = dialogService;
-            CaptureDataShowCmd = new DelegateCommand(CaptureDataShow).ObservesCanExecute(() => IsStreaming);
-            ConnectCtrlCmd = new DelegateCommand(ConnectCtrl);
-            StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => IsConnected);
+            CaptureDataShowCmd = new DelegateCommand(ShowCaptureDialog).ObservesCanExecute(() => CanCaptureCtrlCmd);
+            ConnectCtrlCmd = new DelegateCommand(ConnectCtrl).ObservesCanExecute(() => CanConnectCtrlCmd);
+            StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => CanStreamingCtrlCmd);
             EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply);
             EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
             {
                 if (isConnected)
                     Task.Run(() => DisconnectCamera()).Wait();
             });
+            EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
+            {
+                IsCapturing = false;
+                CanCaptureCtrlCmd = true;
+                CanStreamingCtrlCmd = true;
+                CanConnectCtrlCmd = true;
+            });
         }
+
 
         private void RecvConfigCameraReply(ConfigCameraReply reply)
         {
             resolution = new Size(reply.OutImageWidth, reply.OutImageHeight - reply.AddInfoLines);
         }
 
-        private void CaptureDataShow()
+        private void ShowCaptureDialog()
         {
-            dialogService.ShowDialog(DialogNames.CaptureDataDialog);
+            if (!isCapturing)
+                dialogService.ShowDialog(DialogNames.CaptureDataDialog, CaptureCallback);
+            else
+            {
+                var res = MessageBox.Show("It is capturing......Are you sure to stop capture？？？", "Notice", MessageBoxButton.YesNo);
+                if (res == MessageBoxResult.Yes)
+                {
+                    comm.AlgoDelCapture((UInt32)CapturePosition.Pos, (UInt32)CaptureID.ID);
+
+                    CanCaptureCtrlCmd = true;
+                    CanStreamingCtrlCmd = true;
+                    CanConnectCtrlCmd = true;
+                    IsCapturing = false;
+                }
+                else
+                    IsCapturing = true;
+            }
+        }
+
+        private void CaptureCallback(IDialogResult result)
+        {
+            if (result.Result == ButtonResult.OK)
+            {
+                CanCaptureCtrlCmd = true;
+                CanStreamingCtrlCmd = false;
+                CanConnectCtrlCmd = false;
+                IsCapturing = true;
+            }
+            else
+            {
+                CanCaptureCtrlCmd = true;
+                CanStreamingCtrlCmd = true;
+                CanConnectCtrlCmd = true;
+                IsCapturing = false;
+            }
         }
 
         private async void StreamingCtrl()
         {
-            IsEnable = false;
-            dialogService.Show(DialogNames.WaitingDialog, result => this.IsEnable = true);
+            CanCaptureCtrlCmd = false;
+            CanStreamingCtrlCmd = false;
+            CanConnectCtrlCmd = false;
+            dialogService.Show(DialogNames.WaitingDialog, result =>
+            {
+                CanCaptureCtrlCmd = true;
+                CanStreamingCtrlCmd = true;
+                CanConnectCtrlCmd = true;
+            });
             if (!isStreaming)
             {
                 if (await Task.Run(() => StreamingOn()))
@@ -160,8 +233,15 @@ namespace Tool.ViewModels
 
         private async void ConnectCtrl()
         {
-            IsEnable = false;
-            dialogService.Show(DialogNames.WaitingDialog, result => this.IsEnable = true);
+            CanCaptureCtrlCmd = false;
+            CanStreamingCtrlCmd = false;
+            CanConnectCtrlCmd = false;
+            dialogService.Show(DialogNames.WaitingDialog, result =>
+            {
+                CanCaptureCtrlCmd = false;
+
+                CanConnectCtrlCmd = true;
+            });
             if (!isConnected)
             {
                 if (await Task.Run(ConnectCamera))
@@ -185,6 +265,7 @@ namespace Tool.ViewModels
                     this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 
                     IsConnected = true;
+                    CanStreamingCtrlCmd = true;
                 }
                 else
                 {

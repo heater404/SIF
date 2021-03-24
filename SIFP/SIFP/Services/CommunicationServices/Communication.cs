@@ -187,7 +187,7 @@ namespace Services
 
             StartStreamingRequest msg = new StartStreamingRequest
             {
-               
+
             };
 
             if (this.client.Send(msg) > 0)
@@ -206,7 +206,7 @@ namespace Services
 
             StopStreamingRequest msg = new StopStreamingRequest
             {
-                
+
             };
 
             if (this.client.Send(msg) > 0)
@@ -214,7 +214,7 @@ namespace Services
                 if (waitHandle.WaitOne(millisecondsTimeout))
                     return true;
                 else
-                   return null;
+                    return null;
             }
 
             return false;
@@ -288,6 +288,25 @@ namespace Services
             return false;
         }
 
+        public bool AlgoDelCapture(UInt32 pos, UInt32 ID)
+        {
+            if (null == client)
+                return false;
+
+            CaptureRequest msg = new CaptureRequest()
+            {
+                CaptureOpt = 1,
+                CapturePos = pos,
+                CaptureID = ID,
+                CaptureType = 0,
+                CaptureCnt = 0,
+                CaptureCycle = 0,
+                CaptureNum = 0,
+            };
+
+            return client.Send(msg) > 0;
+        }
+
         /// <summary>
         /// 求不超过cycle的frameNum的最大因数
         /// </summary>
@@ -338,7 +357,7 @@ namespace Services
             }
         }
 
-        [RecvMsg(MsgTypeE.StopStreamingReplyType,typeof(StopStreamingReply))]
+        [RecvMsg(MsgTypeE.StopStreamingReplyType, typeof(StopStreamingReply))]
         private void CmdProcStopStreamingReply(MsgHeader pkt)
         {
             if (pkt is not StopStreamingReply msg)
@@ -350,7 +369,7 @@ namespace Services
             }
         }
 
-        [RecvMsg(MsgTypeE.ConfigAlgReplyType,typeof(ConfigAlgReply))]
+        [RecvMsg(MsgTypeE.ConfigAlgReplyType, typeof(ConfigAlgReply))]
         private void CmdProcConfigAlgReply(MsgHeader pkt)
         {
             if (pkt is not ConfigAlgReply msg)
@@ -362,7 +381,7 @@ namespace Services
             }
         }
 
-        [RecvMsg(MsgTypeE.CaptureReplyType,typeof(CaptureReply))]
+        [RecvMsg(MsgTypeE.CaptureReplyType, typeof(CaptureReply))]
         private void CmdProcCaptureReply(MsgHeader pkt)
         {
             if (pkt is not CaptureReply msg)

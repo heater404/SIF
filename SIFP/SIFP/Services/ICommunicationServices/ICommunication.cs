@@ -22,5 +22,7 @@ namespace Services.Interfaces
 
         bool? AlgoAddCapture(UInt32 opt, UInt32 pos, UInt32 ID, UInt32 type,
                UInt32 frameNum, UInt32 cycle);
+
+        bool AlgoDelCapture(UInt32 pos, UInt32 ID);
     }
 }

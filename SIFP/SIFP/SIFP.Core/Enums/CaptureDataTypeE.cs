@@ -19,4 +19,14 @@ namespace SIFP.Core.Enums
         Delete=1,
         AddToLoacl=2,
     }
+
+    public enum CapturePosition : UInt32
+    {
+        Pos= 0x8001,
+    }
+
+    public enum CaptureID : UInt32
+    {
+        ID= 0x9997,
+    }
 }
