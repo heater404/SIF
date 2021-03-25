@@ -33,6 +33,18 @@ namespace SIFP.ViewModels
             set { isLeftDrawerOpen = value; RaisePropertyChanged(); }
         }
 
+        private bool isDebug;
+        public bool IsDebug
+        {
+            get { return isDebug; }
+            set 
+            {
+                isDebug = value;
+                RaisePropertyChanged();
+                this.EventAggregator.GetEvent<IsDebugEvent>().Publish(value);
+            }
+        }
+
         public DelegateCommand<string> OpenLeftDrawerCmd { get; set; }
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
         public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)

@@ -60,9 +60,25 @@
 
                 <ToolBarTray Grid.Column="1" IsLocked="True">
                     <ToolBar
-                        Margin="5"
+                        Margin="0,5,0,5"
                         ClipToBounds="False"
                         Style="{DynamicResource MaterialDesignToolBar}">
+                        <materialDesign:PopupBox
+                            Padding="10"
+                            PlacementMode="BottomAndAlignRightEdges"
+                            StaysOpen="False">
+                            <StackPanel>
+                                <CheckBox
+                                    Margin="10"
+                                    Content="Debug"
+                                    IsChecked="{Binding IsDebug}" />
+                                <Separator />
+                                <Button Content="Help" />
+                                <Button Content="About" />
+                                <Button Content="Version" />
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+
                         <Button
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"

@@ -35,4 +35,6 @@ namespace SIFP.Core.Mvvm
     public class ClosePointCloudEvent : PubSubEvent { }
 
     public class ChangeLeftDrawerRegionSizeEvent : PubSubEvent<Size> { };
+
+    public class IsDebugEvent : PubSubEvent<bool> { };
 }

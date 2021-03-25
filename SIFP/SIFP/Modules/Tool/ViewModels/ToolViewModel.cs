@@ -66,6 +66,8 @@ namespace Tool.ViewModels
             set { canCaptureCtrlCmd = value; RaisePropertyChanged(); }
         }
 
+        private bool isDebug;
+
         public DelegateCommand ConnectCtrlCmd { get; private set; }
         public DelegateCommand StreamingCtrlCmd { get; private set; }
 
@@ -95,6 +97,8 @@ namespace Tool.ViewModels
                 CanStreamingCtrlCmd = true;
                 CanConnectCtrlCmd = true;
             });
+
+            EventAggregator.GetEvent<IsDebugEvent>().Subscribe(arg => isDebug = arg);
         }
 
 
@@ -354,7 +358,10 @@ namespace Tool.ViewModels
 
             ProcessStartInfo startInfo = new ProcessStartInfo(path);
             startInfo.UseShellExecute = true;
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            if (isDebug)
+                startInfo.WindowStyle = ProcessWindowStyle.Normal;
+            else
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
             Process pro = Process.Start(startInfo);
             pro.PriorityClass = ProcessPriorityClass.AboveNormal;
@@ -430,7 +437,7 @@ namespace Tool.ViewModels
                     return false;
                 }
             }
-            
+
             if (!KillAssembly(processor))
                 return false;
 
