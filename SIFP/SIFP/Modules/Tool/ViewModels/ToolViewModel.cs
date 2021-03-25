@@ -88,8 +88,10 @@ namespace Tool.ViewModels
             EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply);
             EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
             {
-                //if (isConnected)
-                //    DisconnectCamera();
+                if (isStreaming)
+                    comm.StopStreaming(0);
+                if (isConnected)
+                    comm.DisconnectCamera(0);
             });
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
