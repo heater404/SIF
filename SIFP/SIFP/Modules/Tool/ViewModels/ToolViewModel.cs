@@ -75,6 +75,7 @@ namespace Tool.ViewModels
         private IDialogService dialogService;
         private ICommunication comm;
         private Process processor = null;
+
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
         public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
@@ -87,8 +88,8 @@ namespace Tool.ViewModels
             EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply);
             EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
             {
-                if (isConnected)
-                    Task.Run(() => DisconnectCamera()).Wait();
+                //if (isConnected)
+                //    DisconnectCamera();
             });
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
