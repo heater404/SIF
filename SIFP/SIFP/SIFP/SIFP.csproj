@@ -5,6 +5,8 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>SIFP</AssemblyName>
     <ApplicationIcon>logo.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Configs\ConfigCamera.json" />
