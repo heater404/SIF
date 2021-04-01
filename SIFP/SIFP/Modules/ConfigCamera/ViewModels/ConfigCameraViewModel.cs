@@ -147,15 +147,14 @@ namespace ConfigCamera.ViewModels
         {
             foreach (WorkModeE item in Enum.GetValues(typeof(WorkModeE)))
             {
-                WorkModes.Add(new ComboBoxItemMode<WorkModeE> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
+                if (item == WorkModeE.SINGLE_FREQ || item == WorkModeE.DOUBLE_FREQ)
+                    WorkModes.Add(new ComboBoxItemMode<WorkModeE> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
             };
 
             foreach (SubWorkModeE item in Enum.GetValues(typeof(SubWorkModeE)))
             {
-                if (item == SubWorkModeE._4PHASE || item == SubWorkModeE._4PHASE_BG
-                    || item == SubWorkModeE._4PHASE_GRAY || item == SubWorkModeE._8PHASE
-                    || item == SubWorkModeE._4PHASE_GRAY_4PHASE_BG || item == SubWorkModeE._4PHASE_4PHASE_4PHASE
-                    || item == SubWorkModeE._4PHASE_4PHASE_4PHASE_4PHASE)
+                if (item == SubWorkModeE._4PHASE_GRAY
+                    || item == SubWorkModeE._4PHASE_GRAY_4PHASE_BG)
                     SubWorkModes.Add(new ComboBoxItemMode<SubWorkModeE> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
             };
 
@@ -340,12 +339,14 @@ namespace ConfigCamera.ViewModels
 
             for (uint i = 3; i < 6; i++)//分频 2的时候频率太高不需要
             {
-                Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00"), SelectedModel = i, IsShow = Visibility.Visible });
+                if (i == 5 || i == 8)
+                    Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00"), SelectedModel = i, IsShow = Visibility.Visible });
             }
             for (uint i = 6; i <= 30; i++)//分频
             {
                 if (i % 2 == 0)
-                    Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00"), SelectedModel = i, IsShow = Visibility.Visible });
+                    if (i == 5 || i == 8)
+                        Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00"), SelectedModel = i, IsShow = Visibility.Visible });
             }
         }
 
