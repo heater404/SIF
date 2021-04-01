@@ -26,8 +26,8 @@ namespace PointCloud.Views
         public PointCloudView(IEventAggregator eventAggregator)
         {
             InitializeComponent();
-            eventAggregator.GetEvent<OpenPointCloudEvent>().Subscribe(OpenPointCloud);
-            eventAggregator.GetEvent<ClosePointCloudEvent>().Subscribe(ClosePointCloud);
+            eventAggregator.GetEvent<OpenPointCloudEvent>().Subscribe(OpenPointCloud,true);
+            eventAggregator.GetEvent<ClosePointCloudEvent>().Subscribe(ClosePointCloud,true);
         }
 
         private void ClosePointCloud()

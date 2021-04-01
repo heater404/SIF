@@ -59,23 +59,23 @@ namespace StatusBar.ViewModels
 
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
-            this.EventAggregator.GetEvent<NoticeLogEvent>().Subscribe(log => this.Log = log);
+            this.EventAggregator.GetEvent<NoticeLogEvent>().Subscribe(log => this.Log = log,true);
 
             this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
             {
                 CamChipID = "0x" + reply.CamChipID.ToString("x2");
                 CamName = reply.CamName.Split('\0')[0];
-            });
+            },true);
 
             this.EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(reply =>
             {
                 Resolution = reply.OutImageWidth + "*" + (reply.OutImageHeight - reply.AddInfoLines);
-            });
+            },true);
 
             this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Subscribe(reply =>
             {
                 WorkMode = reply;
-            });
+            },true);
         }
     }
 }

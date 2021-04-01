@@ -19,7 +19,7 @@ namespace WaitingDialog.ViewModels
         {
             this.eventAggregator = eventAggregator;
 
-            this.eventAggregator.GetEvent<CloseWaitingDialogEvent>().Subscribe(() => this.RequestClose?.Invoke(null));
+            this.eventAggregator.GetEvent<CloseWaitingDialogEvent>().Subscribe(() => this.RequestClose?.Invoke(null),true);
         }
 
         public event Action<IDialogResult> RequestClose;

@@ -22,7 +22,7 @@ namespace SIFP.ViewModels
         private string title = "SI View";
         public string Title
         {
-            get { return title; }
+            get { return title; }                                                                     
             set { SetProperty(ref title, value); }
         }
 

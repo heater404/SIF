@@ -35,7 +35,7 @@ namespace Tool.ViewModels
         public bool IsStreaming
         {
             get { return isStreaming; }
-            set 
+            set
             {
                 isStreaming = value;
                 RaisePropertyChanged();
@@ -90,23 +90,23 @@ namespace Tool.ViewModels
             CaptureDataShowCmd = new DelegateCommand(ShowCaptureDialog).ObservesCanExecute(() => CanCaptureCtrlCmd);
             ConnectCtrlCmd = new DelegateCommand(ConnectCtrl).ObservesCanExecute(() => CanConnectCtrlCmd);
             StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => CanStreamingCtrlCmd);
-            EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply);
+            EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply,true);
             EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
             {
                 if (isStreaming)
                     comm.StopStreaming(0);
                 if (isConnected)
                     comm.DisconnectCamera(0);
-            });
+            }, true);
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
                 IsCapturing = false;
                 CanCaptureCtrlCmd = true;
                 CanStreamingCtrlCmd = true;
                 CanConnectCtrlCmd = true;
-            });
+            }, true);
 
-            EventAggregator.GetEvent<IsDebugEvent>().Subscribe(arg => isDebug = arg);
+            this.EventAggregator.GetEvent<IsDebugEvent>().Subscribe(arg => isDebug = arg, true);
         }
 
 

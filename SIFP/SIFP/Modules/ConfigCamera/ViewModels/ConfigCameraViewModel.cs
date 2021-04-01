@@ -36,9 +36,9 @@ namespace ConfigCamera.ViewModels
             FourBgSyncCmd = new DelegateCommand(FourBgSync);
             ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCamera);
 
-            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera);
+            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera,true);
 
-            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming);
+            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming,true);
         }
 
         private bool isEnable = true;

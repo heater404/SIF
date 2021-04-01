@@ -71,7 +71,7 @@
                                 <CheckBox
                                     Margin="10"
                                     Content="Debug"
-                                    IsChecked="{Binding IsDebug}" />
+                                    IsChecked="{Binding IsDebug, Mode=TwoWay}" />
                                 <Separator />
                                 <Button Content="Help" />
                                 <Button Content="About" />

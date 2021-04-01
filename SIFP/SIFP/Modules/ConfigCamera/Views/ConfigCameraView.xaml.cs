@@ -29,7 +29,7 @@ namespace ConfigCamera.Views
             eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Subscribe(size=>
             {
                 this.Height =Math.Max(size.Height-80,0);
-            });
+            },true);
         }
     }
 }
