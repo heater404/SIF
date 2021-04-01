@@ -5,6 +5,8 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>SIFP</AssemblyName>
     <ApplicationIcon>logo.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Configs\ConfigCamera.json" />
@@ -20,10 +22,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Modules\CaptureDataDialog\CaptureDataDialog.csproj" />
+    <ProjectReference Include="..\Modules\ConfigAlg\ConfigAlg.csproj" />
     <ProjectReference Include="..\Modules\ConfigCamera\ConfigCamera.csproj" />
     <ProjectReference Include="..\Modules\Menu\Menu.csproj" />
     <ProjectReference Include="..\Modules\NotificationDialog\NotificationDialog.csproj" />
     <ProjectReference Include="..\Modules\PointCloud\PointCloud.csproj" />
+    <ProjectReference Include="..\Modules\RegMap\RegMap.csproj" />
     <ProjectReference Include="..\Modules\StatusBar\StatusBar.csproj" />
     <ProjectReference Include="..\Modules\Tool\Tool.csproj" />
     <ProjectReference Include="..\Modules\WaitingDialog\WaitingDialog.csproj" />

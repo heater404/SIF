@@ -1,26 +1,27 @@
-﻿using ConfigCamera.Views;
+﻿using ConfigAlg.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using SIFP.Core;
 
-namespace ConfigCamera
+namespace ConfigAlg
 {
-    public class ConfigCameraModule : IModule
+    public class ConfigAlgModule : IModule
     {
         private IRegionManager regionManager;
-        public ConfigCameraModule(IRegionManager regionManager)
+        public ConfigAlgModule(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
         }
+
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            regionManager.RegisterViewWithRegion(RegionNames.LeftDrawerRegion, typeof(ConfigCameraView));
+            //this.regionManager.RegisterViewWithRegion(RegionNames.LeftDrawerRegion, typeof(ConfigAlgView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+
         }
     }
 }

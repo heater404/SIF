@@ -66,6 +66,7 @@ namespace Tool.ViewModels
             set { canCaptureCtrlCmd = value; RaisePropertyChanged(); }
         }
 
+        private bool isDebug;
 
         public DelegateCommand ConnectCtrlCmd { get; private set; }
         public DelegateCommand StreamingCtrlCmd { get; private set; }
@@ -74,6 +75,7 @@ namespace Tool.ViewModels
         private IDialogService dialogService;
         private ICommunication comm;
         private Process processor = null;
+
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
         public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
@@ -86,8 +88,10 @@ namespace Tool.ViewModels
             EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply);
             EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
             {
+                if (isStreaming)
+                    comm.StopStreaming(0);
                 if (isConnected)
-                    Task.Run(() => DisconnectCamera()).Wait();
+                    comm.DisconnectCamera(0);
             });
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
@@ -96,6 +100,8 @@ namespace Tool.ViewModels
                 CanStreamingCtrlCmd = true;
                 CanConnectCtrlCmd = true;
             });
+
+            EventAggregator.GetEvent<IsDebugEvent>().Subscribe(arg => isDebug = arg);
         }
 
 
@@ -355,7 +361,10 @@ namespace Tool.ViewModels
 
             ProcessStartInfo startInfo = new ProcessStartInfo(path);
             startInfo.UseShellExecute = true;
-            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            if (isDebug)
+                startInfo.WindowStyle = ProcessWindowStyle.Normal;
+            else
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
             Process pro = Process.Start(startInfo);
             pro.PriorityClass = ProcessPriorityClass.AboveNormal;
@@ -405,28 +414,31 @@ namespace Tool.ViewModels
                     IsStreaming = false;
             }
 
-            var res = comm.DisconnectCamera(3000);
-            if (res.HasValue)
+            if (isConnected)
             {
-                if (!res.Value)
+                var res = comm.DisconnectCamera(3000);
+                if (res.HasValue)
                 {
-                    this.PrintNoticeLog("DisonnectCamera Fail", LogLevel.Error);
-                    this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
+                    if (!res.Value)
+                    {
+                        this.PrintNoticeLog("DisonnectCamera Fail", LogLevel.Error);
+                        this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
+                        return false;
+                    }
+                }
+                else
+                {
+                    this.PrintNoticeLog("DisonnectCamera Timeout", LogLevel.Error);
+                    this.PrintWatchLog("DisonnectCamera Timeout", LogLevel.Error);
                     return false;
                 }
-            }
-            else
-            {
-                this.PrintNoticeLog("DisonnectCamera Timeout", LogLevel.Error);
-                this.PrintWatchLog("DisonnectCamera Timeout", LogLevel.Error);
-                return false;
-            }
 
-            if (!comm.Close())
-            {
-                this.PrintNoticeLog("Close CommClient Fail", LogLevel.Error);
-                this.PrintWatchLog("Close Commlient Fail", LogLevel.Error);
-                return false;
+                if (!comm.Close())
+                {
+                    this.PrintNoticeLog("Close CommClient Fail", LogLevel.Error);
+                    this.PrintWatchLog("Close Commlient Fail", LogLevel.Error);
+                    return false;
+                }
             }
 
             if (!KillAssembly(processor))

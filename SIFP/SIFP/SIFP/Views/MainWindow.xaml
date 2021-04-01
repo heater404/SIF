@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:core="clr-namespace:SIFP.Core;assembly=SIFP.Core"
+    xmlns:local="clr-namespace:SIFP"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
     Title="{Binding Title}"
@@ -13,7 +14,7 @@
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
-    <materialDesign:DrawerHost x:Name="DrawerHost">
+    <materialDesign:DrawerHost x:Name="DrawerHost" IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}">
         <DockPanel LastChildFill="True">
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
@@ -22,31 +23,62 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-
                 <ToolBarTray Grid.Column="0" IsLocked="True">
                     <ToolBar
                         Margin="5"
                         ClipToBounds="False"
                         Style="{DynamicResource MaterialDesignToolBar}">
                         <Button
-                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                            CommandParameter="{x:Static Dock.Left}"
+                            Command="{Binding OpenLeftDrawerCmd}"
+                            CommandParameter="{x:Static core:ViewNames.ConfigCameraView}"
                             Content="{materialDesign:PackIcon Kind=Settings,
                                                               Size=25}"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             ToolTip="ConfigCamera" />
+                        <!--<Button
+                            Command="{Binding OpenLeftDrawerCmd}"
+                            CommandParameter="{x:Static core:ViewNames.ConfigAlgView}"
+                            Content="{materialDesign:PackIcon Kind=Settings,
+                                                              Size=25}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            ToolTip="ConfigAlg" />-->
+
                         <RadioButton
-                            Content="Depth"
+                            Command="{Binding MainRegionNavigationCmd}"
+                            CommandParameter="{x:Static core:ViewNames.PointCloudView}"
+                            Content="PointCloud"
                             IsChecked="True"
                             Style="{StaticResource MaterialDesignTabRadioButton}" />
+                        <!--<RadioButton
+                            Command="{Binding MainRegionNavigationCmd}"
+                            CommandParameter="{x:Static core:ViewNames.RegMapView}"
+                            Content="RegMap"
+                            IsChecked="False"
+                            Style="{StaticResource MaterialDesignTabRadioButton}" />-->
                     </ToolBar>
                 </ToolBarTray>
 
                 <ToolBarTray Grid.Column="1" IsLocked="True">
                     <ToolBar
-                        Margin="5"
+                        Margin="0,5,0,5"
                         ClipToBounds="False"
                         Style="{DynamicResource MaterialDesignToolBar}">
+                        <materialDesign:PopupBox
+                            Padding="10"
+                            PlacementMode="BottomAndAlignRightEdges"
+                            StaysOpen="False">
+                            <StackPanel>
+                                <CheckBox
+                                    Margin="10"
+                                    Content="Debug"
+                                    IsChecked="{Binding IsDebug}" />
+                                <Separator />
+                                <Button Content="Help" />
+                                <Button Content="About" />
+                                <Button Content="Version" />
+                            </StackPanel>
+                        </materialDesign:PopupBox>
+
                         <Button
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"

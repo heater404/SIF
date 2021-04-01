@@ -15,12 +15,12 @@ namespace PointCloud
         }
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            this.regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(PointCloudView));
+            regionManager.RegisterViewWithRegion(RegionNames.MainRegion, typeof(PointCloudView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            
         }
     }
 }
