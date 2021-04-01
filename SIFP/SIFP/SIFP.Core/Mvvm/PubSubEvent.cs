@@ -37,4 +37,6 @@ namespace SIFP.Core.Mvvm
     public class ChangeLeftDrawerRegionSizeEvent : PubSubEvent<Size> { };
 
     public class IsDebugEvent : PubSubEvent<bool> { };
+
+    public class IsStreamingEvent : PubSubEvent<bool> { };
 }

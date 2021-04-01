@@ -37,6 +37,15 @@ namespace ConfigCamera.ViewModels
             ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCamera);
 
             this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera);
+
+            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming);
+        }
+
+        private bool isEnable = true;
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set { isEnable = value; RaisePropertyChanged(); }
         }
 
         private async void ApplyConfigCamera()
@@ -103,7 +112,7 @@ namespace ConfigCamera.ViewModels
 
         private ROISetting GetCurrentROISetting()
         {
-            string roi=string.Empty;
+            string roi = string.Empty;
             Application.Current.Dispatcher.Invoke(() =>
             {
                 roi = selectedResolution.Content.ToString();

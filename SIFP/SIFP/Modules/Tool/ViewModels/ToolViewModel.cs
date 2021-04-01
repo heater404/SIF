@@ -35,7 +35,12 @@ namespace Tool.ViewModels
         public bool IsStreaming
         {
             get { return isStreaming; }
-            set { isStreaming = value; RaisePropertyChanged(); }
+            set 
+            {
+                isStreaming = value;
+                RaisePropertyChanged();
+                this.EventAggregator.GetEvent<IsStreamingEvent>().Publish(value);
+            }
         }
 
         private bool isCapturing = false;

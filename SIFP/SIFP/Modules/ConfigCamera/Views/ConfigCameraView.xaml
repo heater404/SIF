@@ -25,7 +25,8 @@
                 <GroupBox
                     Grid.Row="0"
                     Margin="10"
-                    Header="WorkMode">
+                    Header="WorkMode"
+                    IsEnabled="{Binding IsEnable}">
                     <Grid Margin="0,10">
                         <Grid.Resources>
                             <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
@@ -479,7 +480,8 @@
                 <GroupBox
                     Grid.Row="3"
                     Margin="10"
-                    Header="Resolution">
+                    Header="Resolution"
+                    IsEnabled="{Binding IsEnable}">
                     <Grid Margin="0,10">
                         <ComboBox
                             materialDesign:TextFieldAssist.PrefixText="Resolution : "
