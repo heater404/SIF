@@ -36,9 +36,9 @@ namespace ConfigCamera.ViewModels
             FourBgSyncCmd = new DelegateCommand(FourBgSync);
             ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCamera);
 
-            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera,true);
+            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, true);
 
-            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming,true);
+            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, true);
         }
 
         private bool isEnable = true;
@@ -118,13 +118,16 @@ namespace ConfigCamera.ViewModels
                 roi = selectedResolution.Content.ToString();
             });
 
+            var width = UInt16.Parse(roi.Split('*')[0]);
+            var height = UInt16.Parse(roi.Split('*')[1]);
+
             var roiSetting = new ROISetting
             {
-                XStart = config.ROISetting.XStart,
-                XSize = UInt16.Parse(roi.Split('*')[0]),
+                XStart = (UInt16)((640 - width) / 2),
+                XSize = width,
                 XStep = config.ROISetting.XStep,
-                YStart = config.ROISetting.YStart,
-                YSize = UInt16.Parse(roi.Split('*')[1]),
+                YStart = (UInt16)((480 - height) / 2),
+                YSize = height,
                 YStep = config.ROISetting.YStep,
             };
 
