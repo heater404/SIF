@@ -94,9 +94,16 @@ namespace Tool.ViewModels
             EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
             {
                 if (isStreaming)
+                {
                     comm.StopStreaming(0);
+                    EventAggregator.GetEvent<ClosePointCloudEvent>().Publish();
+                }
+
                 if (isConnected)
+                {
+                    KillAssembly(processor);
                     comm.DisconnectCamera(0);
+                }
             }, true);
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {

@@ -89,6 +89,8 @@ namespace CaptureDataDialog.ViewModels
             {
                 this.PrintNoticeLog("Capture Timeout", LogLevel.Error);
                 this.PrintWatchLog("Capture Timeout", LogLevel.Error);
+
+                this.EventAggregator.GetEvent<CaptureReplyEvent>().Publish(null);
             }
         }
 
