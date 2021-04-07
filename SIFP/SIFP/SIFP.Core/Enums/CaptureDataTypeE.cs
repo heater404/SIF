@@ -10,23 +10,25 @@ namespace SIFP.Core.Enums
         Depth = 2,
         Gray = 3,
         Raw_Depth = 4,
-        Depth_Gray = 5
+        Depth_Gray = 5,
+        Confidence = 6,
+        Raw_Depth_Gray = 7,
     }
 
     public enum CaptureOpt : UInt32
     {
-        Add=0,
-        Delete=1,
-        AddToLoacl=2,
+        Add = 0,
+        Delete = 1,
+        AddToLoacl = 2,
     }
 
     public enum CapturePosition : UInt32
     {
-        Pos= 0x8001,
+        Pos = 0x8001,
     }
 
     public enum CaptureID : UInt32
     {
-        ID= 0x9997,
+        ID = 0x9997,
     }
 }

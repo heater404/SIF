@@ -26,7 +26,7 @@
             <Setter Property="AllowDrop" Value="True" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="ShowInTaskbar" Value="False" />
-            <Setter Property="Width" Value="400" />
+            <Setter Property="Width" Value="450" />
             <Setter Property="Height" Value="200" />
         </Style>
     </prism:Dialog.WindowStyle>
