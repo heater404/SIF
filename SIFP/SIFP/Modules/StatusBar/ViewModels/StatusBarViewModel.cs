@@ -50,11 +50,11 @@ namespace StatusBar.ViewModels
             set { camName = value; RaisePropertyChanged(); }
         }
 
-        private float sensorTemp ;
-        public float SensorTemp
+        private double vcselTemp ;
+        public double VcselTemp
         {
-            get { return sensorTemp; }
-            set { sensorTemp = value; RaisePropertyChanged(); }
+            get { return vcselTemp; }
+            set { vcselTemp = value; RaisePropertyChanged(); }
         }
 
         private string resolution;
@@ -92,6 +92,11 @@ namespace StatusBar.ViewModels
             this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Subscribe(reply =>
             {
                 WorkMode = reply;
+            },true);
+
+            this.EventAggregator.GetEvent<GetSysStatusReplyEvent>().Subscribe(reply =>
+            {
+                VcselTemp = reply.VcselTemp;
             },true);
         }
     }

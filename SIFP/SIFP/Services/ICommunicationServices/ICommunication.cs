@@ -1,6 +1,7 @@
 ﻿using SIFP.Core.Enums;
 using SIFP.Core.Models;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Interfaces
@@ -31,5 +32,7 @@ namespace Services.Interfaces
         bool ReadRegs(Register[] regs, DevTypeE devType);
 
         bool SwitchUserAccess(UserAccessType accessType);
+
+        Task GetSysStatusAsync(CancellationToken cancellationToken, int interval);
     }
 }

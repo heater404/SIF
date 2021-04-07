@@ -30,7 +30,10 @@ namespace Services
         public bool Close()
         {
             if (client != null)
+            {
                 client.Close();
+                client.Dispose();
+            }
             client = null;
             return true;
         }

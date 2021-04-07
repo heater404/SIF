@@ -81,6 +81,7 @@ namespace Tool.ViewModels
         private ICommunication comm;
         private Process processor = null;
 
+        private CancellationTokenSource cancellationTokenSource = null;
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
         public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
@@ -291,6 +292,9 @@ namespace Tool.ViewModels
 
                     this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 
+                    cancellationTokenSource = new CancellationTokenSource();
+                    comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
+                    
                     IsConnected = true;
                     CanStreamingCtrlCmd = true;
                 }
@@ -419,6 +423,8 @@ namespace Tool.ViewModels
 
         private bool DisconnectCamera()
         {
+            cancellationTokenSource?.Cancel();
+
             if (isStreaming)
             {
                 if (!StreamingOff())

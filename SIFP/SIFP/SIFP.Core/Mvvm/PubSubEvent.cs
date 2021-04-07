@@ -30,6 +30,8 @@ namespace SIFP.Core.Mvvm
 
     public class ReadRegisterReplyEvent : PubSubEvent<ReadRegisterReply> { };
 
+    public class GetSysStatusReplyEvent : PubSubEvent<GetSysStatusReply> { };
+
     public class CloseWaitingDialogEvent : PubSubEvent { }
 
     public class OpenPointCloudEvent : PubSubEvent<string> { }

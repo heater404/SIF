@@ -37,9 +37,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointCloud", "SIFP\Modules\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationDialog", "SIFP\Modules\NotificationDialog\NotificationDialog.csproj", "{1B143FA8-C252-46E3-9A48-B9CDFD04EBBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigAlg", "SIFP\Modules\ConfigAlg\ConfigAlg.csproj", "{98CFC7D9-84C2-4438-82AC-BC2E686203F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigAlg", "SIFP\Modules\ConfigAlg\ConfigAlg.csproj", "{98CFC7D9-84C2-4438-82AC-BC2E686203F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegMap", "SIFP\Modules\RegMap\RegMap.csproj", "{0CE4E406-88F1-47BA-BB5F-1F8B939892FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegMap", "SIFP\Modules\RegMap\RegMap.csproj", "{0CE4E406-88F1-47BA-BB5F-1F8B939892FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0C9E336-BA18-41FB-A696-B7E723B9D98F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

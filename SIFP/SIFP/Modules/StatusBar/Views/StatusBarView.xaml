@@ -32,8 +32,8 @@
         <Separator />-->
         <StatusBarItem Margin="8,0,8,0">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="Sensor : " />
-                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding SensorTemp, StringFormat={}{0}℃}" />
+                <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="VcselTemp : " />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding VcselTemp, StringFormat={}{0}℃}" />
             </StackPanel>
         </StatusBarItem>
         <Separator />

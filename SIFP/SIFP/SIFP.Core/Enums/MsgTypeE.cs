@@ -35,5 +35,8 @@ namespace SIFP.Core.Enums
         StopStreamingReplyType=0x136,
 
         UserAccessRequestType=0x131,
+
+        GetSysStatusRequestType=0x132,
+        GetSysStatusReplyType=0x133,
     }
 }

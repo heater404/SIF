@@ -342,12 +342,12 @@ namespace Services
             bool success = false;
             MsgHeader msg = new ReadRegisterRequest()
             {
-               ConfigRegister=new ConfigRegisterModel
-               {
-                   DevType=DevTypeE.TOF,
-                   NumRegs=(UInt32)regs.Length,
-                   Regs=regs,
-               }
+                ConfigRegister = new ConfigRegisterModel
+                {
+                    DevType = DevTypeE.TOF,
+                    NumRegs = (UInt32)regs.Length,
+                    Regs = regs,
+                }
             };
             success = client.Send(msg) > 0;
 
@@ -386,11 +386,31 @@ namespace Services
 
             UserAccessRequest msg = new UserAccessRequest()
             {
-                AccessType=accessType,
-                PassWord= 0xcafe2610,
+                AccessType = accessType,
+                PassWord = 0xcafe2610,
             };
 
             return client.Send(msg) > 0;
+        }
+
+        public async Task GetSysStatusAsync(CancellationToken cancellationToken, int interval)
+        {
+            if (null == client)
+                return;
+
+            GetSysStatusRequest msg = new GetSysStatusRequest()
+            {
+            };
+            Task task = new Task(() =>
+             {
+                 while (!cancellationToken.IsCancellationRequested)
+                 {
+                     client.Send(msg);
+                     Thread.Sleep(interval);
+                 }
+             }, cancellationToken, TaskCreationOptions.LongRunning);
+            task.Start();
+            await task;
         }
 
         [RecvMsg(MsgTypeE.ConfigCameraReplyType, typeof(ConfigCameraReply))]
@@ -456,13 +476,22 @@ namespace Services
             }
         }
 
-        [RecvMsg(MsgTypeE.ReadRegisterReplyType,typeof(ReadRegisterReply))]
+        [RecvMsg(MsgTypeE.ReadRegisterReplyType, typeof(ReadRegisterReply))]
         private void CmdProcReadRegisterReply(MsgHeader pkt)
         {
             if (pkt is not ReadRegisterReply msg)
                 return;
 
             eventAggregator.GetEvent<ReadRegisterReplyEvent>().Publish(msg);
+        }
+
+        [RecvMsg(MsgTypeE.GetSysStatusReplyType,typeof(GetSysStatusReply))]
+        private void CmdProcGetSysStatusReply(MsgHeader pkt)
+        {
+            if (pkt is not GetSysStatusReply msg)
+                return;
+
+            eventAggregator.GetEvent<GetSysStatusReplyEvent>().Publish(msg);
         }
     }
 }
