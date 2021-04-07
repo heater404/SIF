@@ -75,7 +75,7 @@
                                 <Separator />
                                 <Button Content="Help" />
                                 <Button Content="About" />
-                                <Button Content="Version" />
+                                <Button Content="1.00.210407" />
                             </StackPanel>
                         </materialDesign:PopupBox>
 

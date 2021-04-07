@@ -177,7 +177,7 @@ namespace Tool.ViewModels
             CanConnectCtrlCmd = false;
             dialogService.Show(DialogNames.WaitingDialog, result =>
             {
-                CanCaptureCtrlCmd = true;
+                CanCaptureCtrlCmd = isStreaming;
                 CanStreamingCtrlCmd = true;
                 CanConnectCtrlCmd = true;
             });

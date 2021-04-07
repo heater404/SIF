@@ -25,6 +25,7 @@ using ConfigAlg.Views;
 using PointCloud.Views;
 using RegMap.Views;
 using RegMap;
+using CaptureDataDialog.ViewModels;
 
 namespace SIFP
 {
@@ -58,10 +59,11 @@ namespace SIFP
         {
             containerRegistry.RegisterSingleton<ICommClient, SktClient>();
             containerRegistry.RegisterSingleton<ICommunication, Communication>();
+            containerRegistry.RegisterSingleton<CaptureDataViewModel, CaptureDataViewModel>();
+
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
             containerRegistry.RegisterDialog<NotificationView>(DialogNames.NotificationDialog);
-
 
             containerRegistry.RegisterForNavigation<ConfigCameraView>(ViewNames.ConfigCameraView);
             containerRegistry.RegisterForNavigation<ConfigAlgView>(ViewNames.ConfigAlgView);
