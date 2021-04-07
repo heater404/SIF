@@ -275,6 +275,7 @@ namespace Tool.ViewModels
                     this.PrintNoticeLog("ConnectCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConnectCamera Success", LogLevel.Warning);
 
+                    //comm.SwitchUserAccess(UserAccessType.Expert);
                     comm.ConfigAlg(new ConfigAlgRequest
                     {
                         ByPassSocAlgorithm = true,

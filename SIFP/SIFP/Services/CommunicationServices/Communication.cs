@@ -331,6 +331,68 @@ namespace Services
             return ret;
         }
 
+        #region ReadRegs
+        /// <summary>
+        /// 读寄存器的方法，里面组装了协议然后调用socket的接口
+        /// </summary>
+        /// <param name="regs">协议中需要的数据</param>
+        /// <returns></returns>
+        public bool ReadRegs(Register[] regs, DevTypeE devType)
+        {
+            bool success = false;
+            MsgHeader msg = new ReadRegisterRequest()
+            {
+               ConfigRegister=new ConfigRegisterModel
+               {
+                   DevType=DevTypeE.TOF,
+                   NumRegs=(UInt32)regs.Length,
+                   Regs=regs,
+               }
+            };
+            success = client.Send(msg) > 0;
+
+            return success;
+        }
+        #endregion ReadRegs
+
+        #region WriteRegs
+        /// <summary>
+        /// 写寄存器的方法，里面组装了协议然后调用socket的接口
+        /// </summary>
+        /// <param name="regs">协议中需要的数据</param>
+        /// <returns></returns>
+        public bool WriteRegs(Register[] regs, DevTypeE devType)
+        {
+            bool success = false;
+            MsgHeader msg = new WriteRegisterRequest()
+            {
+                ConfigRegister = new ConfigRegisterModel
+                {
+                    DevType = DevTypeE.TOF,
+                    NumRegs = (UInt32)regs.Length,
+                    Regs = regs,
+                }
+            };
+            success = client.Send(msg) > 0;
+
+            return success;
+        }
+        #endregion
+
+        public bool SwitchUserAccess(UserAccessType accessType)
+        {
+            if (null == client)
+                return false;
+
+            UserAccessRequest msg = new UserAccessRequest()
+            {
+                AccessType=accessType,
+                PassWord= 0xcafe2610,
+            };
+
+            return client.Send(msg) > 0;
+        }
+
         [RecvMsg(MsgTypeE.ConfigCameraReplyType, typeof(ConfigCameraReply))]
         private void CmdProConfigCameraReply(MsgHeader pkt)
         {
@@ -392,6 +454,15 @@ namespace Services
             {
                 eventAggregator.GetEvent<CaptureReplyEvent>().Publish(msg);
             }
+        }
+
+        [RecvMsg(MsgTypeE.ReadRegisterReplyType,typeof(ReadRegisterReply))]
+        private void CmdProcReadRegisterReply(MsgHeader pkt)
+        {
+            if (pkt is not ReadRegisterReply msg)
+                return;
+
+            eventAggregator.GetEvent<ReadRegisterReplyEvent>().Publish(msg);
         }
     }
 }

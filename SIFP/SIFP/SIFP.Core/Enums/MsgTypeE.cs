@@ -21,11 +21,19 @@ namespace SIFP.Core.Enums
         ConfigCameraRequestType=0x121,
         ConfigCameraReplyType=0x122,
 
+        WriteRegisterRequestType=0x123,
+        WriteRegisterReplyType=0x124,
+
+        ReadRegisterRequestType=0x125,
+        ReadRegisterReplyType=0x126,
+
         DisconnectCameraRequestType =0x12E,
 
         StartStreamingRequestType=0x12f,
 
         StopStreamingRequestType=0x130,
         StopStreamingReplyType=0x136,
+
+        UserAccessRequestType=0x131,
     }
 }

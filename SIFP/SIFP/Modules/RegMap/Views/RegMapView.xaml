@@ -1,16 +1,76 @@
-﻿<UserControl x:Class="RegMap.Views.RegMapView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:RegMap.Views"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True" >
-    <Grid>
-        <TextBlock Text="{Binding Message}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
-    </Grid>
+﻿<UserControl
+    x:Class="RegMap.Views.RegMapView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RegMap.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <ItemsControl>
+        <StackPanel
+            Margin="20"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <TextBox
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Address"
+                materialDesign:TextFieldAssist.PrefixText="0x"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                <TextBox.Text>
+                    <Binding Path="RegAddr" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <ExceptionValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBox
+                Margin="20,0,0,0"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="Value"
+                materialDesign:TextFieldAssist.PrefixText="0x"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}">
+                <TextBox.Text>
+                    <Binding Path="RegValue" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <ExceptionValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Button
+                Grid.Row="0"
+                Width="80"
+                Height="30"
+                Margin="20,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                HorizontalContentAlignment="Center"
+                Command="{Binding ReadRegisterCmd}"
+                Content="Read"
+                DockPanel.Dock="Bottom"
+                Foreground="{StaticResource MaterialDesignDarkForeground}"
+                Style="{StaticResource MaterialDesignOutlinedButton}" />
+            <Button
+                Grid.Row="0"
+                Width="80"
+                Height="30"
+                Margin="20,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                HorizontalContentAlignment="Center"
+                Command="{Binding WriteRegisterCmd}"
+                Content="Write"
+                DockPanel.Dock="Bottom"
+                Foreground="{StaticResource MaterialDesignDarkForeground}"
+                Style="{StaticResource MaterialDesignOutlinedButton}" />
+        </StackPanel>
+    </ItemsControl>
 </UserControl>

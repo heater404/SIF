@@ -49,12 +49,12 @@
                             Content="PointCloud"
                             IsChecked="True"
                             Style="{StaticResource MaterialDesignTabRadioButton}" />
-                        <!--<RadioButton
+                        <RadioButton
                             Command="{Binding MainRegionNavigationCmd}"
                             CommandParameter="{x:Static core:ViewNames.RegMapView}"
                             Content="RegMap"
                             IsChecked="False"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" />-->
+                            Style="{StaticResource MaterialDesignTabRadioButton}" />
                     </ToolBar>
                 </ToolBarTray>
 

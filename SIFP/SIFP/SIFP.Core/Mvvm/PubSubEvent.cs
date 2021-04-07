@@ -28,6 +28,8 @@ namespace SIFP.Core.Mvvm
 
     public class DisconnectCameraRequestEvent : PubSubEvent { };
 
+    public class ReadRegisterReplyEvent : PubSubEvent<ReadRegisterReply> { };
+
     public class CloseWaitingDialogEvent : PubSubEvent { }
 
     public class OpenPointCloudEvent : PubSubEvent<string> { }

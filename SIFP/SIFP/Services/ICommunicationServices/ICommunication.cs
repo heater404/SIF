@@ -1,4 +1,5 @@
-﻿using SIFP.Core.Models;
+﻿using SIFP.Core.Enums;
+using SIFP.Core.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -24,5 +25,11 @@ namespace Services.Interfaces
                UInt32 frameNum, UInt32 cycle);
 
         bool AlgoDelCapture(UInt32 pos, UInt32 ID);
+
+        bool WriteRegs(Register[] regs, DevTypeE devType);
+
+        bool ReadRegs(Register[] regs, DevTypeE devType);
+
+        bool SwitchUserAccess(UserAccessType accessType);
     }
 }

@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace SIFP.Core.Enums
 {
+    public enum UserAccessType
+    {
+        Normal,
+        Expert
+    }
+
     public enum DevTypeE : UInt32
     {
         TOF = 0u,
