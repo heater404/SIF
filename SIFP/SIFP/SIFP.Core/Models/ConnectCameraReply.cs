@@ -22,5 +22,11 @@ namespace SIFP.Core.Models
 
         [FieldOrder(4)]
         public UInt32 MaxImageHeight { get; set; }
+
+        [FieldOrder(5)]
+        public UInt32 LotNumber { get; set; }
+
+        [FieldOrder(6)]
+        public UInt32 WaferId { get; set; }
     }
 }

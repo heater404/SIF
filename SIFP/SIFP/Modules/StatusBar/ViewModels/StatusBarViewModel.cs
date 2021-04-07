@@ -22,6 +22,20 @@ namespace StatusBar.ViewModels
             set { log = value; RaisePropertyChanged(); }
         }
 
+        private string lotNumber;
+        public string LotNumber
+        {
+            get { return lotNumber; }
+            set { lotNumber = value;RaisePropertyChanged(); }
+        }
+
+        private string waferId;
+        public string WaferId
+        {
+            get { return waferId; }
+            set { waferId = value;RaisePropertyChanged(); }
+        }
+
         private string camChipID;
         public string CamChipID
         {
@@ -65,6 +79,9 @@ namespace StatusBar.ViewModels
             {
                 CamChipID = "0x" + reply.CamChipID.ToString("x2");
                 CamName = reply.CamName.Split('\0')[0];
+
+                LotNumber = "0x" + reply.LotNumber.ToString("x2");
+                WaferId = "0x" + reply.WaferId.ToString("x2");
             },true);
 
             this.EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(reply =>

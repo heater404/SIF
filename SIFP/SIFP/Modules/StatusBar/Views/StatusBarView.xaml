@@ -51,6 +51,18 @@
         <Separator />
         <StatusBarItem Margin="8,0,8,0">
             <StackPanel Orientation="Horizontal">
+                <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="LotNumber : " />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding LotNumber}" />
+                <TextBlock
+                    Margin="5,0,0,0"
+                    Foreground="{StaticResource MaterialDesignDarkForeground}"
+                    Text="WaferId : " />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding WaferId}" />
+            </StackPanel>
+        </StatusBarItem>
+        <Separator />
+        <StatusBarItem Margin="8,0,8,0">
+            <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="Resolution : " />
                 <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding Resolution}" />
             </StackPanel>
