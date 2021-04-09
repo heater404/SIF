@@ -17,7 +17,7 @@ namespace SIFP.Core.Models
         [FieldOrder(3)]
         [FieldScale(1000)]
         [SerializeAs(serializedType: SerializedType.UInt4)]
-        public double VcselTemp { get; set; }//扩大1000倍的摄氏度
+        public double TSensor { get; set; }//扩大1000倍的摄氏度
 
     }
 }
