@@ -91,7 +91,7 @@ namespace Tool.ViewModels
             CaptureDataShowCmd = new DelegateCommand(ShowCaptureDialog).ObservesCanExecute(() => CanCaptureCtrlCmd);
             ConnectCtrlCmd = new DelegateCommand(ConnectCtrl).ObservesCanExecute(() => CanConnectCtrlCmd);
             StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => CanStreamingCtrlCmd);
-            EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply,true);
+            EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply, true);
             EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
             {
                 if (isStreaming)
@@ -294,7 +294,7 @@ namespace Tool.ViewModels
 
                     cancellationTokenSource = new CancellationTokenSource();
                     comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
-                    
+
                     IsConnected = true;
                     CanStreamingCtrlCmd = true;
                 }
@@ -377,11 +377,8 @@ namespace Tool.ViewModels
             }
 
             ProcessStartInfo startInfo = new ProcessStartInfo(path);
-            startInfo.UseShellExecute = true;
-            if (isDebug)
-                startInfo.WindowStyle = ProcessWindowStyle.Normal;
-            else
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            if (!isDebug)
+                startInfo.CreateNoWindow = true;
 
             Process pro = Process.Start(startInfo);
             pro.PriorityClass = ProcessPriorityClass.AboveNormal;
@@ -455,7 +452,7 @@ namespace Tool.ViewModels
                 if (!comm.Close())
                 {
                     this.PrintNoticeLog("Close CommClient Fail", LogLevel.Error);
-                    this.PrintWatchLog("Close Commlient Fail", LogLevel.Error);
+                    this.PrintWatchLog("Close CommClient Fail", LogLevel.Error);
                     return false;
                 }
             }
