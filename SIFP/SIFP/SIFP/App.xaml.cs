@@ -26,6 +26,8 @@ using PointCloud.Views;
 using RegMap.Views;
 using RegMap;
 using CaptureDataDialog.ViewModels;
+using System;
+using License;
 
 namespace SIFP
 {
@@ -36,7 +38,10 @@ namespace SIFP
     {
         protected override Window CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            if (VerityLicense.VerifyLicense("ToFDemo_License.lic", "ToF_2610_2021"))
+                return Container.Resolve<MainWindow>();
+            else
+                return Container.Resolve<NoLicenseWindow>();
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -81,7 +86,7 @@ namespace SIFP
             moduleCatalog.AddModule<StatusBarModule>();
             moduleCatalog.AddModule<PointCloudModule>();
             moduleCatalog.AddModule<RegMapModule>();
-            
+
         }
     }
 }

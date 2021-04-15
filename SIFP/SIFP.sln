@@ -41,6 +41,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigAlg", "SIFP\Modules\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RegMap", "SIFP\Modules\RegMap\RegMap.csproj", "{0CE4E406-88F1-47BA-BB5F-1F8B939892FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "License", "SIFP\License\License.csproj", "{E95B2709-068D-4AB6-B785-1FC29F6D36E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateLicense", "SIFP\CreateLicense\CreateLicense.csproj", "{89609661-9AAB-4DC4-8F9F-4637BA853F61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +115,14 @@ Global
 		{0CE4E406-88F1-47BA-BB5F-1F8B939892FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CE4E406-88F1-47BA-BB5F-1F8B939892FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CE4E406-88F1-47BA-BB5F-1F8B939892FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E95B2709-068D-4AB6-B785-1FC29F6D36E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E95B2709-068D-4AB6-B785-1FC29F6D36E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E95B2709-068D-4AB6-B785-1FC29F6D36E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E95B2709-068D-4AB6-B785-1FC29F6D36E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89609661-9AAB-4DC4-8F9F-4637BA853F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89609661-9AAB-4DC4-8F9F-4637BA853F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89609661-9AAB-4DC4-8F9F-4637BA853F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89609661-9AAB-4DC4-8F9F-4637BA853F61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
