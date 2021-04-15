@@ -7,7 +7,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    Title="NoLicense"
+    Title="Warning"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{materialDesign:MaterialDesignFont}"
@@ -27,19 +27,40 @@
             FontWeight="Bold"
             Foreground="Red"
             Text="Sorry,you don't have the license!!!" />
-        <TextBox
-            Margin="50,0,50,50"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            materialDesign:TextFieldAssist.PrefixText="code:"
-            IsReadOnly="True"
-            Text="{Binding ComputerInfo}" />
+        <StackPanel Margin="50,0,50,50" Orientation="Horizontal">
+            <TextBox
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                materialDesign:TextFieldAssist.PrefixText="code:"
+                IsReadOnly="True"
+                Text="{Binding ComputerInfo}" />
+            <Button
+                Margin="20,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Command="{Binding CopyCmd}"
+                CommandParameter="{Binding ComputerInfo}"
+                Content="{materialDesign:PackIcon Kind=ContentCopy}"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="Copy" />
+        </StackPanel>
 
-        <TextBox
-            Margin="50,0,50,50"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            materialDesign:TextFieldAssist.PrefixText="Please send above code to "
-            Text="daokuan.zhu@si-in.com" />
+        <StackPanel Margin="50,0,50,50" Orientation="Horizontal">
+            <TextBox
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                materialDesign:TextFieldAssist.PrefixText="Please send above code to "
+                Text="{Binding EmailAddress}" />
+            <Button
+                Margin="20,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Command="{Binding CopyCmd}"
+                CommandParameter="{Binding EmailAddress}"
+                Content="{materialDesign:PackIcon Kind=ContentCopy}"
+                Style="{StaticResource MaterialDesignOutlinedButton}"
+                ToolTip="Copy" />
+        </StackPanel>
+
     </StackPanel>
 </Window>

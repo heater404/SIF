@@ -1,4 +1,6 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using System.Windows;
 
 namespace SIFP.ViewModels
 {
@@ -7,6 +9,10 @@ namespace SIFP.ViewModels
         public NoLicenseWindowViewModel()
         {
             ComputerInfo = License.ComputerInfo.GetComputerInfo();
+            CopyCmd = new DelegateCommand<string>(msg=>
+            {
+                Clipboard.SetText(msg);
+            });
         }
 
         private string computerInfo;
@@ -15,5 +21,14 @@ namespace SIFP.ViewModels
             get { return computerInfo; }
             set { computerInfo = value; RaisePropertyChanged(); }
         }
+
+        private string emailAddress= "daokuan.zhu@si-in.com";
+        public string EmailAddress
+        {
+            get { return emailAddress; }
+            set { emailAddress = value;RaisePropertyChanged(); }
+        }
+
+        public DelegateCommand<string> CopyCmd { get; set; }
     }
 }
