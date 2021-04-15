@@ -27,9 +27,17 @@ namespace License
                 Debug.WriteLine($"{ex}");
                 return false;
             }
-            string keyStr = HMACSHA256Extend.ComputeHash(ComputerInfo.GetComputerInfo(), shakey);
+            string keyStr = ComputeHash(ComputerInfo.GetComputerInfo(), shakey);
 
             return licenseStr == keyStr;
+        }
+
+        public static string ComputeHash(string data, string key)
+        {
+            HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key));
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+            byte[] hashBytes = hmac.ComputeHash(bytes);
+            return Convert.ToBase64String(hashBytes).Trim();
         }
     }
 }

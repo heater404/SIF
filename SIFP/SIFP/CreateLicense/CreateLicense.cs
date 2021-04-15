@@ -14,7 +14,7 @@ namespace CreateLicense
         {
             try
             {
-                string hash = License.HMACSHA256Extend.ComputeHash(data, key);
+                string hash = License.VerityLicense.ComputeHash(data, key);
                 Console.WriteLine(hash);
                 using (StreamWriter sw = new StreamWriter(filename))
                 {
