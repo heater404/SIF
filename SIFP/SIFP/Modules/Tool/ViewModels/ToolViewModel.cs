@@ -376,13 +376,13 @@ namespace Tool.ViewModels
                 return null;
             }
 
-            ProcessStartInfo startInfo = new ProcessStartInfo(path);
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = path;
+            startInfo.UseShellExecute = false;
             if (!isDebug)
                 startInfo.CreateNoWindow = true;
 
             Process pro = Process.Start(startInfo);
-            pro.PriorityClass = ProcessPriorityClass.AboveNormal;
-
             if (null != pro)
             {
                 pro.WaitForExit(500);//必须wait

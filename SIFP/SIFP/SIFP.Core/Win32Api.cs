@@ -158,8 +158,8 @@ namespace SIFP.Core
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern bool UpdateWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern bool ShowWindowAsync(IntPtr hwnd, int nCmdShow);
+        [DllImport("user32.dll", EntryPoint = "ShowWindow", SetLastError = true)]
+        public static extern bool ShowWindow(IntPtr hwnd, int nCmdShow);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         internal static extern IntPtr CreateWindowEx(int exStyle, string className, string windowName, int style, int x, int y, int width, int height, IntPtr hwndParent, IntPtr hMenu, IntPtr hInstance, [MarshalAs(UnmanagedType.IUnknown)] object pvParam);
@@ -205,7 +205,7 @@ namespace SIFP.Core
         internal static extern long GetWindowThreadProcessId(long hWnd, long lpdwProcessId);
 
         [DllImport("user32.dll", SetLastError = true)]
-        internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("user32.dll")]
         internal static extern IntPtr FindWindowEx(int hwndParent, int hwndChildAfter, string strClassName, string strWindowName);
