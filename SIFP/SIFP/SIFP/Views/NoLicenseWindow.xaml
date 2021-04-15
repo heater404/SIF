@@ -40,6 +40,6 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             materialDesign:TextFieldAssist.PrefixText="Please send above code to "
-            Text="daokuanzhu@si-in.com" />
+            Text="daokuan.zhu@si-in.com" />
     </StackPanel>
 </Window>
