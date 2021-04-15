@@ -50,6 +50,7 @@
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 materialDesign:TextFieldAssist.PrefixText="Please send above code to "
+                IsReadOnly="True"
                 Text="{Binding EmailAddress}" />
             <Button
                 Margin="20,0,0,0"
