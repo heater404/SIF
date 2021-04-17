@@ -39,7 +39,7 @@ namespace ConfigCamera.ViewModels
                 ApplyConfigCamera(true);
             });
 
-            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(()=> ApplyConfigCamera(false), true);
+            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(() => ApplyConfigCamera(false), true);
 
             this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, true);
         }
@@ -117,23 +117,14 @@ namespace ConfigCamera.ViewModels
 
         private ROISetting GetCurrentROISetting()
         {
-            string roi = string.Empty;
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                roi = selectedResolution.Content.ToString();
-            });
-
-            var width = UInt16.Parse(roi.Split('*')[0]);
-            var height = UInt16.Parse(roi.Split('*')[1]);
-
             var roiSetting = new ROISetting
             {
-                XStart = (UInt16)((640 - width) / 2),
-                XSize = width,
-                XStep = config.ROISetting.XStep,
-                YStart = (UInt16)((480 - height) / 2),
-                YSize = height,
-                YStep = config.ROISetting.YStep,
+                XStart = (UInt16)((640 - roi.Width) / 2),
+                XSize = (UInt16)roi.Width,
+                XStep = xStep,
+                YStart = (UInt16)((480 - roi.Height) / 2),
+                YSize = (UInt16)roi.Height,
+                YStep = yStep,
             };
 
             return roiSetting;
@@ -365,11 +356,74 @@ namespace ConfigCamera.ViewModels
             IntegrationTimeRange = new Tuple<uint, uint>(uint.Parse(ranges[0]), uint.Parse(ranges[1]));
         }
 
-        private ComboBoxItem selectedResolution;
-        public ComboBoxItem SelectedResolution
+        private Size roi;
+        public ComboBoxItem Roi
         {
-            get { return selectedResolution; }
-            set { selectedResolution = value; RaisePropertyChanged(); }
+            get 
+            { 
+                return new ComboBoxItem { Content = roi.Width + "*" + roi.Height };
+            }
+            set
+            {
+                string rois = string.Empty;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    rois = value.Content.ToString();
+                });
+                roi = new Size(UInt16.Parse(rois.Split('*')[0]), UInt16.Parse(rois.Split('*')[1]));
+                RaisePropertyChanged();
+                Resolution = CalculateResolution(roi, xStep, yStep);
+            }
+        }
+
+        private UInt16 xStep;
+        public ComboBoxItem XStep
+        {
+            get { return new ComboBoxItem { Content = xStep }; }
+            set
+            {
+                string xs = string.Empty;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    xs = value.Content.ToString();
+                });
+                xStep = UInt16.Parse(xs);
+                RaisePropertyChanged();
+                Resolution = CalculateResolution(roi, xStep, yStep);
+            }
+        }
+
+        private UInt16 yStep;
+        public ComboBoxItem YStep
+        {
+            get { return new ComboBoxItem { Content = yStep }; }
+            set
+            {
+                string ys = string.Empty;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    ys = value.Content.ToString();
+                });
+                yStep = UInt16.Parse(ys);
+                RaisePropertyChanged();
+                Resolution = CalculateResolution(roi, xStep, yStep);
+            }
+        }
+
+        private Size resolution;
+        public Size Resolution
+        {
+            get { return resolution; }
+            set { resolution = value; RaisePropertyChanged(); }
+        }
+
+        private Size CalculateResolution(Size roi,UInt16 xstep,UInt16 ystep)
+        {
+            uint width = (UInt16)((roi.Width + xstep - 1) / xstep / 4) * 4u;
+
+            uint height = (UInt16)((roi.Height + ystep - 1) / ystep);
+
+            return new Size(width, height);
         }
 
         private UInt32 fps = 25;
