@@ -75,7 +75,7 @@
                                 <Separator />
                                 <Button Content="Help" />
                                 <Button Content="About" />
-                                <Button Content="1.01.210415" />
+                                <Button Content="1.01.210417" />
                             </StackPanel>
                         </materialDesign:PopupBox>
 
