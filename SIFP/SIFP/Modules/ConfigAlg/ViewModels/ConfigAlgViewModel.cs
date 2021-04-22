@@ -19,7 +19,7 @@ namespace ConfigAlg.ViewModels
 
         public ConfigAlgViewModel()
         {
-            Message = "View A from your Prism Module";
+            Message = "ConfigAlg..........";
         }
     }
 }

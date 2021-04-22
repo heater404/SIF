@@ -65,13 +65,13 @@ namespace SIFP
             containerRegistry.RegisterSingleton<ICommClient, SktClient>();
             containerRegistry.RegisterSingleton<ICommunication, Communication>();
             containerRegistry.RegisterSingleton<CaptureDataViewModel, CaptureDataViewModel>();
+            containerRegistry.RegisterSingleton<ConfigCameraView, ConfigCameraView>();
+            containerRegistry.RegisterSingleton<ConfigAlgView, ConfigAlgView>();
 
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
             containerRegistry.RegisterDialog<NotificationView>(DialogNames.NotificationDialog);
 
-            containerRegistry.RegisterForNavigation<ConfigCameraView>(ViewNames.ConfigCameraView);
-            containerRegistry.RegisterForNavigation<ConfigAlgView>(ViewNames.ConfigAlgView);
             containerRegistry.RegisterForNavigation<PointCloudView>(ViewNames.PointCloudView);
             containerRegistry.RegisterForNavigation<RegMapView>(ViewNames.RegMapView);
         }
@@ -86,7 +86,6 @@ namespace SIFP
             moduleCatalog.AddModule<StatusBarModule>();
             moduleCatalog.AddModule<PointCloudModule>();
             moduleCatalog.AddModule<RegMapModule>();
-
         }
     }
 }

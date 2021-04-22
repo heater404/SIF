@@ -15,7 +15,7 @@ namespace ConfigCamera
         }
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            regionManager.RegisterViewWithRegion(RegionNames.LeftDrawerRegion, typeof(ConfigCameraView));
+            
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

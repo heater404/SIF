@@ -2,6 +2,7 @@
 using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using Serilog;
@@ -22,11 +23,11 @@ namespace SIFP.ViewModels
         private string title = "SI View";
         public string Title
         {
-            get { return title; }                                                                     
+            get { return title; }
             set { SetProperty(ref title, value); }
         }
 
-        private bool isLeftDrawerOpen=false;
+        private bool isLeftDrawerOpen = false;
         public bool IsLeftDrawerOpen
         {
             get { return isLeftDrawerOpen; }
@@ -37,7 +38,7 @@ namespace SIFP.ViewModels
         public bool IsDebug
         {
             get { return isDebug; }
-            set 
+            set
             {
                 isDebug = value;
                 RaisePropertyChanged();
@@ -45,13 +46,20 @@ namespace SIFP.ViewModels
             }
         }
 
-        public DelegateCommand<string> OpenLeftDrawerCmd { get; set; }
-        public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
-        public MainWindowViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        private object leftDrawerContent;
+        public object LeftDrawerContent
         {
-            OpenLeftDrawerCmd = new DelegateCommand<string>(view =>
+            get { return leftDrawerContent; }
+            set { leftDrawerContent = value; RaisePropertyChanged(); }
+        }
+
+        public DelegateCommand<Type> OpenLeftDrawerCmd { get; set; }
+        public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
+        public MainWindowViewModel(IContainerExtension container, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        {
+            OpenLeftDrawerCmd = new DelegateCommand<Type>(view =>
               {
-                  regionManager.RequestNavigate(RegionNames.LeftDrawerRegion, view);
+                  LeftDrawerContent = container.Resolve(view);
                   IsLeftDrawerOpen = true;
               });
 
@@ -59,6 +67,8 @@ namespace SIFP.ViewModels
               {
                   regionManager.RequestNavigate(RegionNames.MainRegion, view);
               });
+
+            LeftDrawerContent= container.Resolve(ConfigViewTypes.ConfigCameraView);
         }
     }
 }

@@ -6,7 +6,6 @@ namespace SIFP.Core
 {
     public static class RegionNames
     {
-        public const string LeftDrawerRegion = "LeftDrawerRegion";
         public const string MenuRegion = "MenuRegion";
         public const string ToolRegion = "ToolRegion";
         public const string MainRegion = "MainRegion";
@@ -23,10 +22,7 @@ namespace SIFP.Core
 
     public static class ViewNames
     {
-        public const string ConfigCameraView = "ConfigCameraView";
-        public const string ConfigAlgView = "ConfigAlgView";
         public const string PointCloudView = "PointCloudView";
         public const string RegMapView = "RegMapView";
-
     }
 }

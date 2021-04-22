@@ -30,18 +30,18 @@
                         Style="{DynamicResource MaterialDesignToolBar}">
                         <Button
                             Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static core:ViewNames.ConfigCameraView}"
+                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigCameraView}"
                             Content="{materialDesign:PackIcon Kind=Settings,
                                                               Size=25}"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             ToolTip="ConfigCamera" />
-                        <!--<Button
+                        <Button
                             Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static core:ViewNames.ConfigAlgView}"
+                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigAlgView}"
                             Content="{materialDesign:PackIcon Kind=Settings,
                                                               Size=25}"
                             Style="{StaticResource MaterialDesignFlatButton}"
-                            ToolTip="ConfigAlg" />-->
+                            ToolTip="ConfigAlg" />
 
                         <RadioButton
                             Command="{Binding MainRegionNavigationCmd}"
@@ -165,7 +165,7 @@
                 <ContentControl
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Top"
-                    prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftDrawerRegion}" />
+                    Content="{Binding LeftDrawerContent}" />
             </HeaderedContentControl>
         </materialDesign:DrawerHost.LeftDrawerContent>
     </materialDesign:DrawerHost>
