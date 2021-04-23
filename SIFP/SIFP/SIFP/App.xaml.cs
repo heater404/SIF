@@ -20,14 +20,14 @@ using WaitingDialog.Views;
 using PointCloud;
 using NotificationDialog.Views;
 using ConfigCamera.Views;
-using ConfigAlg;
-using ConfigAlg.Views;
 using PointCloud.Views;
 using RegMap.Views;
 using RegMap;
 using CaptureDataDialog.ViewModels;
 using System;
 using License;
+using ConfigCorrection.Views;
+using ConfigCorrection;
 
 namespace SIFP
 {
@@ -66,7 +66,7 @@ namespace SIFP
             containerRegistry.RegisterSingleton<ICommunication, Communication>();
             containerRegistry.RegisterSingleton<CaptureDataViewModel, CaptureDataViewModel>();
             containerRegistry.RegisterSingleton<ConfigCameraView, ConfigCameraView>();
-            containerRegistry.RegisterSingleton<ConfigAlgView, ConfigAlgView>();
+            containerRegistry.RegisterSingleton<ConfigCorrectionView, ConfigCorrectionView>();
 
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
@@ -82,7 +82,7 @@ namespace SIFP
             moduleCatalog.AddModule<ToolModule>();
             moduleCatalog.AddModule<WatchLogModule>();
             moduleCatalog.AddModule<ConfigCameraModule>();
-            moduleCatalog.AddModule<ConfigAlgModule>();
+            moduleCatalog.AddModule<ConfigCorrectionModule>();
             moduleCatalog.AddModule<StatusBarModule>();
             moduleCatalog.AddModule<PointCloudModule>();
             moduleCatalog.AddModule<RegMapModule>();

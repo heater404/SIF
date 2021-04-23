@@ -1,0 +1,88 @@
+﻿<UserControl
+    x:Class="ConfigCorrection.Views.ConfigCorrectionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ConfigCorrection.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer.Resources>
+            <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
+        </ScrollViewer.Resources>
+        <StackPanel>
+            <GroupBox Margin="10" Header="OutPut">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="OutPointCloud" IsChecked="{Binding OutPointCloud}" />
+                    <CheckBox Content="OutConfidence" IsChecked="{Binding OutConfidence}" />
+                    <ComboBox
+                        materialDesign:TextFieldAssist.PrefixText="PointCloudType : "
+                        ItemsSource="{Binding PointCloudTypes}"
+                        SelectedItem="{Binding OutPointCloudType}" />
+                    <ComboBox
+                        materialDesign:TextFieldAssist.PrefixText="DepthValueType : "
+                        ItemsSource="{Binding DepthValueTypes}"
+                        SelectedItem="{Binding OutDepthValueType}" />
+                    <ComboBox
+                        materialDesign:TextFieldAssist.PrefixText="DepthDataType : "
+                        ItemsSource="{Binding DepthDataTypes}"
+                        SelectedItem="{Binding OutDepthDataType}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Margin="10" Header="Correction">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="CorrBP" IsChecked="{Binding CorrBP}" />
+                    <CheckBox Content="CorrLen" IsChecked="{Binding CorrLen}" />
+                    <CheckBox Content="CorrTemp" IsChecked="{Binding CorrTemp}" />
+                    <CheckBox Content="CorrOffsetAuto" IsChecked="{Binding CorrOffsetAuto}" />
+                    <CheckBox Content="CorrFPPN" IsChecked="{Binding CorrFPPN}" />
+                    <CheckBox Content="CorrWig" IsChecked="{Binding CorrWig}" />
+                    <CheckBox Content="CorrFPN" IsChecked="{Binding CorrFPN}" />
+                    <CheckBox Content="FillInvalidPixels" IsChecked="{Binding FillInvalidPixels}" />
+                    <CheckBox Content="CutInvalidPixels" IsChecked="{Binding CutInvalidPixels}" />
+                    <CheckBox Content="CorrOffsetManual" IsChecked="{Binding CorrOffsetManual}" />
+                    <TextBox
+                        materialDesign:TextFieldAssist.PrefixText="F1CorrOffset : "
+                        materialDesign:TextFieldAssist.SuffixText="mm"
+                        Text="{Binding F1CorrOffset, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                    <TextBox
+                        materialDesign:TextFieldAssist.PrefixText="F2CorrOffset : "
+                        materialDesign:TextFieldAssist.SuffixText="mm"
+                        Text="{Binding F2CorrOffset, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                    <TextBox
+                        materialDesign:TextFieldAssist.PrefixText="F3CorrOffset : "
+                        materialDesign:TextFieldAssist.SuffixText="mm"
+                        Text="{Binding F3CorrOffset, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                    <TextBox
+                        materialDesign:TextFieldAssist.PrefixText="F4CorrOffset : "
+                        materialDesign:TextFieldAssist.SuffixText="mm"
+                        Text="{Binding F4CorrOffset, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Margin="10" Header="Fusion">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="SFDeAliasing" IsChecked="{Binding SFDeAliasing}" />
+
+                    <TextBox
+                        materialDesign:TextFieldAssist.PrefixText="PresetMaxDist : "
+                        materialDesign:TextFieldAssist.SuffixText="mm"
+                        Text="{Binding PresetMaxDist, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Margin="10" Header="Others">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox Content="AE" IsChecked="{Binding AE}" />
+                    <CheckBox Content="AntiAliCorr" IsChecked="{Binding AntiAliCorr}" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

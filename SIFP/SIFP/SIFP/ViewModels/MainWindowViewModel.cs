@@ -69,6 +69,7 @@ namespace SIFP.ViewModels
               });
 
             LeftDrawerContent= container.Resolve(ConfigViewTypes.ConfigCameraView);
+            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCorrectionView);
         }
     }
 }

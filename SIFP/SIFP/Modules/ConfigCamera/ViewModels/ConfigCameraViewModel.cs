@@ -25,7 +25,8 @@ namespace ConfigCamera.ViewModels
     {
         private ICommunication comm;
         private IDialogService dialogService;
-        public ConfigCameraViewModel(IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        public ConfigCameraViewModel(IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator) 
+            : base(regionManager, eventAggregator)
         {
             this.comm = communication;
             this.dialogService = dialogService;

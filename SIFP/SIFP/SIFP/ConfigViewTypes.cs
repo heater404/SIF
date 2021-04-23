@@ -1,5 +1,5 @@
-﻿using ConfigAlg.Views;
-using ConfigCamera.Views;
+﻿using ConfigCamera.Views;
+using ConfigCorrection.Views;
 using System;
 
 namespace SIFP
@@ -7,6 +7,6 @@ namespace SIFP
     public static class ConfigViewTypes
     {
         public static readonly Type ConfigCameraView = typeof(ConfigCameraView);
-        public static readonly Type ConfigAlgView = typeof(ConfigAlgView);
+        public static readonly Type ConfigCorrectionView = typeof(ConfigCorrectionView);
     }
 }

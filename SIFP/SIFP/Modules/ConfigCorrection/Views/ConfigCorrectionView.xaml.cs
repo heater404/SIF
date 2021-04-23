@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Events;
+using SIFP.Core.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +15,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ConfigAlg.Views
+namespace ConfigCorrection.Views
 {
     /// <summary>
     /// Interaction logic for ViewA.xaml
     /// </summary>
-    public partial class ConfigAlgView : UserControl
+    public partial class ConfigCorrectionView : UserControl
     {
-        public ConfigAlgView()
+        public ConfigCorrectionView(IEventAggregator eventAggregator)
         {
             InitializeComponent();
+            eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Subscribe(size =>
+            {
+                this.Height = Math.Max(size.Height - 80, 0);
+            }, true);
         }
     }
 }

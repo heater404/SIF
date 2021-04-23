@@ -23,8 +23,8 @@
   <ItemGroup>
     <ProjectReference Include="..\License\License.csproj" />
     <ProjectReference Include="..\Modules\CaptureDataDialog\CaptureDataDialog.csproj" />
-    <ProjectReference Include="..\Modules\ConfigAlg\ConfigAlg.csproj" />
     <ProjectReference Include="..\Modules\ConfigCamera\ConfigCamera.csproj" />
+    <ProjectReference Include="..\Modules\ConfigCorrection\ConfigCorrection.csproj" />
     <ProjectReference Include="..\Modules\Menu\Menu.csproj" />
     <ProjectReference Include="..\Modules\NotificationDialog\NotificationDialog.csproj" />
     <ProjectReference Include="..\Modules\PointCloud\PointCloud.csproj" />

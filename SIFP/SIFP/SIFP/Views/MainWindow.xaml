@@ -28,21 +28,32 @@
                         Margin="5"
                         ClipToBounds="False"
                         Style="{DynamicResource MaterialDesignToolBar}">
-                        <Button
+                        <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigCameraView}"
-                            Content="{materialDesign:PackIcon Kind=Settings,
+                            Content="{materialDesign:PackIcon Kind=Menu,
                                                               Size=25}"
-                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
                             ToolTip="ConfigCamera" />
-                        <Button
+                        <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigAlgView}"
-                            Content="{materialDesign:PackIcon Kind=Settings,
+                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigCorrectionView}"
+                            Content="{materialDesign:PackIcon Kind=Tune,
                                                               Size=25}"
-                            Style="{StaticResource MaterialDesignFlatButton}"
-                            ToolTip="ConfigAlg" />
-
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            ToolTip="ConfigCorrection" />
+                        <RadioButton
+                            Command="{Binding OpenLeftDrawerCmd}"
+                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigCorrectionView}"
+                            Content="{materialDesign:PackIcon Kind=TuneVariant,
+                                                              Size=25}"
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            ToolTip="ConfigPostProc" />
+                    </ToolBar>
+                    <ToolBar
+                        Margin="5"
+                        ClipToBounds="False"
+                        Style="{DynamicResource MaterialDesignToolBar}">
                         <RadioButton
                             Command="{Binding MainRegionNavigationCmd}"
                             CommandParameter="{x:Static core:ViewNames.PointCloudView}"
