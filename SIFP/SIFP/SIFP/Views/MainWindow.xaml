@@ -31,24 +31,18 @@
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigCameraView}"
-                            Content="{materialDesign:PackIcon Kind=Menu,
-                                                              Size=25}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}"
-                            ToolTip="ConfigCamera" />
+                            Content="ConfigCamera"
+                            Style="{StaticResource MaterialDesignTabRadioButton}" />
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigCorrectionView}"
-                            Content="{materialDesign:PackIcon Kind=Tune,
-                                                              Size=25}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}"
-                            ToolTip="ConfigCorrection" />
+                            Content="ConfigCorrection"
+                            Style="{StaticResource MaterialDesignTabRadioButton}" />
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigPostProcView}"
-                            Content="{materialDesign:PackIcon Kind=TuneVariant,
-                                                              Size=25}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}"
-                            ToolTip="ConfigPostProc" />
+                            Content="ConfigPostProc"
+                            Style="{StaticResource MaterialDesignTabRadioButton}" />
                     </ToolBar>
                     <ToolBar
                         Margin="5"

@@ -1,0 +1,33 @@
+{
+    "OutPutParams": {
+        "OutPointCloud": false,
+        "OutConfidence": false,
+        "OutPointCloudType": 0,
+        "OutDepthValueType": 0,
+        "OutDepthDataType": 0
+    },
+    "CorrectionParams": {
+        "CorrBP": true,
+        "CorrLen": true,
+        "CorrTemp": true,
+        "CorrOffsetAuto": true,
+        "CorrFPPN": true,
+        "CorrWig": true,
+        "CorrFPN": true,
+        "FillInvalidPixels": true,
+        "CutInvalidPixels": true,
+        "CorrOffsetManual": false,
+        "F1CorrOffset": 0,
+        "F2CorrOffset": 0,
+        "F3CorrOffset": 0,
+        "F4CorrOffset": 0
+    },
+    "FusionParams": {
+        "SFDeAliasing": true,
+        "PresetMaxDist": 7000
+    },
+    "OthersParams": {
+        "AE": false,
+        "AntiAliCorr": false
+    }
+}

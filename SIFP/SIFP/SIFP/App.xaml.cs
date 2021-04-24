@@ -67,6 +67,7 @@ namespace SIFP
             containerRegistry.RegisterSingleton<ICommClient, SktClient>();
             containerRegistry.RegisterSingleton<ICommunication, Communication>();
             containerRegistry.RegisterSingleton<IInitArithParams, InitArithParams>();
+            containerRegistry.RegisterSingleton<IInitCamera, InitCamera>();
             containerRegistry.RegisterSingleton<CaptureDataViewModel, CaptureDataViewModel>();
             containerRegistry.RegisterSingleton<ConfigCameraView, ConfigCameraView>();
             containerRegistry.RegisterSingleton<ConfigCorrectionView, ConfigCorrectionView>();

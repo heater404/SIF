@@ -1,0 +1,27 @@
+{
+    "OutPutParams": {
+        "OutPointCloud": false,
+        "OutConfidence": false,
+        "OutFlag": true,
+        "OutPointCloudType": 0,
+        "OutDepthValueType": 0,
+        "OutDepthDataType": 0
+    },
+    "DenoisingParams": {
+        "TDenoiseLevel": 3,
+        "SDenoiseLevel": 3,
+        "SDenoiseMethod": 2
+    },
+    "RepairParams": {
+        "DeFlyPixel": true,
+        "DeHoles": false
+    },
+    "AntiInterferenceParams": {
+        "AntiALI": false,
+        "AntiMCI": false
+    },
+    "ConfidenceParams": {
+        "ValidDistMin": 150,
+        "ValidDistMax": 4000
+    }
+}

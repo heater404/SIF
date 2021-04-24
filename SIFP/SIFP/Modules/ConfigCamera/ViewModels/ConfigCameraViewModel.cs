@@ -25,11 +25,12 @@ namespace ConfigCamera.ViewModels
     {
         private ICommunication comm;
         private IDialogService dialogService;
-        public ConfigCameraViewModel(IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator) 
+        public ConfigCameraViewModel(IInitCamera initCamera, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
             this.comm = communication;
             this.dialogService = dialogService;
+            IntegrationTimeRange = initCamera.InitIntegrationTimesRange();
             InitDefaultConfigCamera();
             InitConfigs();
             InitWorkMode();
@@ -168,7 +169,6 @@ namespace ConfigCamera.ViewModels
         private void InitConfigs()
         {
             GetFrequencies();
-            GetIntegrationTimeRange();
         }
 
         private void InitDefaultConfigCamera()
@@ -348,20 +348,11 @@ namespace ConfigCamera.ViewModels
             }
         }
 
-        private void GetIntegrationTimeRange()
-        {
-            string range = "1,1500";// AppConfigHelper.GetAppConfigValue("IntegrationTimeRange");
-
-            string[] ranges = range.Split(',');
-
-            IntegrationTimeRange = new Tuple<uint, uint>(uint.Parse(ranges[0]), uint.Parse(ranges[1]));
-        }
-
         private Size roi;
         public ComboBoxItem Roi
         {
-            get 
-            { 
+            get
+            {
                 return new ComboBoxItem { Content = roi.Width + "*" + roi.Height };
             }
             set
@@ -418,7 +409,7 @@ namespace ConfigCamera.ViewModels
             set { resolution = value; RaisePropertyChanged(); }
         }
 
-        private Size CalculateResolution(Size roi,UInt16 xstep,UInt16 ystep)
+        private Size CalculateResolution(Size roi, UInt16 xstep, UInt16 ystep)
         {
             uint width = (UInt16)((roi.Width + xstep - 1) / xstep / 4) * 4u;
 
