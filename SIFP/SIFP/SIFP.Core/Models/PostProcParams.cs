@@ -34,6 +34,7 @@ namespace SIFP.Core.Models
         public bool OutConfidence { get; set; } = false;
 
         [FieldOrder(3)]
+        [FieldLength(4)]
         public bool OutFlag { get; set; } = true;
 
         [FieldOrder(4)]
@@ -78,18 +79,22 @@ namespace SIFP.Core.Models
     public class Repair
     {
         [FieldOrder(1)]
+        [FieldLength(4)]
         public bool DeFlyPixel { get; set; } = true;
 
         [FieldOrder(2)]
+        [FieldLength(4)]
         public bool DeHoles { get; set; } = false;
     }
 
     public class AntiInterference
     {
         [FieldOrder(1)]
+        [FieldLength(4)]
         public bool AntiALI { get; set; } = false;
 
         [FieldOrder(2)]
+        [FieldLength(4)]
         public bool AntiMCI { get; set; } = false;
     }
 
