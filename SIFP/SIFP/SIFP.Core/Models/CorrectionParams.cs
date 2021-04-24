@@ -5,13 +5,13 @@ using System.Text;
 
 namespace SIFP.Core.Models
 {
-    public class CorrectionParameters
+    public class CorrectionParams
     {
         [FieldOrder(1)]
-        public OutPut OutPutParams { get; set; } = new OutPut();
+        public CorrOutPut OutPutParams { get; set; } = new CorrOutPut();
 
         [FieldOrder(2)]
-        public Correction CorrectionParams { get; set; } = new Correction();
+        public Correction CorrParams { get; set; } = new Correction();
 
         [FieldOrder(3)]
         public Fusion FusionParams { get; set; } = new Fusion();
@@ -20,7 +20,7 @@ namespace SIFP.Core.Models
         public Others OthersParams { get; set; } = new Others();
     }
 
-    public class OutPut
+    public class CorrOutPut
     {
         [FieldOrder(1)]
         [FieldLength(4)]

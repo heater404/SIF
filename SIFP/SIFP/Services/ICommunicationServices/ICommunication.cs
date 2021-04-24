@@ -34,5 +34,9 @@ namespace Services.Interfaces
         bool SwitchUserAccess(UserAccessType accessType);
 
         Task GetSysStatusAsync(CancellationToken cancellationToken, int interval);
+
+        bool? ConfigCorrectionParams(CorrectionParams correction);
+
+        bool? ConfigPostProcParams(PostProcParams postProc);
     }
 }

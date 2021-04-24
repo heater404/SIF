@@ -15,27 +15,27 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ConfigCorrection.Views
+namespace ConfigPostProc.Views
 {
     /// <summary>
     /// Interaction logic for ViewA.xaml
     /// </summary>
-    public partial class ConfigCorrectionView : UserControl
+    public partial class ConfigPostProcView : UserControl
     {
         IEventAggregator eventAggregator;
-        public ConfigCorrectionView(IEventAggregator eventAggregator)
+        public ConfigPostProcView(IEventAggregator eventAggregator)
         {
-            InitializeComponent();
             this.eventAggregator = eventAggregator;
-            eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Subscribe(size =>
+            InitializeComponent();
+            this.eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Subscribe(size =>
             {
                 this.Height = Math.Max(size.Height - 80, 0);
             }, true);
         }
 
-        private void ConfigCorrectionChanged(object sender, RoutedEventArgs e)
+        private void ConfigPostProcChanged(object sender, RoutedEventArgs e)
         {
-            this.eventAggregator?.GetEvent<ConfigCorrectionRequestEvent>().Publish();
+            this.eventAggregator.GetEvent<ConfigPostProcRequestEvent>().Publish();
         }
     }
 }

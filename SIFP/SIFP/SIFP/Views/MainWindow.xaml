@@ -25,7 +25,7 @@
                 </Grid.ColumnDefinitions>
                 <ToolBarTray Grid.Column="0" IsLocked="True">
                     <ToolBar
-                        Margin="5"
+                        Margin="0,5,0,5"
                         ClipToBounds="False"
                         Style="{DynamicResource MaterialDesignToolBar}">
                         <RadioButton
@@ -44,7 +44,7 @@
                             ToolTip="ConfigCorrection" />
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigCorrectionView}"
+                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigPostProcView}"
                             Content="{materialDesign:PackIcon Kind=TuneVariant,
                                                               Size=25}"
                             Style="{StaticResource MaterialDesignTabRadioButton}"

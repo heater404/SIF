@@ -413,6 +413,32 @@ namespace Services
             await task;
         }
 
+        public bool? ConfigCorrectionParams(CorrectionParams correction)
+        {
+            if (null == client)
+                return false;
+
+            ConfigCorrectionParamsRequest msg = new ConfigCorrectionParamsRequest()
+            {
+               Correction=correction,
+            };
+
+            return client.Send(msg) > 0;
+        }
+
+        public bool? ConfigPostProcParams(PostProcParams postProc)
+        {
+            if (null == client)
+                return false;
+
+            ConfigPostProcParamsRequest msg = new ConfigPostProcParamsRequest()
+            {
+                PostProc=postProc,
+            };
+
+            return client.Send(msg) > 0;
+        }
+
         [RecvMsg(MsgTypeE.ConfigCameraReplyType, typeof(ConfigCameraReply))]
         private void CmdProConfigCameraReply(MsgHeader pkt)
         {

@@ -38,5 +38,11 @@ namespace SIFP.Core.Enums
 
         GetSysStatusRequestType=0x132,
         GetSysStatusReplyType=0x133,
+
+        ConfigArithParamsRequestType=0x137,//用于下发算法参数
+        ConfigArithParamsReplyType = 0x138,//主要用与主动上报AE的结果
+
+        ConfigVcselDriverRequestType=0x139,//用于配置VcselDriver,里面的内容还需定义
+        ConfigVcselDriverReplyType =0x140,//暂时没有用到
     }
 }

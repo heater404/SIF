@@ -28,6 +28,8 @@ using System;
 using License;
 using ConfigCorrection.Views;
 using ConfigCorrection;
+using ConfigPostProc;
+using ConfigPostProc.Views;
 
 namespace SIFP
 {
@@ -64,9 +66,11 @@ namespace SIFP
         {
             containerRegistry.RegisterSingleton<ICommClient, SktClient>();
             containerRegistry.RegisterSingleton<ICommunication, Communication>();
+            containerRegistry.RegisterSingleton<IInitArithParams, InitArithParams>();
             containerRegistry.RegisterSingleton<CaptureDataViewModel, CaptureDataViewModel>();
             containerRegistry.RegisterSingleton<ConfigCameraView, ConfigCameraView>();
             containerRegistry.RegisterSingleton<ConfigCorrectionView, ConfigCorrectionView>();
+            containerRegistry.RegisterSingleton<ConfigPostProcView, ConfigPostProcView>();
 
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
@@ -83,6 +87,7 @@ namespace SIFP
             moduleCatalog.AddModule<WatchLogModule>();
             moduleCatalog.AddModule<ConfigCameraModule>();
             moduleCatalog.AddModule<ConfigCorrectionModule>();
+            moduleCatalog.AddModule<ConfigPostProcModule>();
             moduleCatalog.AddModule<StatusBarModule>();
             moduleCatalog.AddModule<PointCloudModule>();
             moduleCatalog.AddModule<RegMapModule>();
