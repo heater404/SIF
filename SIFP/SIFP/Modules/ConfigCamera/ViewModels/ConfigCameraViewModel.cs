@@ -43,7 +43,18 @@ namespace ConfigCamera.ViewModels
 
             this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(() => ApplyConfigCamera(false), true);
 
-            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, true);
+            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, ThreadOption.BackgroundThread, true);
+
+            this.EventAggregator.GetEvent<ConfigCorrectionAEChangedEvent>().Subscribe(enable => EnableAE = enable, ThreadOption.BackgroundThread, true);
+
+            this.EventAggregator.GetEvent<ConfigArithParamsReplyEvent>().Subscribe(reply =>
+            {
+                if (reply.Ack)
+                    this.IntegrationTimes = reply.IntegrationTimes;
+                else
+                    this.PrintWatchLog("AE Fail", LogLevel.Error);
+
+            }, ThreadOption.BackgroundThread, true);
         }
 
         private bool isEnable = true;
@@ -51,6 +62,21 @@ namespace ConfigCamera.ViewModels
         {
             get { return isEnable; }
             set { isEnable = value; RaisePropertyChanged(); }
+        }
+
+        private bool enableAE;
+        public bool EnableAE
+        {
+            get { return enableAE; }
+            set
+            {
+                if (value != enableAE)
+                {
+                    this.EventAggregator.GetEvent<ConfigCameraAEChangedEvent>().Publish(value);
+                    enableAE = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         private async void ApplyConfigCamera(bool dialog)

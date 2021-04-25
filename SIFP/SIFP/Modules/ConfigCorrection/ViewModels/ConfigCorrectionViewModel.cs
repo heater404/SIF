@@ -20,6 +20,7 @@ namespace ConfigCorrection.ViewModels
             : base(regionManager, eventAggregator)
         {
             this.EventAggregator.GetEvent<ConfigCorrectionRequestEvent>().Subscribe(ConfigCorrection, true);
+            this.EventAggregator.GetEvent<ConfigCameraAEChangedEvent>().Subscribe(enable => AE = enable, ThreadOption.BackgroundThread, true);
             this.comm = communication;
             this.dialogService = dialogService;
             corrParams = initCorrection.InitCorrection();
@@ -193,7 +194,16 @@ namespace ConfigCorrection.ViewModels
         public bool AE
         {
             get { return corrParams.OthersParams.AE; }
-            set { corrParams.OthersParams.AE = value; RaisePropertyChanged(); ConfigCorrection(); }
+            set
+            {
+                if (value != corrParams.OthersParams.AE)
+                {
+                    this.EventAggregator.GetEvent<ConfigCorrectionAEChangedEvent>().Publish(value);
+                    corrParams.OthersParams.AE = value;
+                    RaisePropertyChanged();
+                    ConfigCorrection();
+                }
+            }
         }
         public bool AntiAliCorr
         {

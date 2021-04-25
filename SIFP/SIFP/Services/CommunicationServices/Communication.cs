@@ -519,5 +519,14 @@ namespace Services
 
             eventAggregator.GetEvent<GetSysStatusReplyEvent>().Publish(msg);
         }
+
+        [RecvMsg(MsgTypeE.ConfigArithParamsReplyType,typeof(ConfigArithParamsReply))]
+        private void CmdProcConfigArithParamsReply(MsgHeader pkt)
+        {
+            if (pkt is not ConfigArithParamsReply msg)
+                return;
+
+            eventAggregator.GetEvent<ConfigArithParamsReplyEvent>().Publish(msg);
+        }
     }
 }

@@ -98,6 +98,17 @@
                         </Style>
                     </ToggleButton.Style>
                 </ToggleButton>
+                <Separator />
+                <ComboBox
+                    Padding="6.8"
+                    materialDesign:TextFieldAssist.PrefixText="DriverCurrent : "
+                    materialDesign:TextFieldAssist.SuffixText="A"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                    <ComboBoxItem Content="0" IsSelected="True" />
+                    <ComboBoxItem Content="1" />
+                    <ComboBoxItem Content="2" />
+                    <ComboBoxItem Content="3" />
+                </ComboBox>
             </ToolBar>
         </ToolBarTray>
     </DockPanel>

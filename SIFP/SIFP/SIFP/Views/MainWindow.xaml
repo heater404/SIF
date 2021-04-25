@@ -23,7 +23,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <ToolBarTray Grid.Column="0" IsLocked="True">
+                <ToolBarTray Grid.Column="0" IsLocked="False">
                     <ToolBar
                         Margin="0,5,0,5"
                         ClipToBounds="False"

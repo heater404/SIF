@@ -47,4 +47,10 @@ namespace SIFP.Core.Mvvm
     public class IsDebugEvent : PubSubEvent<bool> { };
 
     public class IsStreamingEvent : PubSubEvent<bool> { };
+
+    public class ConfigCorrectionAEChangedEvent : PubSubEvent<bool> { };
+
+    public class ConfigCameraAEChangedEvent : PubSubEvent<bool> { };
+
+    public class ConfigArithParamsReplyEvent : PubSubEvent<ConfigArithParamsReply> { };
 }
