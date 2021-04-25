@@ -23,7 +23,7 @@ namespace ConfigPostProc.ViewModels
         public ConfigPostProcViewModel(IInitArithParams initArithParams, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
-            this.EventAggregator.GetEvent<ConfigPostProcRequestEvent>().Subscribe(ConfigPostProc, true);
+            this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Subscribe(ConfigPostProc, true);
             this.comm = communication;
             this.dialogService = dialogService;
             this.postProcParams = initArithParams.InitPostProc();

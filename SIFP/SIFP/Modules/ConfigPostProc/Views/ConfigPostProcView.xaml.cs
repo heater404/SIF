@@ -35,7 +35,7 @@ namespace ConfigPostProc.Views
 
         private void ConfigPostProcChanged(object sender, RoutedEventArgs e)
         {
-            this.eventAggregator.GetEvent<ConfigPostProcRequestEvent>().Publish();
+            this.eventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
         }
     }
 }

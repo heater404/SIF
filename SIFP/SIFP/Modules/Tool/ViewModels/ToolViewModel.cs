@@ -282,18 +282,20 @@ namespace Tool.ViewModels
                     this.PrintWatchLog("ConnectCamera Success", LogLevel.Warning);
 
                     //comm.SwitchUserAccess(UserAccessType.Expert);
-                    comm.ConfigAlg(new ConfigAlgRequest
-                    {
-                        ByPassSocAlgorithm = true,
-                        ReturnRawData = true,
-                        ReturnAmplitudeImage = false,
-                        ReturnBGImage = false,
-                        ReturnConfidence = false,
-                        ReturnDepthIamge = false,
-                        ReturnFlagMap = false,
-                        ReturnGrayImage = false,
-                        ReturnPointcloud = false,
-                    }, 3000);
+                    //comm.ConfigAlg(new ConfigAlgRequest
+                    //{
+                    //    ByPassSocAlgorithm = true,
+                    //    ReturnRawData = true,
+                    //    ReturnAmplitudeImage = false,
+                    //    ReturnBGImage = false,
+                    //    ReturnConfidence = false,
+                    //    ReturnDepthIamge = false,
+                    //    ReturnFlagMap = false,
+                    //    ReturnGrayImage = false,
+                    //    ReturnPointcloud = false,
+                    //}, 3000);
+                    this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
+                    this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
 
                     this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 

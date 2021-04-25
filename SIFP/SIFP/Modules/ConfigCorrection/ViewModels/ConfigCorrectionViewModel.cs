@@ -19,7 +19,7 @@ namespace ConfigCorrection.ViewModels
         public ConfigCorrectionViewModel(IInitArithParams initCorrection, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
-            this.EventAggregator.GetEvent<ConfigCorrectionRequestEvent>().Subscribe(ConfigCorrection, true);
+            this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Subscribe(ConfigCorrection, true);
             this.EventAggregator.GetEvent<ConfigCameraAEChangedEvent>().Subscribe(enable => AE = enable, ThreadOption.BackgroundThread, true);
             this.comm = communication;
             this.dialogService = dialogService;

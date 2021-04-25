@@ -80,7 +80,7 @@
                                 <Separator />
                                 <Button Content="Help" />
                                 <Button Content="About" />
-                                <Button Content="1.01.210417" />
+                                <Button Content="1.01.210425" />
                             </StackPanel>
                         </materialDesign:PopupBox>
 
@@ -167,7 +167,8 @@
                         </ToggleButton>
                     </DockPanel>
                 </HeaderedContentControl.Header>
-                <ContentControl Width="400"
+                <ContentControl
+                    Width="400"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Top"
                     Content="{Binding LeftDrawerContent}" />

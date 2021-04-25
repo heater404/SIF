@@ -35,7 +35,7 @@ namespace ConfigCorrection.Views
 
         private void ConfigCorrectionChanged(object sender, RoutedEventArgs e)
         {
-            this.eventAggregator?.GetEvent<ConfigCorrectionRequestEvent>().Publish();
+            this.eventAggregator?.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
         }
     }
 }
