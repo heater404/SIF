@@ -80,7 +80,7 @@
                                 Foreground="Black"
                                 Text="Frequency&amp;IntegrationTime" />
                             <CheckBox
-                                HorizontalAlignment="Center"
+                                HorizontalAlignment="Right"
                                 Background="{StaticResource MaterialDesignDarkBackground}"
                                 Content="EnableAE"
                                 IsChecked="{Binding EnableAE}" />

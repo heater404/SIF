@@ -220,7 +220,7 @@ namespace ConfigCamera.ViewModels
         public List<ComboBoxItemMode<SubWorkModeE>> SubWorkModes { get; set; } = new List<ComboBoxItemMode<SubWorkModeE>>();
 
         //被选中的WorkMode的索引
-        private WorkModeE workModeIndex = WorkModeE.SINGLE_FREQ;//决定初始化的时候是的WorkMode
+        private WorkModeE workModeIndex = WorkModeE.DOUBLE_FREQ;//决定初始化的时候是的WorkMode
 
         public WorkModeE WorkModeIndex
         {
