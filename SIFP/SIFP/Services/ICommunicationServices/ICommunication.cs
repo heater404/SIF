@@ -38,5 +38,7 @@ namespace Services.Interfaces
         bool? ConfigCorrectionParams(CorrectionParams correction);
 
         bool? ConfigPostProcParams(PostProcParams postProc);
+
+        bool? ConfigVcselDriver(ConfigVcselDriver vcselDriver);
     }
 }

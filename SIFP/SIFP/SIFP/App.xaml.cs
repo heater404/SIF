@@ -30,6 +30,8 @@ using ConfigCorrection.Views;
 using ConfigCorrection;
 using ConfigPostProc;
 using ConfigPostProc.Views;
+using VcselDriverDialog.Views;
+using VcselDriverDialog.ViewModels;
 
 namespace SIFP
 {
@@ -72,10 +74,12 @@ namespace SIFP
             containerRegistry.RegisterSingleton<ConfigCameraView, ConfigCameraView>();
             containerRegistry.RegisterSingleton<ConfigCorrectionView, ConfigCorrectionView>();
             containerRegistry.RegisterSingleton<ConfigPostProcView, ConfigPostProcView>();
+            containerRegistry.RegisterSingleton<VcselDriverViewModel, VcselDriverViewModel>();
 
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
             containerRegistry.RegisterDialog<NotificationView>(DialogNames.NotificationDialog);
+            containerRegistry.RegisterDialog<VcselDriverView>(DialogNames.VcselDriverDialog);
 
             containerRegistry.RegisterForNavigation<PointCloudView>(ViewNames.PointCloudView);
             containerRegistry.RegisterForNavigation<RegMapView>(ViewNames.RegMapView);

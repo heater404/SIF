@@ -439,6 +439,19 @@ namespace Services
             return client.Send(msg) > 0;
         }
 
+        public bool? ConfigVcselDriver(ConfigVcselDriver vcselDriver)
+        {
+            if (null == client)
+                return false;
+
+            ConfigVcselDriverRequest msg = new ConfigVcselDriverRequest()
+            {
+                VcselDriver=vcselDriver,
+            };
+
+            return client.Send(msg) > 0;
+        }
+
         [RecvMsg(MsgTypeE.ConfigCameraReplyType, typeof(ConfigCameraReply))]
         private void CmdProConfigCameraReply(MsgHeader pkt)
         {
@@ -527,6 +540,15 @@ namespace Services
                 return;
 
             eventAggregator.GetEvent<ConfigArithParamsReplyEvent>().Publish(msg);
+        }
+
+        [RecvMsg(MsgTypeE.ConfigVcselDriverReplyType,typeof(ConfigVcselDriverReply))]
+        private void CmdProcConfigVcselDriverReply(MsgHeader pkt)
+        {
+            if (pkt is not ConfigVcselDriverReply msg)
+                return;
+
+            eventAggregator.GetEvent<ConfigVcselDriverReplyEvent>().Publish(msg);
         }
     }
 }

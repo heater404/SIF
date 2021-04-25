@@ -75,7 +75,7 @@ namespace Tool.ViewModels
 
         public DelegateCommand ConnectCtrlCmd { get; private set; }
         public DelegateCommand StreamingCtrlCmd { get; private set; }
-
+        public DelegateCommand VcselDriverShowCmd { get; set; }
         public DelegateCommand CaptureDataShowCmd { get; private set; }
         private IDialogService dialogService;
         private ICommunication comm;
@@ -88,6 +88,7 @@ namespace Tool.ViewModels
         {
             this.comm = comm;
             this.dialogService = dialogService;
+            VcselDriverShowCmd = new DelegateCommand(ShowVcselDriverDialog).ObservesCanExecute(() => IsConnected);
             CaptureDataShowCmd = new DelegateCommand(ShowCaptureDialog).ObservesCanExecute(() => CanCaptureCtrlCmd);
             ConnectCtrlCmd = new DelegateCommand(ConnectCtrl).ObservesCanExecute(() => CanConnectCtrlCmd);
             StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => CanStreamingCtrlCmd);
@@ -117,6 +118,10 @@ namespace Tool.ViewModels
             this.EventAggregator.GetEvent<IsDebugEvent>().Subscribe(arg => isDebug = arg, true);
         }
 
+        private void ShowVcselDriverDialog()
+        {
+            dialogService.Show(DialogNames.VcselDriverDialog);
+        }
 
         private void RecvConfigCameraReply(ConfigCameraReply reply)
         {

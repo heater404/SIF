@@ -167,7 +167,7 @@
                         </ToggleButton>
                     </DockPanel>
                 </HeaderedContentControl.Header>
-                <ContentControl
+                <ContentControl Width="400"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Top"
                     Content="{Binding LeftDrawerContent}" />

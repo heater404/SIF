@@ -53,4 +53,6 @@ namespace SIFP.Core.Mvvm
     public class ConfigCameraAEChangedEvent : PubSubEvent<bool> { };
 
     public class ConfigArithParamsReplyEvent : PubSubEvent<ConfigArithParamsReply> { };
+
+    public class ConfigVcselDriverReplyEvent : PubSubEvent<ConfigVcselDriverReply> { };
 }

@@ -44,6 +44,7 @@
     <ProjectReference Include="..\Modules\RegMap\RegMap.csproj" />
     <ProjectReference Include="..\Modules\StatusBar\StatusBar.csproj" />
     <ProjectReference Include="..\Modules\Tool\Tool.csproj" />
+    <ProjectReference Include="..\Modules\VcselDriverDialog\VcselDriverDialog.csproj" />
     <ProjectReference Include="..\Modules\WaitingDialog\WaitingDialog.csproj" />
     <ProjectReference Include="..\Modules\WatchLog\WatchLog.csproj" />
     <ProjectReference Include="..\Services\CommunicationServices\Services.csproj" />
