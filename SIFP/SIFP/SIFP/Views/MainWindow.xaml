@@ -94,7 +94,8 @@
                             Command="{Binding MainRegionNavigationCmd}"
                             CommandParameter="{x:Static core:ViewNames.RegMapView}"
                             IsChecked="False"
-                            Style="{StaticResource MaterialDesignTabRadioButton}">
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <RadioButton.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Map" />
