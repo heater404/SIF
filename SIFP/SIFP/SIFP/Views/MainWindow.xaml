@@ -31,18 +31,45 @@
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigCameraView}"
-                            Content="ConfigCamera"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" />
+                            Style="{StaticResource MaterialDesignTabRadioButton}" >
+                            <RadioButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="CameraControl" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="Camera" />
+                                </StackPanel>
+                            </RadioButton.Content>
+                        </RadioButton>
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigCorrectionView}"
-                            Content="ConfigCorrection"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" />
+                            Style="{StaticResource MaterialDesignTabRadioButton}" >
+                            <RadioButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Tune" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="Correction" />
+                                </StackPanel>
+                            </RadioButton.Content>
+                        </RadioButton>
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigPostProcView}"
-                            Content="ConfigPostProc"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" />
+                            Style="{StaticResource MaterialDesignTabRadioButton}">
+                            <RadioButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="TuneVariant" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="PostProc" />
+                                </StackPanel>
+                            </RadioButton.Content>
+                        </RadioButton>
                     </ToolBar>
                     <ToolBar
                         Margin="5"
@@ -51,15 +78,33 @@
                         <RadioButton
                             Command="{Binding MainRegionNavigationCmd}"
                             CommandParameter="{x:Static core:ViewNames.PointCloudView}"
-                            Content="PointCloud"
                             IsChecked="True"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" />
+                            Style="{StaticResource MaterialDesignTabRadioButton}">
+                            <RadioButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Cloud" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="PointCloud" />
+                                </StackPanel>
+                            </RadioButton.Content>
+                        </RadioButton>
                         <RadioButton
                             Command="{Binding MainRegionNavigationCmd}"
                             CommandParameter="{x:Static core:ViewNames.RegMapView}"
-                            Content="RegMap"
                             IsChecked="False"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" />
+                            Style="{StaticResource MaterialDesignTabRadioButton}">
+                            <RadioButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Map" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="RegMap" />
+                                </StackPanel>
+                            </RadioButton.Content>
+                        </RadioButton>
                     </ToolBar>
                 </ToolBarTray>
 
