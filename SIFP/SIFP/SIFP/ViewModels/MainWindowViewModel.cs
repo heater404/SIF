@@ -59,6 +59,7 @@ namespace SIFP.ViewModels
             if (result.Result == ButtonResult.Yes)
             {
                 IsExpertMode = !isExpertMode;
+                this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
                 comm.SwitchUserAccess(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
                 this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
             }
