@@ -20,10 +20,23 @@ namespace ConfigPostProc.ViewModels
         private ICommunication comm;
         private IDialogService dialogService;
         private PostProcParams postProcParams;
+        private bool isExpert;
+        public bool IsExpert
+        {
+            get { return isExpert; }
+            set { isExpert = value; RaisePropertyChanged(); }
+        }
         public ConfigPostProcViewModel(IInitArithParams initArithParams, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
             this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Subscribe(ConfigPostProc, true);
+            this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
+            {
+                if (type == SIFP.Core.Enums.UserAccessType.Expert)
+                    IsExpert = true;
+                else
+                    IsExpert = false;
+            }, true);
             this.comm = communication;
             this.dialogService = dialogService;
             this.postProcParams = initArithParams.InitPostProc();

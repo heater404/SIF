@@ -60,6 +60,7 @@ namespace SIFP.ViewModels
             {
                 IsExpertMode = !isExpertMode;
                 comm.SwitchUserAccess(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
             }
             else
                 IsExpertMode = isExpertMode;
@@ -89,6 +90,7 @@ namespace SIFP.ViewModels
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
         IDialogService dialogService;
         ICommunication comm;
+
         public MainWindowViewModel(ICommunication communication, IContainerExtension container, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             this.comm = communication;

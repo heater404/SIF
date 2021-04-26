@@ -16,11 +16,24 @@ namespace ConfigCorrection.ViewModels
         private IDialogService dialogService;
         private CorrectionParams corrParams;
 
+        private bool isExpert;
+        public bool IsExpert
+        {
+            get { return isExpert; }
+            set { isExpert = value; RaisePropertyChanged(); }
+        }
         public ConfigCorrectionViewModel(IInitArithParams initCorrection, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
             this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Subscribe(ConfigCorrection, true);
             this.EventAggregator.GetEvent<ConfigCameraAEChangedEvent>().Subscribe(enable => AE = enable, ThreadOption.BackgroundThread, true);
+            this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
+            {
+                if (type == SIFP.Core.Enums.UserAccessType.Expert)
+                    IsExpert = true;
+                else
+                    IsExpert = false;
+            },true);
             this.comm = communication;
             this.dialogService = dialogService;
             corrParams = initCorrection.InitCorrection();

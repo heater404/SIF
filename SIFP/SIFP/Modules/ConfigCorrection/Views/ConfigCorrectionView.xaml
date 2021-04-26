@@ -18,7 +18,10 @@
             <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
         </ScrollViewer.Resources>
         <StackPanel>
-            <GroupBox Margin="10" Header="OutPut">
+            <GroupBox
+                Margin="10"
+                Header="OutPut"
+                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox
                         Margin="0,5,0,5"
@@ -46,7 +49,10 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Margin="10" Header="Correction">
+            <GroupBox
+                Margin="10"
+                Header="Correction"
+                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox
                         Margin="0,5,0,5"
@@ -111,7 +117,10 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Margin="10" Header="Fusion">
+            <GroupBox
+                Margin="10"
+                Header="Fusion"
+                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox
                         Margin="0,5,0,5"
@@ -135,7 +144,8 @@
                     <CheckBox
                         Margin="0,5,0,5"
                         Content="AntiAliCorr"
-                        IsChecked="{Binding AntiAliCorr}" />
+                        IsChecked="{Binding AntiAliCorr}"
+                        Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>

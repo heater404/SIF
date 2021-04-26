@@ -55,4 +55,6 @@ namespace SIFP.Core.Mvvm
     public class ConfigArithParamsReplyEvent : PubSubEvent<ConfigArithParamsReply> { };
 
     public class ConfigVcselDriverReplyEvent : PubSubEvent<ConfigVcselDriverReply> { };
+
+    public class UserAccessChangedEvent : PubSubEvent<UserAccessType> { };
 }
