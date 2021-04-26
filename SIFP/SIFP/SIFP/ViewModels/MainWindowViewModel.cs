@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using Serilog;
+using Services.Interfaces;
 using SIFP.Core;
 using SIFP.Core.Enums;
 using SIFP.Core.Models;
@@ -28,7 +29,7 @@ namespace SIFP.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        private string version = "1.02.0426";
+        private string version = "1.02.210426";
         public string Version
         {
             get { return version; }
@@ -53,24 +54,15 @@ namespace SIFP.ViewModels
             }
         }
 
-        private void GetPasswordCallback(IDialogResult result)
+        private void SwitchModeCallback(IDialogResult result)
         {
-            if (result.Result == ButtonResult.OK)
+            if (result.Result == ButtonResult.Yes)
             {
-                var pwd = result.Parameters.GetValue<string>("pwd");
-                if (pwd == "4Ferliu10")
-                {
-                    IsExpertMode = !isExpertMode;
-                }
-                else
-                {
-                    IsExpertMode = isExpertMode;
-                }
+                IsExpertMode = !isExpertMode;
+                comm.SwitchUserAccess(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
             }
-            if (result.Result == ButtonResult.Cancel)
-            {
+            else
                 IsExpertMode = isExpertMode;
-            }
         }
 
         private bool isDebug;
@@ -96,8 +88,10 @@ namespace SIFP.ViewModels
         public DelegateCommand<Type> OpenLeftDrawerCmd { get; set; }
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
         IDialogService dialogService;
-        public MainWindowViewModel(IContainerExtension container, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        ICommunication comm;
+        public MainWindowViewModel(ICommunication communication, IContainerExtension container, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
+            this.comm = communication;
             this.dialogService = dialogService;
             OpenLeftDrawerCmd = new DelegateCommand<Type>(view =>
               {
@@ -112,7 +106,7 @@ namespace SIFP.ViewModels
 
             OpenPasswordDialogCmd = new DelegateCommand(() =>
               {
-                  dialogService.ShowDialog(DialogNames.PasswordDialog, GetPasswordCallback);
+                  dialogService.ShowDialog(DialogNames.PasswordDialog, SwitchModeCallback);
               });
 
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
