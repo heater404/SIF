@@ -294,8 +294,8 @@ namespace Tool.ViewModels
                     //    ReturnGrayImage = false,
                     //    ReturnPointcloud = false,
                     //}, 3000);
-                    this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
-                    this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
+                    //this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
+                    //this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
 
                     this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 

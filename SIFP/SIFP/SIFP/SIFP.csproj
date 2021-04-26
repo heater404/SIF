@@ -40,6 +40,7 @@
     <ProjectReference Include="..\Modules\ConfigPostProc\ConfigPostProc.csproj" />
     <ProjectReference Include="..\Modules\Menu\Menu.csproj" />
     <ProjectReference Include="..\Modules\NotificationDialog\NotificationDialog.csproj" />
+    <ProjectReference Include="..\Modules\PasswordDialog\PasswordDialog.csproj" />
     <ProjectReference Include="..\Modules\PointCloud\PointCloud.csproj" />
     <ProjectReference Include="..\Modules\RegMap\RegMap.csproj" />
     <ProjectReference Include="..\Modules\StatusBar\StatusBar.csproj" />

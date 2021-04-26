@@ -31,7 +31,7 @@
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigCameraView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" >
+                            Style="{StaticResource MaterialDesignTabRadioButton}">
                             <RadioButton.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CameraControl" />
@@ -45,7 +45,7 @@
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigCorrectionView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}" >
+                            Style="{StaticResource MaterialDesignTabRadioButton}">
                             <RadioButton.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Tune" />
@@ -118,14 +118,28 @@
                             PlacementMode="BottomAndAlignRightEdges"
                             StaysOpen="False">
                             <StackPanel>
-                                <CheckBox
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Normal" />
+                                    <ToggleButton
+                                        Margin="5,0,5,0"
+                                        Command="{Binding OpenPasswordDialogCmd}"
+                                        IsChecked="{Binding IsExpertMode, Mode=OneWay}"
+                                        Style="{StaticResource MaterialDesignSwitchLightToggleButton}" />
+                                    <TextBlock Text="Expert" />
+                                </StackPanel>
+                                <Separator />
+                                <!--<CheckBox
                                     Margin="10"
                                     Content="Debug"
                                     IsChecked="{Binding IsDebug, Mode=TwoWay}" />
-                                <Separator />
+                                <Separator />-->
                                 <Button Content="Help" />
                                 <Button Content="About" />
-                                <Button Content="1.01.210425" />
+                                <Separator />
+                                <TextBox
+                                    materialDesign:TextFieldAssist.PrefixText="Version"
+                                    IsReadOnly="True"
+                                    Text="{Binding Version}" />
                             </StackPanel>
                         </materialDesign:PopupBox>
 

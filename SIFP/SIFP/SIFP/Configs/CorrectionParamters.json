@@ -6,7 +6,7 @@
         "OutDepthValueType": 0,
         "OutDepthDataType": 0
     },
-    "CorrectionParams": {
+    "CorrParams": {
         "CorrBP": true,
         "CorrLen": true,
         "CorrTemp": true,

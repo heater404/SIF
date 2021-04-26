@@ -32,6 +32,7 @@ using ConfigPostProc;
 using ConfigPostProc.Views;
 using VcselDriverDialog.Views;
 using VcselDriverDialog.ViewModels;
+using PasswordDialog.Views;
 
 namespace SIFP
 {
@@ -80,6 +81,7 @@ namespace SIFP
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);
             containerRegistry.RegisterDialog<NotificationView>(DialogNames.NotificationDialog);
             containerRegistry.RegisterDialog<VcselDriverView>(DialogNames.VcselDriverDialog);
+            containerRegistry.RegisterDialog<PasswordView>(DialogNames.PasswordDialog);
 
             containerRegistry.RegisterForNavigation<PointCloudView>(ViewNames.PointCloudView);
             containerRegistry.RegisterForNavigation<RegMapView>(ViewNames.RegMapView);

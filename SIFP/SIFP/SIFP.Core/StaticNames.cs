@@ -20,6 +20,7 @@ namespace SIFP.Core
         public const string WaitingDialog = "WaitingView";
         public const string NotificationDialog = "NotificationView";
         public const string VcselDriverDialog = "VcselDriverDialog";
+        public const string PasswordDialog = "PasswordDialog";
     }
 
     public static class ViewNames
