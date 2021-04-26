@@ -114,7 +114,7 @@ namespace ConfigCorrection.ViewModels
         public bool CorrFPN
         {
             get { return corrParams.CorrParams.CorrFPN; }
-            set { corrParams.CorrParams.CorrWig = value; RaisePropertyChanged(); ConfigCorrection(); }
+            set { corrParams.CorrParams.CorrFPN = value; RaisePropertyChanged(); ConfigCorrection(); }
         }
         public bool FillInvalidPixels
         {
