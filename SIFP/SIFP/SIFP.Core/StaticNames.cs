@@ -34,7 +34,6 @@ namespace SIFP.Core
         public static Array PointCloudTypes { get => Enum.GetValues(typeof(PointCloudTypeE)); }
         public static Array DepthValueTypes { get => Enum.GetValues(typeof(DepthValueTypeE)); }
         public static Array DepthDataTypes { get => Enum.GetValues(typeof(DepthDataTypeE)); }
-
         public static Array DenoiseLevels { get => Enum.GetValues(typeof(DenoiseLevelE)); }
         public static Array SDenoiseMethods { get => Enum.GetValues(typeof(SDenoiseMethodE)); }
     }
