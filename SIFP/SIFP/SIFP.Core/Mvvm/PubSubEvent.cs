@@ -57,4 +57,6 @@ namespace SIFP.Core.Mvvm
     public class ConfigVcselDriverReplyEvent : PubSubEvent<ConfigVcselDriverReply> { };
 
     public class UserAccessChangedEvent : PubSubEvent<UserAccessType> { };
+
+    public class ConfigCameraSuccessEvent : PubSubEvent<bool> { };
 }

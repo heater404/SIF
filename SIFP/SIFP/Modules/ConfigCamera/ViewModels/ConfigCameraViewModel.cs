@@ -78,6 +78,17 @@ namespace ConfigCamera.ViewModels
                 }
             }
         }
+        private bool configCameraSuccess;
+        public bool ConfigCameraSuccess
+        {
+            get { return configCameraSuccess; }
+            set 
+            {
+                configCameraSuccess = value;
+                RaisePropertyChanged();
+                this.EventAggregator.GetEvent<ConfigCameraSuccessEvent>().Publish(value);
+            }
+        }
 
         private async void ApplyConfigCamera(bool dialog)
         {
@@ -91,17 +102,20 @@ namespace ConfigCamera.ViewModels
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
                     this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.subWorkModeIndex);
+                    ConfigCameraSuccess = true;
                 }
                 else
                 {
                     this.PrintNoticeLog("ConfigCamera Fail", LogLevel.Error);
                     this.PrintWatchLog("ConfigCamera Fail", LogLevel.Error);
+                    ConfigCameraSuccess = false;
                 }
             }
             else
             {
                 this.PrintNoticeLog("ConfigCamera Timeout", LogLevel.Error);
                 this.PrintWatchLog("ConfigCamera Timeout", LogLevel.Error);
+                ConfigCameraSuccess = false;
             }
             if (dialog)
                 EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();

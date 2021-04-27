@@ -72,7 +72,7 @@ namespace Tool.ViewModels
         }
 
         private bool isDebug;
-
+        private bool isConfigCameraSuccess = false;
         public DelegateCommand ConnectCtrlCmd { get; private set; }
         public DelegateCommand StreamingCtrlCmd { get; private set; }
         public DelegateCommand VcselDriverShowCmd { get; set; }
@@ -116,6 +116,11 @@ namespace Tool.ViewModels
             }, true);
 
             this.EventAggregator.GetEvent<IsDebugEvent>().Subscribe(arg => isDebug = arg, true);
+
+            this.EventAggregator.GetEvent<ConfigCameraSuccessEvent>().Subscribe(isSuccess =>
+            {
+                CanStreamingCtrlCmd &= isSuccess;
+            }, ThreadOption.BackgroundThread, true);
         }
 
         private void ShowVcselDriverDialog()
