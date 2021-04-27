@@ -12,7 +12,10 @@
     d:DesignWidth="300"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <ListView ItemsSource="{Binding WatchLogs}">
+    <ListView
+        ItemsSource="{Binding WatchLogs}"
+        ScrollViewer.CanContentScroll="True"
+        ScrollViewer.VerticalScrollBarVisibility="Visible">
         <ListView.ContextMenu>
             <ContextMenu>
                 <MenuItem Command="{Binding ClearWatchLogsCmd}" Header="Clear" />

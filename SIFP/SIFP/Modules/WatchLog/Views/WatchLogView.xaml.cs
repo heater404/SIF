@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Prism.Events;
+using SIFP.Core.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,13 @@ namespace WatchLog.Views
     /// </summary>
     public partial class WatchLogView : UserControl
     {
-        public WatchLogView()
+        public WatchLogView(IEventAggregator eventAggregator)
         {
             InitializeComponent();
+            eventAggregator.GetEvent<ChangeDrawerRegionSizeEvent>().Subscribe(size =>
+            {
+                this.Height = Math.Max(size.Height - 80, 0);
+            }, true);
         }
     }
 }

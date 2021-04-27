@@ -27,7 +27,7 @@ namespace ConfigPostProc.Views
         {
             this.eventAggregator = eventAggregator;
             InitializeComponent();
-            this.eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Subscribe(size =>
+            this.eventAggregator.GetEvent<ChangeDrawerRegionSizeEvent>().Subscribe(size =>
             {
                 this.Height = Math.Max(size.Height - 80, 0);
             }, true);

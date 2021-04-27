@@ -21,7 +21,7 @@
         "AntiMCI": false
     },
     "ConfidenceParams": {
-        "ValidDistMin": 150,
-        "ValidDistMax": 4000
+        "ValidDistMin": 0,
+        "ValidDistMax": 7000
     }
 }

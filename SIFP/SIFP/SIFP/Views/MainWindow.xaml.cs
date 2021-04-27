@@ -30,7 +30,7 @@ namespace SIFP.Views
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Publish(e.NewSize);
+            this.eventAggregator.GetEvent<ChangeDrawerRegionSizeEvent>().Publish(e.NewSize);
         }
 
         protected override void OnClosing(CancelEventArgs e)

@@ -26,7 +26,7 @@ namespace ConfigCamera.Views
         public ConfigCameraView(IEventAggregator eventAggregator)
         {
             InitializeComponent();
-            eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Subscribe(size=>
+            eventAggregator.GetEvent<ChangeDrawerRegionSizeEvent>().Subscribe(size=>
             {
                 this.Height =Math.Max(size.Height-80,0);
             },true);

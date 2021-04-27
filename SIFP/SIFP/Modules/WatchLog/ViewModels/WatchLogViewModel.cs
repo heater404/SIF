@@ -33,7 +33,7 @@ namespace WatchLog.ViewModels
         {
             ClearWatchLogsCmd = new DelegateCommand(ClearWatchLogs);
             SaveWatchLogsCmd = new DelegateCommand(SaveWatchLogs);
-            this.EventAggregator.GetEvent<WatchLogEvent>().Subscribe(AddWatchLog,true);
+            this.EventAggregator.GetEvent<WatchLogEvent>().Subscribe(AddWatchLog,ThreadOption.BackgroundThread,true);
         }
 
         private void SaveWatchLogs()

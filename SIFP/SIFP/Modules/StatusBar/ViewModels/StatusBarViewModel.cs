@@ -26,14 +26,14 @@ namespace StatusBar.ViewModels
         public string LotNumber
         {
             get { return lotNumber; }
-            set { lotNumber = value;RaisePropertyChanged(); }
+            set { lotNumber = value; RaisePropertyChanged(); }
         }
 
         private string waferId;
         public string WaferId
         {
             get { return waferId; }
-            set { waferId = value;RaisePropertyChanged(); }
+            set { waferId = value; RaisePropertyChanged(); }
         }
 
         private string camChipID;
@@ -43,14 +43,14 @@ namespace StatusBar.ViewModels
             set { camChipID = value; RaisePropertyChanged(); }
         }
 
-        private string camName ;
+        private string camName;
         public string CamName
         {
             get { return camName; }
             set { camName = value; RaisePropertyChanged(); }
         }
 
-        private double tSensor ;
+        private double tSensor;
         public double TSensor
         {
             get { return tSensor; }
@@ -68,12 +68,12 @@ namespace StatusBar.ViewModels
         public SubWorkModeE WorkMode
         {
             get { return workMode; }
-            set { workMode = value;RaisePropertyChanged(); }
+            set { workMode = value; RaisePropertyChanged(); }
         }
 
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
-            this.EventAggregator.GetEvent<NoticeLogEvent>().Subscribe(log => this.Log = log,true);
+            this.EventAggregator.GetEvent<NoticeLogEvent>().Subscribe(log => this.Log = log, ThreadOption.BackgroundThread, true);
 
             this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
             {
@@ -82,22 +82,22 @@ namespace StatusBar.ViewModels
 
                 LotNumber = "0x" + reply.LotNumber.ToString("x2");
                 WaferId = "0x" + reply.WaferId.ToString("x2");
-            },true);
+            }, true);
 
             this.EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(reply =>
             {
                 Resolution = reply.OutImageWidth + "*" + (reply.OutImageHeight - reply.AddInfoLines);
-            },true);
+            }, true);
 
             this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Subscribe(reply =>
             {
                 WorkMode = reply;
-            },true);
+            }, true);
 
             this.EventAggregator.GetEvent<GetSysStatusReplyEvent>().Subscribe(reply =>
             {
                 TSensor = reply.TSensor;
-            },true);
+            }, true);
         }
     }
 }

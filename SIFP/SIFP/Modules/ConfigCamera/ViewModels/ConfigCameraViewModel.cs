@@ -92,6 +92,7 @@ namespace ConfigCamera.ViewModels
 
         private async void ApplyConfigCamera(bool dialog)
         {
+            ConfigCameraSuccess = false;
             if (dialog)
                 dialogService.Show(DialogNames.WaitingDialog);
             var res = await Task.Run(() => comm.ConfigCamera(GetCurrentConfig(), 5000));

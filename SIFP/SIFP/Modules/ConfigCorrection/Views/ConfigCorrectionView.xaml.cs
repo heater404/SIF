@@ -27,7 +27,7 @@ namespace ConfigCorrection.Views
         {
             InitializeComponent();
             this.eventAggregator = eventAggregator;
-            eventAggregator.GetEvent<ChangeLeftDrawerRegionSizeEvent>().Subscribe(size =>
+            eventAggregator.GetEvent<ChangeDrawerRegionSizeEvent>().Subscribe(size =>
             {
                 this.Height = Math.Max(size.Height - 80, 0);
             }, true);
