@@ -195,8 +195,7 @@ namespace Tool.ViewModels
             {
                 if (await Task.Run(() => StreamingOn()))
                 {
-                    this.PrintNoticeLog("StreamingOn Success", LogLevel.Warning);
-                    this.PrintWatchLog("StreamingOn Success", LogLevel.Warning);
+
                     IsStreaming = true;
                 }
                 else
@@ -208,8 +207,7 @@ namespace Tool.ViewModels
             {
                 if (await Task.Run(() => StreamingOff()))
                 {
-                    this.PrintNoticeLog("StreamingOff Success", LogLevel.Warning);
-                    this.PrintWatchLog("StreamingOff Success", LogLevel.Warning);
+                    
                     IsStreaming = false;
                 }
                 else
@@ -231,6 +229,11 @@ namespace Tool.ViewModels
                     this.PrintNoticeLog("StreamingOn Fail", LogLevel.Error);
                     this.PrintWatchLog("StreamingOn Fail", LogLevel.Error);
                     return false;
+                }
+                else
+                {
+                    this.PrintNoticeLog("StreamingOn Success", LogLevel.Warning);
+                    this.PrintWatchLog("StreamingOn Success", LogLevel.Warning);
                 }
             }
             else
@@ -254,14 +257,17 @@ namespace Tool.ViewModels
                 {
                     this.PrintNoticeLog("StreamingOff Fail", LogLevel.Error);
                     this.PrintWatchLog("StreamingOff Fail", LogLevel.Error);
-                    return false;
+                }
+                else
+                {
+                    this.PrintNoticeLog("StreamingOff Success", LogLevel.Warning);
+                    this.PrintWatchLog("StreamingOff Success", LogLevel.Warning);
                 }
             }
             else
             {
                 this.PrintNoticeLog("StreamingOff Timeout", LogLevel.Error);
                 this.PrintWatchLog("StreamingOff Timeout", LogLevel.Error);
-                return false;
             }
 
             EventAggregator.GetEvent<ClosePointCloudEvent>().Publish();
