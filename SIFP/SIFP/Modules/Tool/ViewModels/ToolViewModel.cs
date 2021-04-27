@@ -72,7 +72,6 @@ namespace Tool.ViewModels
         }
 
         private bool isDebug;
-        private bool isConfigCameraSuccess = false;
         public DelegateCommand ConnectCtrlCmd { get; private set; }
         public DelegateCommand StreamingCtrlCmd { get; private set; }
         public DelegateCommand VcselDriverShowCmd { get; set; }
@@ -305,13 +304,16 @@ namespace Tool.ViewModels
                     //    ReturnGrayImage = false,
                     //    ReturnPointcloud = false,
                     //}, 3000);
-                    //this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
-                    //this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
+                    
 
                     this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 
                     cancellationTokenSource = new CancellationTokenSource();
                     comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
+
+                    //Thread.Sleep(100);
+                    //this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
+                    //this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
 
                     IsConnected = true;
                     CanStreamingCtrlCmd = true;
