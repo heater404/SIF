@@ -311,9 +311,8 @@ namespace Tool.ViewModels
                     cancellationTokenSource = new CancellationTokenSource();
                     comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
 
-                    //Thread.Sleep(100);
-                    //this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
-                    //this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
+                    this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
+                    this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
 
                     IsConnected = true;
                     CanStreamingCtrlCmd = true;
