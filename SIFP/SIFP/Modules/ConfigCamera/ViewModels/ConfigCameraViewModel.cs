@@ -49,7 +49,7 @@ namespace ConfigCamera.ViewModels
 
             this.EventAggregator.GetEvent<ConfigArithParamsReplyEvent>().Subscribe(reply =>
             {
-                if (reply.Ack)
+                if (reply.Ack == 0)
                     this.IntegrationTimes = reply.IntegrationTimes;
                 else
                     this.PrintWatchLog("AE Fail", LogLevel.Error);
@@ -82,7 +82,7 @@ namespace ConfigCamera.ViewModels
         public bool ConfigCameraSuccess
         {
             get { return configCameraSuccess; }
-            set 
+            set
             {
                 configCameraSuccess = value;
                 RaisePropertyChanged();
