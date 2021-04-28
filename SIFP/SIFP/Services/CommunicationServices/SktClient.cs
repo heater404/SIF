@@ -62,7 +62,6 @@ namespace Services
         {
             try
             {
-
                 if (client != null)
                 {
                     RecvDatas.Add(client.EndReceive(ar, ref remoteEP));
@@ -84,16 +83,17 @@ namespace Services
         {
             try
             {
-                if (null != client)
-                    lock (socketLock)
+                lock (socketLock)
+                {
+                    if (null != client)
                     {
                         IAsyncResult result = client.BeginSend(data, data.Length, remoteEP, null, null);
                         if (result.AsyncWaitHandle.WaitOne(1000))
                             Thread.Sleep(100);
-                        
+
                         return client.EndSend(result);
                     }
-                return 0;
+                }
             }
             catch (Exception)
             {

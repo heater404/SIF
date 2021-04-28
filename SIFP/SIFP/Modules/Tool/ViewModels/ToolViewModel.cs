@@ -28,7 +28,14 @@ namespace Tool.ViewModels
         public bool IsConnected
         {
             get { return isConnected; }
-            set { isConnected = value; RaisePropertyChanged(); }
+            set
+            {
+                isConnected = value;
+                RaisePropertyChanged();
+                CanConnectCtrlCmd = CanConnectCtrl();
+                CanStreamingCtrlCmd = CanStreamingOn();
+                CanCaptureCtrlCmd = CanCaptureCtrl();
+            }
         }
 
         private bool isStreaming = false;
@@ -40,6 +47,13 @@ namespace Tool.ViewModels
                 isStreaming = value;
                 RaisePropertyChanged();
                 this.EventAggregator.GetEvent<IsStreamingEvent>().Publish(value);
+
+                //是否能够捕获取决于是否streaming
+                CanConnectCtrlCmd = CanConnectCtrl();
+
+                CanStreamingCtrlCmd = CanStreamingOn();
+
+                CanCaptureCtrlCmd = CanCaptureCtrl();
             }
         }
 
@@ -47,7 +61,48 @@ namespace Tool.ViewModels
         public bool IsCapturing
         {
             get { return isCapturing; }
-            set { isCapturing = value; RaisePropertyChanged(); }
+            set
+            {
+                isCapturing = value;
+                RaisePropertyChanged();
+
+                //Capturing时不允许断开连接
+                CanConnectCtrlCmd = CanConnectCtrl();
+
+                CanStreamingCtrlCmd = CanStreamingOn();
+
+                CanCaptureCtrlCmd = CanCaptureCtrl();
+            }
+        }
+        private bool CanCaptureCtrl()
+        {
+            return isStreaming;
+        }
+        private bool CanConnectCtrl()
+        {
+            return !isCapturing;
+        }
+        private bool CanStreamingOn()
+        {
+            if (isCapturing)
+                return false;
+            else
+                return IsConnected & isConfigCameraSuccess;
+        }
+        private bool isConfigCameraSuccess = false;
+        public bool IsConfigCameraSuccess
+        {
+            get { return isConfigCameraSuccess; }
+            set
+            {
+                isConfigCameraSuccess = value;
+
+                CanConnectCtrlCmd = CanConnectCtrl();
+
+                CanStreamingCtrlCmd = CanStreamingOn();
+
+                CanCaptureCtrlCmd = CanCaptureCtrl();
+            }
         }
 
         private bool canConnectCtrlCmd = true;
@@ -57,18 +112,18 @@ namespace Tool.ViewModels
             set { canConnectCtrlCmd = value; RaisePropertyChanged(); }
         }
 
-        private bool canStreamingCtrlCmd = false;
+        private bool canStreamingCtrlCmd;
         public bool CanStreamingCtrlCmd
         {
             get { return canStreamingCtrlCmd; }
             set { canStreamingCtrlCmd = value; RaisePropertyChanged(); }
         }
 
-        private bool canCaptureCtrlCmd = false;
+        private bool canCatureCtrlCmd;
         public bool CanCaptureCtrlCmd
         {
-            get { return canCaptureCtrlCmd; }
-            set { canCaptureCtrlCmd = value; RaisePropertyChanged(); }
+            get { return canCatureCtrlCmd; }
+            set { canCatureCtrlCmd = value; RaisePropertyChanged(); }
         }
 
         private bool isDebug;
@@ -109,16 +164,13 @@ namespace Tool.ViewModels
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
                 IsCapturing = false;
-                CanCaptureCtrlCmd = true;
-                CanStreamingCtrlCmd = true;
-                CanConnectCtrlCmd = true;
             }, true);
 
             this.EventAggregator.GetEvent<IsDebugEvent>().Subscribe(arg => isDebug = arg, true);
 
             this.EventAggregator.GetEvent<ConfigCameraSuccessEvent>().Subscribe(isSuccess =>
             {
-                CanStreamingCtrlCmd &= isSuccess;
+                IsConfigCameraSuccess = isSuccess;
             }, ThreadOption.PublisherThread, true);
         }
 
@@ -147,10 +199,6 @@ namespace Tool.ViewModels
                      if (result.Result == ButtonResult.Yes)
                      {
                          comm.AlgoDelCapture((UInt32)CapturePosition.Pos, (UInt32)CaptureID.ID);
-
-                         CanCaptureCtrlCmd = true;
-                         CanStreamingCtrlCmd = true;
-                         CanConnectCtrlCmd = true;
                          IsCapturing = false;
                      }
                      else
@@ -165,31 +213,17 @@ namespace Tool.ViewModels
         {
             if (result.Result == ButtonResult.OK)
             {
-                CanCaptureCtrlCmd = true;
-                CanStreamingCtrlCmd = false;
-                CanConnectCtrlCmd = false;
                 IsCapturing = true;
             }
             else
             {
-                CanCaptureCtrlCmd = true;
-                CanStreamingCtrlCmd = true;
-                CanConnectCtrlCmd = true;
                 IsCapturing = false;
             }
         }
 
         private async void StreamingCtrl()
         {
-            CanCaptureCtrlCmd = false;
-            CanStreamingCtrlCmd = false;
-            CanConnectCtrlCmd = false;
-            dialogService.Show(DialogNames.WaitingDialog, result =>
-            {
-                CanCaptureCtrlCmd = isStreaming;
-                CanStreamingCtrlCmd = true;
-                CanConnectCtrlCmd = true;
-            });
+            dialogService.Show(DialogNames.WaitingDialog);
             if (!isStreaming)
             {
                 if (await Task.Run(() => StreamingOn()))
@@ -206,7 +240,7 @@ namespace Tool.ViewModels
             {
                 if (await Task.Run(() => StreamingOff()))
                 {
-                    
+
                     IsStreaming = false;
                 }
                 else
@@ -275,22 +309,11 @@ namespace Tool.ViewModels
 
         private async void ConnectCtrl()
         {
-            CanCaptureCtrlCmd = false;
-            CanStreamingCtrlCmd = false;
-            CanConnectCtrlCmd = false;
-            dialogService.Show(DialogNames.WaitingDialog, result =>
-            {
-                CanCaptureCtrlCmd = false;
-
-                CanConnectCtrlCmd = true;
-            });
+            dialogService.Show(DialogNames.WaitingDialog);
             if (!isConnected)
             {
                 if (await Task.Run(ConnectCamera))
                 {
-                    this.PrintNoticeLog("ConnectCamera Success", LogLevel.Warning);
-                    this.PrintWatchLog("ConnectCamera Success", LogLevel.Warning);
-
                     //comm.SwitchUserAccess(UserAccessType.Expert);
                     //comm.ConfigAlg(new ConfigAlgRequest
                     //{
@@ -304,7 +327,7 @@ namespace Tool.ViewModels
                     //    ReturnGrayImage = false,
                     //    ReturnPointcloud = false,
                     //}, 3000);
-                    
+
                     this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 
                     cancellationTokenSource = new CancellationTokenSource();
@@ -314,7 +337,6 @@ namespace Tool.ViewModels
                     this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
 
                     IsConnected = true;
-                    CanStreamingCtrlCmd = true;
                 }
                 else
                 {
@@ -326,8 +348,6 @@ namespace Tool.ViewModels
             {
                 if (await Task.Run(DisconnectCamera))
                 {
-                    this.PrintNoticeLog("DisconnectCamera Success", LogLevel.Warning);
-                    this.PrintWatchLog("DisconnectCamera Success", LogLevel.Warning);
                     IsConnected = false;
                 }
                 else
@@ -371,6 +391,9 @@ namespace Tool.ViewModels
                 this.PrintWatchLog("OpenCamera Timeout", LogLevel.Error);
                 return false;
             }
+
+            this.PrintNoticeLog("OpenCamera Success", LogLevel.Warning);
+            this.PrintWatchLog("OpenCamera Success", LogLevel.Warning);
             return true;
         }
 
@@ -478,6 +501,8 @@ namespace Tool.ViewModels
             if (!KillAssembly(processor))
                 return false;
 
+            //this.PrintNoticeLog("DisconnectCamera Success", LogLevel.Warning);
+            //this.PrintWatchLog("DisconnectCamera Success", LogLevel.Warning);
             return true;
         }
     }
