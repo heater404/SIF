@@ -119,7 +119,7 @@ namespace Tool.ViewModels
             this.EventAggregator.GetEvent<ConfigCameraSuccessEvent>().Subscribe(isSuccess =>
             {
                 CanStreamingCtrlCmd &= isSuccess;
-            }, ThreadOption.BackgroundThread, true);
+            }, ThreadOption.PublisherThread, true);
         }
 
         private void ShowVcselDriverDialog()
