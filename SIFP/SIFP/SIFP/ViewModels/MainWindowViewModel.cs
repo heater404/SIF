@@ -86,6 +86,13 @@ namespace SIFP.ViewModels
             set { leftDrawerContent = value; RaisePropertyChanged(); }
         }
 
+        private bool isEnable=true;
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set { isEnable = value;RaisePropertyChanged(); }
+        }
+
         public DelegateCommand OpenPasswordDialogCmd { get; set; }
         public DelegateCommand<Type> OpenLeftDrawerCmd { get; set; }
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
@@ -115,6 +122,9 @@ namespace SIFP.ViewModels
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCorrectionView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigPostProcView);
+
+            this.EventAggregator.GetEvent<MainWindowEnableEvent>().Subscribe(b => IsEnable = b, true);
+
         }
     }
 }

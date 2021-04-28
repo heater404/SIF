@@ -31,12 +31,12 @@ namespace WaitingDialog.ViewModels
 
         public void OnDialogClosed()
         {
-
+            this.eventAggregator.GetEvent<MainWindowEnableEvent>().Publish(true);
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-
+            this.eventAggregator.GetEvent<MainWindowEnableEvent>().Publish(false);
         }
     }
 }

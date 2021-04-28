@@ -59,4 +59,6 @@ namespace SIFP.Core.Mvvm
     public class UserAccessChangedEvent : PubSubEvent<UserAccessType> { };
 
     public class ConfigCameraSuccessEvent : PubSubEvent<bool> { };
+
+    public class MainWindowEnableEvent : PubSubEvent<bool> { };
 }

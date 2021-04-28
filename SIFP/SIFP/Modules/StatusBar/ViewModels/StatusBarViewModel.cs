@@ -82,12 +82,12 @@ namespace StatusBar.ViewModels
 
                 LotNumber = "0x" + reply.LotNumber.ToString("x2");
                 WaferId = "0x" + reply.WaferId.ToString("x2");
-            }, true);
+            }, ThreadOption.BackgroundThread, true);
 
             this.EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(reply =>
             {
                 Resolution = reply.OutImageWidth + "*" + (reply.OutImageHeight - reply.AddInfoLines);
-            }, true);
+            }, ThreadOption.BackgroundThread, true);
 
             this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Subscribe(reply =>
             {
@@ -97,7 +97,7 @@ namespace StatusBar.ViewModels
             this.EventAggregator.GetEvent<GetSysStatusReplyEvent>().Subscribe(reply =>
             {
                 TSensor = reply.TSensor;
-            }, true);
+            }, ThreadOption.BackgroundThread, true);
         }
     }
 }

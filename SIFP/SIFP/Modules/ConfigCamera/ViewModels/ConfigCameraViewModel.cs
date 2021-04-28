@@ -36,12 +36,9 @@ namespace ConfigCamera.ViewModels
             InitWorkMode();
 
             FourBgSyncCmd = new DelegateCommand(FourBgSync);
-            ApplyConfigCameraCmd = new DelegateCommand(() =>
-            {
-                ApplyConfigCamera(true);
-            });
+            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCamera);
 
-            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(() => ApplyConfigCamera(false), true);
+            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.UIThread, true);
 
             this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, ThreadOption.BackgroundThread, true);
 
@@ -90,11 +87,10 @@ namespace ConfigCamera.ViewModels
             }
         }
 
-        private async void ApplyConfigCamera(bool dialog)
+        private async void ApplyConfigCamera()
         {
-            //ConfigCameraSuccess = false;
-            if (dialog)
-                dialogService.Show(DialogNames.WaitingDialog);
+            ConfigCameraSuccess = false;
+            dialogService.Show(DialogNames.WaitingDialog);
             var res = await Task.Run(() => comm.ConfigCamera(GetCurrentConfig(), 5000));
             if (res.HasValue)
             {
@@ -118,8 +114,7 @@ namespace ConfigCamera.ViewModels
                 this.PrintWatchLog("ConfigCamera Timeout", LogLevel.Error);
                 ConfigCameraSuccess = false;
             }
-            if (dialog)
-                EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
+            EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
         }
 
         private ConfigCameraRequest GetCurrentConfig()
