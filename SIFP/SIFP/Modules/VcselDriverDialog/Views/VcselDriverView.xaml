@@ -16,7 +16,7 @@
     mc:Ignorable="d">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
-            <Setter Property="prism:Dialog.WindowStartupLocation" Value="Manual" />
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterOwner" />
             <Setter Property="AllowDrop" Value="True" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="ShowInTaskbar" Value="False" />
