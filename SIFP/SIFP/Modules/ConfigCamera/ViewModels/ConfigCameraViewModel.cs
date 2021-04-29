@@ -25,6 +25,7 @@ namespace ConfigCamera.ViewModels
     {
         private ICommunication comm;
         private IDialogService dialogService;
+        private ConfigCameraModel configCameraModel;
         public ConfigCameraViewModel(IInitCamera initCamera, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
@@ -119,7 +120,7 @@ namespace ConfigCamera.ViewModels
 
         private ConfigCameraRequest GetCurrentConfig()
         {
-            SubWorkModeAttribute attribute = ((SubWorkModeE)subWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();
+            SubWorkModeAttribute attribute = ((SubWorkModeE)SubWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();
 
             ConfigCameraRequest request = new ConfigCameraRequest
             {
@@ -225,26 +226,47 @@ namespace ConfigCamera.ViewModels
 
         //WorkMode的集合用于后台的绑定
         public List<ComboBoxItemMode<WorkModeE>> WorkModes { get; set; } = new List<ComboBoxItemMode<WorkModeE>>();
-
         //SubWorkMode的集合用于后台的绑定 这个集合是根据WorkMode动态生成的
         public List<ComboBoxItemMode<SubWorkModeE>> SubWorkModes { get; set; } = new List<ComboBoxItemMode<SubWorkModeE>>();
 
-        //被选中的WorkMode的索引
-        private WorkModeE workModeIndex = WorkModeE.DOUBLE_FREQ;//决定初始化的时候是的WorkMode
 
         public WorkModeE WorkModeIndex
         {
-            get { return workModeIndex; }
-
-            set
-            {
-                workModeIndex = value;
-                RaisePropertyChanged();
-
-                //每一次切换WorkMode之后都需要更新SubWorkMode
-                FilterSubWorkMode((WorkModeE)value);
-            }
+            get { return configCameraModel.UserCase.WorkMode; }
+            set { configCameraModel.UserCase.WorkMode = value; RaisePropertyChanged(); }
         }
+        //被选中的SubWorkMode的索引
+        public SubWorkModeE SubWorkModeIndex
+        {
+            get { return configCameraModel.UserCase.SubWorkMode; }
+            set { configCameraModel.UserCase.SubWorkMode = value; RaisePropertyChanged(); }
+        }
+        public IntegrationTime[] IntegrationTimes //ns
+        {
+            get { return configCameraModel.UserCase.IntegrationTimes; }
+            set { configCameraModel.UserCase.IntegrationTimes = value; RaisePropertyChanged(); }
+        }
+        public PLLDLLDiv[] PLLDLLDivs//这里的单位都是KHz
+        {
+            get { return configCameraModel.UserCase.PLLDLLDivs; }
+            set { configCameraModel.UserCase.PLLDLLDivs = value; RaisePropertyChanged(); }
+        }
+        public UInt32[] NumSubFramePerFrame
+        {
+            get { return configCameraModel.UserCase.NumSubFramePerFrame; }
+            set { configCameraModel.UserCase.NumSubFramePerFrame = value; RaisePropertyChanged(); }
+        }
+        public SubFrameModeE[] SubFrameModes
+        {
+            get { return configCameraModel.UserCase.SubFrameModes; }
+            set { configCameraModel.UserCase.SubFrameModes = value; RaisePropertyChanged(); }
+        }
+        public SpecialFrameModeE[] SpecialFrameModes
+        {
+            get { return configCameraModel.UserCase.SpecialFrameModes; }
+            set { configCameraModel.UserCase.SpecialFrameModes = value; RaisePropertyChanged(); }
+        }
+
 
         /// <summary>
         /// 根据WorkMode动态过滤SubWorkMode，在SubWorkMode中，如果属于被选中的WorkMode则把Visibility设置为True，否则为false
@@ -264,89 +286,6 @@ namespace ConfigCamera.ViewModels
 
             //切换SubWorkMode后需要重新选择,而且默认选择第一个。
             SubWorkModeIndex = SubWorkModes.First(s => s.IsShow == Visibility.Visible).SelectedModel;
-        }
-
-        //被选中的SubWorkMode的索引
-        private SubWorkModeE subWorkModeIndex;
-
-        public SubWorkModeE SubWorkModeIndex
-        {
-            get { return subWorkModeIndex; }
-
-            set
-            {
-                subWorkModeIndex = value;
-                RaisePropertyChanged();
-
-                //每一次切换SubWorkMode之后都需要更新Config
-                SetConfigs((SubWorkModeE)value);
-            }
-        }
-
-        /// <summary>
-        /// 通过SubWorkMode配置Configs的数量
-        /// </summary>
-        /// <param name="subWorkMode">被选中的SubWorkMode</param>
-        private void SetConfigs(SubWorkModeE subWorkMode)
-        {
-            this.config = defaultConfig.Find(c => c.SubWorkMode == subWorkMode);
-
-            if (config == null)
-                return;
-
-            //得到默认配置后,需要给界面绑定的值赋值,那么给DS发送ConfigCamera指令的时候,被绑定的值使用绑定的值，没有绑定的值还是使用config中的值
-            SetBindingData();
-            SubWorkModeAttribute attribute = ((SubWorkModeE)subWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();
-
-            this.MaxFPS = Math.Min(30, 240 / attribute.NumPhasePerDepthMap / attribute.NumDepthMapPerDepth);
-            //this.FPS = this.maxFPS;
-        }
-
-        private void SetBindingData()
-        {
-            this.IntegrationTimes = config.IntegrationTimes;
-            this.PLLDLLDivs = config.PLLDLLDivs;
-            this.FPS = config.MIPIFrameRate;
-            //this.BinningMode = config.BinningMode;
-            //this.MirrorMode = config.MirrorMode;
-            this.NumSubFramePerFrame = config.NumSubFramePerFrame;
-            this.SubFrameModes = config.SubFrameModes;
-            this.SpecialFrameModes = config.SpecialFrameModes;
-        }
-
-        private IntegrationTime[] integrationTimes;
-        public IntegrationTime[] IntegrationTimes
-        {
-            get { return integrationTimes; }
-            set { integrationTimes = value; RaisePropertyChanged(); }
-        }
-
-        private PLLDLLDiv[] pLLDLLDivs;//这里的单位都是KHz
-        public PLLDLLDiv[] PLLDLLDivs
-        {
-            get { return pLLDLLDivs; }
-            set { pLLDLLDivs = value; RaisePropertyChanged(); }
-        }
-
-        private UInt32[] numSubFramePerFrame;
-        public UInt32[] NumSubFramePerFrame
-        {
-            get { return numSubFramePerFrame; }
-            set { numSubFramePerFrame = value; RaisePropertyChanged(); }
-        }
-
-        private SubFrameModeE[] subFrameModes;
-        public SubFrameModeE[] SubFrameModes
-        {
-            get { return subFrameModes; }
-            set { subFrameModes = value; RaisePropertyChanged(); }
-        }
-
-        private SpecialFrameModeE[] specialFrameModes;
-        public SpecialFrameModeE[] SpecialFrameModes
-        {
-            get { return specialFrameModes; }
-            set { specialFrameModes = value; RaisePropertyChanged(); }
         }
 
         //用于绑定到ComboBox的以供选择的频率值,单位MHz。从配置文件读取
@@ -454,12 +393,15 @@ namespace ConfigCamera.ViewModels
             return new Size(width, height);
         }
 
-        private UInt32 fps = 25;
-
         public UInt32 FPS
         {
-            get { return fps; }
-            set { fps = value; RaisePropertyChanged(); }
+            get { return configCameraModel.MIPIFrameRate; }
+            set
+            {
+                SubWorkModeAttribute attribute = ((SubWorkModeE)SubWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();
+                configCameraModel.MIPIFrameRate = (UInt32)(value * attribute.NumDepthMapPerDepth);
+                RaisePropertyChanged();
+            }
         }
 
         private UInt32 maxFPS;
@@ -522,5 +464,7 @@ namespace ConfigCamera.ViewModels
                 }
             }
         }
+
+        public 
     }
 }
