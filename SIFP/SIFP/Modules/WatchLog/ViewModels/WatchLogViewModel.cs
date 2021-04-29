@@ -21,19 +21,18 @@ namespace WatchLog.ViewModels
         private ObservableCollection<LogModel> watchLogs = new ObservableCollection<LogModel>();
         public ObservableCollection<LogModel> WatchLogs
         {
-            get { return WatchLogs1; }
-            set { WatchLogs1 = value; RaisePropertyChanged(); }
+            get { return watchLogs; }
+            set { watchLogs = value; RaisePropertyChanged(); }
         }
 
         public DelegateCommand ClearWatchLogsCmd { get; private set; }
         public DelegateCommand SaveWatchLogsCmd { get; private set; }
-        public ObservableCollection<LogModel> WatchLogs1 { get => watchLogs; set => watchLogs = value; }
 
         public WatchLogViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             ClearWatchLogsCmd = new DelegateCommand(ClearWatchLogs);
             SaveWatchLogsCmd = new DelegateCommand(SaveWatchLogs);
-            this.EventAggregator.GetEvent<WatchLogEvent>().Subscribe(AddWatchLog,ThreadOption.BackgroundThread,true);
+            this.EventAggregator.GetEvent<WatchLogEvent>().Subscribe(AddWatchLog, ThreadOption.BackgroundThread, true);
         }
 
         private void SaveWatchLogs()
@@ -46,7 +45,7 @@ namespace WatchLog.ViewModels
             {
                 using (StreamWriter sw = new StreamWriter(sfd.FileName))
                 {
-                    foreach (var log in WatchLogs1)
+                    foreach (var log in watchLogs)
                     {
                         sw.WriteLine(log.ToString());
                     }
@@ -61,7 +60,12 @@ namespace WatchLog.ViewModels
 
         private void AddWatchLog(LogModel log)
         {
-            Application.Current.Dispatcher.Invoke(() => WatchLogs.Add(log));
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                WatchLogs.Add(log);
+                if (WatchLogs.Count > 1000)
+                    WatchLogs.Remove(watchLogs.First());
+            });
         }
     }
 }
