@@ -9,7 +9,7 @@ namespace SIFP.Core.Models
     public class ConfigCameraModel
     {
         [FieldOrder(1)]
-        public UInt32 DoReset { get; set; }
+        public UInt32 DoReset { get; set; }//0--false 1--true
 
         [FieldOrder(2)]
         public StandByModeE StandByMode { get; set; }
@@ -18,10 +18,14 @@ namespace SIFP.Core.Models
         public UInt32 SysXtalClkKHz { get; set; }
 
         [FieldOrder(4)]
-        public UserCaseModel UserCase { get; set; } 
+        public UserCaseModel CurrentUserCase { get; set; }//当前使用的UserCase
 
+        [Ignore]//协议中是不需要这个字段的，但是在初始化的时候需要
+        public List<UserCaseModel> UserCases { get; set; }//预定义的所有UserCase集合
+
+        //深度帧帧率 但是协议需要MIPI帧率
         [FieldOrder(5)]
-        public UInt32 MIPIFrameRate { get; set; }
+        public UInt32 DepthFPS { get; set; }
 
         [FieldOrder(6)]
         public SequencerRepeatModeE SequencerRepeatMode { get; set; }

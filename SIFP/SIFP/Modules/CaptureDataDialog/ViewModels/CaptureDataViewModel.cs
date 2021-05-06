@@ -31,8 +31,8 @@ namespace CaptureDataDialog.ViewModels
             set { captureDataNum = value; RaisePropertyChanged(); }
         }
 
-        public List<ComboBoxItemMode<CaptureDataTypeE>> CaptureDataTypes { get; private set; } = new List<ComboBoxItemMode<CaptureDataTypeE>>();
-        public List<ComboBoxItemMode<UInt32>> CaptureDataNums { get; private set; } = new List<ComboBoxItemMode<UInt32>>();
+        public List<ComboBoxViewMode<CaptureDataTypeE>> CaptureDataTypes { get; private set; } = new List<ComboBoxViewMode<CaptureDataTypeE>>();
+        public List<ComboBoxViewMode<UInt32>> CaptureDataNums { get; private set; } = new List<ComboBoxViewMode<UInt32>>();
 
 
         private ICommunication comm;
@@ -41,15 +41,15 @@ namespace CaptureDataDialog.ViewModels
             this.comm = communication;
             foreach (CaptureDataTypeE item in Enum.GetValues(typeof(CaptureDataTypeE)))
             {
-                CaptureDataTypes.Add(new ComboBoxItemMode<CaptureDataTypeE> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
+                CaptureDataTypes.Add(new ComboBoxViewMode<CaptureDataTypeE> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
             }
 
             foreach (UInt32 item in new UInt32[] { 1, 5, 10, 20, 30, 50, 100, 200, 300, 1000 })
             {
                 if (item == 1000)
-                    CaptureDataNums.Add(new ComboBoxItemMode<UInt32> { Description = "continue", SelectedModel = item, IsShow = Visibility.Visible });
+                    CaptureDataNums.Add(new ComboBoxViewMode<UInt32> { Description = "continue", SelectedModel = item, IsShow = Visibility.Visible });
                 else
-                    CaptureDataNums.Add(new ComboBoxItemMode<UInt32> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
+                    CaptureDataNums.Add(new ComboBoxViewMode<UInt32> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
             }
 
             CaptureOkCmd = new DelegateCommand(CaptureOK);

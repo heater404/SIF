@@ -1,6 +1,7 @@
 ﻿using BinarySerialization;
 using SIFP.Core.Enums;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,6 +22,9 @@ namespace SIFP.Core.Models
         [FieldOrder(4)]
         [FieldCount(4)]
         public SpecialFrameModeE[] SpecialFrameModes { get; set; }
+
+        //when specialFrameMode is SPECIAL_FRAME_MODE_BG, use this field to choose between normal BG(0) or differential BG mode(1). 
+        //Keep this to 0 when specialFrameMode is other option.
         [FieldOrder(5)]
         public UInt32 DifferentialBG { get; set; }
 
@@ -44,5 +48,12 @@ namespace SIFP.Core.Models
 
         [FieldOrder(11)]
         public MIPI_FS_FE_PosE MIPI_FS_FE_Pos { get; set; }
+
+        //number of phase frames in a MIPI frame (determines the expected data size per MIPI frame)
+        [Ignore]
+        public UInt32 NumPhaseFramePerMIPIFrame { get; set; }
+
+        [Ignore]
+        public UInt32 MaxFPS { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SIFP.Core.Enums;
+using SIFP.Core.Models;
+using SIFP.Core.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +12,9 @@ namespace Services.Interfaces
     public interface IInitCamera
     {
         Tuple<UInt32, UInt32> InitIntegrationTimesRange();
+
+        List<ComboBoxViewMode<UInt32>> InitFrequencies();
+
+        ConfigCameraModel InitConfigCamera(SubWorkModeE subWorkMode);
     }
 }
