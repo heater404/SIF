@@ -114,7 +114,24 @@ namespace ConfigCamera.ViewModels
             ConfigCameraSuccess = false;
             dialogService.Show(DialogNames.WaitingDialog);
 
-            var res = await Task.Run(() => comm.ConfigCamera(configCameraModel, 5000));
+            var config = new ConfigCameraModel
+            {
+                ClkDivOverride=configCameraModel.ClkDivOverride,
+                PerformClkChanges=configCameraModel.PerformClkChanges,
+                BinningMode=configCameraModel.BinningMode,
+                MirrorMode=configCameraModel.MirrorMode,
+                SequencerRepeatMode=configCameraModel.SequencerRepeatMode,
+                StandByMode=configCameraModel.StandByMode,
+                ROISetting=configCameraModel.ROISetting,
+                TSensorMode=configCameraModel.TSensorMode,
+                TriggerMode=configCameraModel.TriggerMode,
+                CurrentUserCase=configCameraModel.CurrentUserCase,
+                SysXtalClkKHz=configCameraModel.SysXtalClkKHz,
+                DoReset=configCameraModel.DoReset,
+                DepthFPS=configCameraModel.DepthFPS*configCameraModel.CurrentUserCase.NumPhaseFramePerMIPIFrame,
+            };
+
+            var res = await Task.Run(() => comm.ConfigCamera(config, 5000));
             if (res.HasValue)
             {
                 if (res.Value)
