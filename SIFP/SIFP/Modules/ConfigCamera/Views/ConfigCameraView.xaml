@@ -129,7 +129,7 @@
                             <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="TextBox">
                                 <Setter Property="materialDesign:TextFieldAssist.SuffixText" Value="us" />
                                 <Setter Property="Width" Value="50" />
-                                <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+                                <Setter Property="VerticalContentAlignment" Value="Bottom" />
                                 <Setter Property="IsEnabled" Value="{Binding EnableAE, Converter={StaticResource NotConverter}}" />
                             </Style>
                         </Grid.Resources>

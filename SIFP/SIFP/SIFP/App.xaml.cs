@@ -33,6 +33,7 @@ using ConfigPostProc.Views;
 using VcselDriverDialog.Views;
 using VcselDriverDialog.ViewModels;
 using PasswordDialog.Views;
+using System.Threading;
 
 namespace SIFP
 {
@@ -49,8 +50,16 @@ namespace SIFP
                 return Container.Resolve<NoLicenseWindow>();
         }
 
+        Mutex mutex = null;
         protected override void OnStartup(StartupEventArgs e)
         {
+            mutex = new Mutex(true, "SI View", out bool createdNew);
+            if (!createdNew)
+            {
+                ShowToFront();
+                Environment.Exit(0);//强制退出，不会有弹框提示
+            }
+
             base.OnStartup(e);
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
@@ -63,6 +72,20 @@ namespace SIFP
                              fileSizeLimitBytes: 10 * 1024)      // 最大单个文件长度
                 .CreateLogger();
             //todo:configuration in App.config
+        }
+
+        private void ShowToFront()
+        {
+            //s1:通过WAPi:FindWindow获取运行实例的句柄
+            //或者事先保存实例，传递过来
+            IntPtr hwnd = Win32Api.FindWindow(null, "SI View");
+
+            if (hwnd != IntPtr.Zero)
+            {
+                Win32Api.SetForegroundWindow(hwnd);
+                if (Win32Api.IsIconic(hwnd))
+                    Win32Api.OpenIcon(hwnd);
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

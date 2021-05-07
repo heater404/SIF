@@ -241,13 +241,13 @@ namespace SIFP.Core
         internal static extern uint SetBkColor(IntPtr hdc, int crColor);
 
         [DllImport("user32")]
-        internal static extern IntPtr SetForegroundWindow(IntPtr hWnd);
+        public static extern IntPtr SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32")]
-        internal static extern bool IsIconic(IntPtr hWnd);
+        public static extern bool IsIconic(IntPtr hWnd);
 
         [DllImport("user32")]
-        internal static extern bool OpenIcon(IntPtr hWnd);
+        public static extern bool OpenIcon(IntPtr hWnd);
 
         internal delegate int WindowEnumProc(IntPtr hwnd, IntPtr lparam);
 
