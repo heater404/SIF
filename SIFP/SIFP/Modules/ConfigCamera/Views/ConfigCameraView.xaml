@@ -20,7 +20,7 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <ScrollViewer.Resources>
                 <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
-                <Style TargetType="GroupBox" BasedOn="{StaticResource MaterialDesignCardGroupBox}"/>
+                <Style BasedOn="{StaticResource MaterialDesignCardGroupBox}" TargetType="GroupBox" />
             </ScrollViewer.Resources>
             <StackPanel>
                 <GroupBox
