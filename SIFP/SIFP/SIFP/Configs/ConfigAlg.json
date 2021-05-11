@@ -1,0 +1,11 @@
+{
+    "ByPassSocAlgorithm": true,
+    "ReturnRawData": true,
+    "ReturnDepthIamge": false,
+    "ReturnGrayImage": false,
+    "ReturnBGImage": false,
+    "ReturnAmplitudeImage": false,
+    "ReturnConfidence": false,
+    "ReturnFlagMap": false,
+    "ReturnPointcloud": false
+}

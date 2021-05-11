@@ -252,7 +252,7 @@ namespace Services
             if (this.client.Send(configAlg) > 0)
             {
                 if (waitHandle.WaitOne(millisecondsTimeout))
-                    return configCameraSuccess;
+                    return configAlgAck;
                 else
                     return null;
             }
@@ -495,12 +495,14 @@ namespace Services
             }
         }
 
+        private bool configAlgAck = false;
         [RecvMsg(MsgTypeE.ConfigAlgReplyType, typeof(ConfigAlgReply))]
         private void CmdProcConfigAlgReply(MsgHeader pkt)
         {
             if (pkt is not ConfigAlgReply msg)
                 return;
 
+            configAlgAck = msg.ConfigAck == 0;
             if (waitHandle.Set())
             {
                 eventAggregator.GetEvent<ConfigAlgReplyEvent>().Publish(msg);

@@ -11,7 +11,7 @@ namespace SIFP.Core.Models
     public class ConfigArithParamsReply:MsgHeader
     {
         [FieldOrder(1)]
-        public UInt32 Ack { get; set; }//0表示success  1表示fail
+        public UInt32 AEAck { get; set; }//0表示success  1表示fail
 
         [FieldOrder(2)]
         [FieldCount(4)]

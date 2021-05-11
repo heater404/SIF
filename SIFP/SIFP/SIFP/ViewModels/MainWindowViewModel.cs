@@ -29,7 +29,7 @@ namespace SIFP.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        private string version = "1.03.210429";
+        private string version = "1.03.210507";
         public string Version
         {
             get { return version; }
@@ -58,10 +58,22 @@ namespace SIFP.ViewModels
         {
             if (result.Result == ButtonResult.Yes)
             {
-                IsExpertMode = !isExpertMode;
-                this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
-                comm.SwitchUserAccess(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
-                this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                if (comm.SwitchUserAccess(!isExpertMode ? UserAccessType.Expert : UserAccessType.Normal))
+                {
+                    IsExpertMode = !isExpertMode;
+                    if (!IsExpertMode)
+                    {
+                        this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
+                        LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
+                    }
+                    this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                }
+                else
+                {
+                    this.PrintNoticeLog("SwitchUserAccess Fail,please check the connection status", LogLevel.Error);
+                    this.PrintWatchLog("SwitchUserAccess Fail,please check the connection status", LogLevel.Error);
+                    IsExpertMode = isExpertMode;
+                }
             }
             else
                 IsExpertMode = isExpertMode;
@@ -98,11 +110,14 @@ namespace SIFP.ViewModels
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
         IDialogService dialogService;
         ICommunication comm;
+        IContainerExtension container;
 
-        public MainWindowViewModel(ICommunication communication, IContainerExtension container, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        public MainWindowViewModel(ICommunication communication, IContainerExtension container, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator)
+            : base(regionManager, eventAggregator)
         {
             this.comm = communication;
             this.dialogService = dialogService;
+            this.container = container;
             OpenLeftDrawerCmd = new DelegateCommand<Type>(view =>
               {
                   LeftDrawerContent = container.Resolve(view);
@@ -122,6 +137,7 @@ namespace SIFP.ViewModels
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCorrectionView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigPostProcView);
+            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigAlgView);
 
             this.EventAggregator.GetEvent<MainWindowEnableEvent>().Subscribe(b => IsEnable = b, true);
 

@@ -10,12 +10,16 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Configs\Camera.json" />
+    <None Remove="Configs\ConfigAlg.json" />
     <None Remove="Configs\ConfigCamera.json" />
     <None Remove="Configs\CorrectionParamters.json" />
     <None Remove="Configs\PostProcParameters.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configs\Camera.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\ConfigAlg.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Configs\ConfigCamera.json">
@@ -38,6 +42,7 @@
     <ProjectReference Include="..\Modules\ConfigCamera\ConfigCamera.csproj" />
     <ProjectReference Include="..\Modules\ConfigCorrection\ConfigCorrection.csproj" />
     <ProjectReference Include="..\Modules\ConfigPostProc\ConfigPostProc.csproj" />
+    <ProjectReference Include="..\Modules\ConifgAlg\ConifgAlg.csproj" />
     <ProjectReference Include="..\Modules\Menu\Menu.csproj" />
     <ProjectReference Include="..\Modules\NotificationDialog\NotificationDialog.csproj" />
     <ProjectReference Include="..\Modules\PasswordDialog\PasswordDialog.csproj" />

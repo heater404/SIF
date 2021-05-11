@@ -53,9 +53,9 @@ namespace ConfigCamera.ViewModels
             InitWorkModes();
             Resolution = CalculateResolution(ROISize, XStep, YStep);
 
-            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCamera);
+            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCameraAsync);
 
-            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.UIThread, true);
+            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.PublisherThread, true);
 
             this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, ThreadOption.BackgroundThread, true);
 
@@ -63,7 +63,7 @@ namespace ConfigCamera.ViewModels
 
             this.EventAggregator.GetEvent<ConfigArithParamsReplyEvent>().Subscribe(reply =>
             {
-                if (reply.Ack == 0)
+                if (reply.AEAck == 0)
                     this.IntegrationTimes = reply.IntegrationTimes;
                 else
                     this.PrintWatchLog("AE Fail", LogLevel.Error);
@@ -109,29 +109,11 @@ namespace ConfigCamera.ViewModels
             }
         }
 
-        private async void ApplyConfigCamera()
+        private async void ApplyConfigCameraAsync()
         {
             ConfigCameraSuccess = false;
             dialogService.Show(DialogNames.WaitingDialog);
-
-            var config = new ConfigCameraModel
-            {
-                ClkDivOverride=configCameraModel.ClkDivOverride,
-                PerformClkChanges=configCameraModel.PerformClkChanges,
-                BinningMode=configCameraModel.BinningMode,
-                MirrorMode=configCameraModel.MirrorMode,
-                SequencerRepeatMode=configCameraModel.SequencerRepeatMode,
-                StandByMode=configCameraModel.StandByMode,
-                ROISetting=configCameraModel.ROISetting,
-                TSensorMode=configCameraModel.TSensorMode,
-                TriggerMode=configCameraModel.TriggerMode,
-                CurrentUserCase=configCameraModel.CurrentUserCase,
-                SysXtalClkKHz=configCameraModel.SysXtalClkKHz,
-                DoReset=configCameraModel.DoReset,
-                DepthFPS=configCameraModel.DepthFPS*configCameraModel.CurrentUserCase.NumPhaseFramePerMIPIFrame,
-            };
-
-            var res = await Task.Run(() => comm.ConfigCamera(config, 5000));
+            var res = await Task.Run(() => comm.ConfigCamera(GetCurrentConfig(), 5000));
             if (res.HasValue)
             {
                 if (res.Value)
@@ -157,6 +139,34 @@ namespace ConfigCamera.ViewModels
             EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
         }
 
+        private void ApplyConfigCamera()
+        {
+            ConfigCameraSuccess = false;
+
+            var res = comm.ConfigCamera(GetCurrentConfig(), 5000);
+            if (res.HasValue)
+            {
+                if (res.Value)
+                {
+                    this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
+                    this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
+                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.subWorkModeIndex);
+                    ConfigCameraSuccess = true;
+                }
+                else
+                {
+                    this.PrintNoticeLog("ConfigCamera Fail", LogLevel.Error);
+                    this.PrintWatchLog("ConfigCamera Fail", LogLevel.Error);
+                    ConfigCameraSuccess = false;
+                }
+            }
+            else
+            {
+                this.PrintNoticeLog("ConfigCamera Timeout", LogLevel.Error);
+                this.PrintWatchLog("ConfigCamera Timeout", LogLevel.Error);
+                ConfigCameraSuccess = false;
+            }
+        }
 
         /// <summary>
         /// 初始化工作模式和SubWorkMode

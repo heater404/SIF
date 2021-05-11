@@ -1,15 +1,15 @@
 {
     "OutPutParams": {
         "OutPointCloud": false,
-        "OutConfidence": false,
+        "OutConfidence": true,
         "OutFlag": true,
         "OutPointCloudType": 0,
-        "OutDepthValueType": 0,
+        "OutDepthValueType": 1,
         "OutDepthDataType": 0
     },
     "DenoisingParams": {
-        "TDenoiseLevel": 3,
-        "SDenoiseLevel": 3,
+        "TDenoiseLevel": 1,
+        "SDenoiseLevel": 1,
         "SDenoiseMethod": 2
     },
     "RepairParams": {
