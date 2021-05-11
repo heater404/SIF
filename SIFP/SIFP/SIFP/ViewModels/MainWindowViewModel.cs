@@ -58,14 +58,22 @@ namespace SIFP.ViewModels
         {
             if (result.Result == ButtonResult.Yes)
             {
-                IsExpertMode = !isExpertMode;
-                if (!IsExpertMode)
+                if (comm.SwitchUserAccess(!isExpertMode ? UserAccessType.Expert : UserAccessType.Normal))
                 {
-                    this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
-                    LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
+                    IsExpertMode = !isExpertMode;
+                    if (!IsExpertMode)
+                    {
+                        this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
+                        LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
+                    }
+                    this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
                 }
-                comm.SwitchUserAccess(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
-                this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                else
+                {
+                    this.PrintNoticeLog("SwitchUserAccess Fail,please check the connection status", LogLevel.Error);
+                    this.PrintWatchLog("SwitchUserAccess Fail,please check the connection status", LogLevel.Error);
+                    IsExpertMode = isExpertMode;
+                }
             }
             else
                 IsExpertMode = isExpertMode;
@@ -129,6 +137,7 @@ namespace SIFP.ViewModels
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCorrectionView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigPostProcView);
+            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigAlgView);
 
             this.EventAggregator.GetEvent<MainWindowEnableEvent>().Subscribe(b => IsEnable = b, true);
 

@@ -315,26 +315,17 @@ namespace Tool.ViewModels
                 if (await Task.Run(ConnectCamera))
                 {
                     //comm.SwitchUserAccess(UserAccessType.Expert);
-                    //comm.ConfigAlg(new ConfigAlgRequest
-                    //{
-                    //    ByPassSocAlgorithm = true,
-                    //    ReturnRawData = true,
-                    //    ReturnAmplitudeImage = false,
-                    //    ReturnBGImage = false,
-                    //    ReturnConfidence = false,
-                    //    ReturnDepthIamge = false,
-                    //    ReturnFlagMap = false,
-                    //    ReturnGrayImage = false,
-                    //    ReturnPointcloud = false,
-                    //}, 3000);
-
-                    this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 
                     cancellationTokenSource = new CancellationTokenSource();
                     comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
 
+                    //有这个顺序要求
                     this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
                     this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
+
+                    this.EventAggregator.GetEvent<ConfigAlgRequestEvent>().Publish();
+
+                    this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 
                     IsConnected = true;
                 }

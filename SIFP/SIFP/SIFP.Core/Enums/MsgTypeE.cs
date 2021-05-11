@@ -44,5 +44,7 @@ namespace SIFP.Core.Enums
 
         ConfigVcselDriverRequestType=0x139,//用于配置VcselDriver,里面的内容还需定义
         ConfigVcselDriverReplyType =0x140,//暂时没有用到
+
+        DisconnectCameraReplyType=0x141,
     }
 }
