@@ -113,7 +113,7 @@ namespace ConfigCamera.ViewModels
         {
             ConfigCameraSuccess = false;
             dialogService.Show(DialogNames.WaitingDialog);
-            var res = await Task.Run(() => comm.ConfigCamera(GetCurrentConfig(), 5000));
+            var res = await Task.Run(() => comm.ConfigCamera(configCameraModel , 5000));
             if (res.HasValue)
             {
                 if (res.Value)
@@ -143,14 +143,14 @@ namespace ConfigCamera.ViewModels
         {
             ConfigCameraSuccess = false;
 
-            var res = comm.ConfigCamera(GetCurrentConfig(), 5000);
+            var res = comm.ConfigCamera(configCameraModel, 5000);
             if (res.HasValue)
             {
                 if (res.Value)
                 {
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
-                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.subWorkModeIndex);
+                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
                     ConfigCameraSuccess = true;
                 }
                 else

@@ -164,13 +164,7 @@
                                     <Slider
                                         x:Name="Slider0"
                                         Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[0].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="ValueChanged">
-                                                <i:InvokeCommandAction Command="{Binding FourBgSyncCmd}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Slider>
+                                        Value="{Binding IntegrationTimes[0].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
                                     <TextBox Grid.Column="3" Text="{Binding ElementName=Slider0, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
@@ -187,7 +181,6 @@
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
                                         SelectedValue="{Binding PLLDLLDivs[0].Phase5_8Div}" />
-
                                     <Slider
                                         x:Name="Slider1"
                                         Grid.Column="2"

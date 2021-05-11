@@ -435,7 +435,7 @@ namespace Tool.ViewModels
                     return true;
 
                 if (pro.CloseMainWindow())
-                    if (pro.WaitForExit(100))
+                    if (pro.WaitForExit(300))
                         return true;
 
                 if (!pro.HasExited)
