@@ -247,7 +247,7 @@ namespace Services
             if (this.client.Send(configAlg) > 0)
             {
                 if (waitHandle.WaitOne(millisecondsTimeout))
-                    return configCameraSuccess;
+                    return configAlgAck;
                 else
                     return null;
             }
@@ -420,7 +420,7 @@ namespace Services
 
             ConfigCorrectionParamsRequest msg = new ConfigCorrectionParamsRequest()
             {
-               Correction=correction,
+                Correction = correction,
             };
 
             return client.Send(msg) > 0;
@@ -433,7 +433,7 @@ namespace Services
 
             ConfigPostProcParamsRequest msg = new ConfigPostProcParamsRequest()
             {
-                PostProc=postProc,
+                PostProc = postProc,
             };
 
             return client.Send(msg) > 0;
@@ -446,7 +446,7 @@ namespace Services
 
             ConfigVcselDriverRequest msg = new ConfigVcselDriverRequest()
             {
-                VcselDriver=vcselDriver,
+                VcselDriver = vcselDriver,
             };
 
             return client.Send(msg) > 0;
@@ -490,12 +490,14 @@ namespace Services
             }
         }
 
+        private bool configAlgAck = false;
         [RecvMsg(MsgTypeE.ConfigAlgReplyType, typeof(ConfigAlgReply))]
         private void CmdProcConfigAlgReply(MsgHeader pkt)
         {
             if (pkt is not ConfigAlgReply msg)
                 return;
 
+            configAlgAck = msg.ConfigAck == 0;
             if (waitHandle.Set())
             {
                 eventAggregator.GetEvent<ConfigAlgReplyEvent>().Publish(msg);
@@ -524,7 +526,7 @@ namespace Services
             eventAggregator.GetEvent<ReadRegisterReplyEvent>().Publish(msg);
         }
 
-        [RecvMsg(MsgTypeE.GetSysStatusReplyType,typeof(GetSysStatusReply))]
+        [RecvMsg(MsgTypeE.GetSysStatusReplyType, typeof(GetSysStatusReply))]
         private void CmdProcGetSysStatusReply(MsgHeader pkt)
         {
             if (pkt is not GetSysStatusReply msg)
@@ -533,7 +535,7 @@ namespace Services
             eventAggregator.GetEvent<GetSysStatusReplyEvent>().Publish(msg);
         }
 
-        [RecvMsg(MsgTypeE.ConfigArithParamsReplyType,typeof(ConfigArithParamsReply))]
+        [RecvMsg(MsgTypeE.ConfigArithParamsReplyType, typeof(ConfigArithParamsReply))]
         private void CmdProcConfigArithParamsReply(MsgHeader pkt)
         {
             if (pkt is not ConfigArithParamsReply msg)
@@ -542,7 +544,7 @@ namespace Services
             eventAggregator.GetEvent<ConfigArithParamsReplyEvent>().Publish(msg);
         }
 
-        [RecvMsg(MsgTypeE.ConfigVcselDriverReplyType,typeof(ConfigVcselDriverReply))]
+        [RecvMsg(MsgTypeE.ConfigVcselDriverReplyType, typeof(ConfigVcselDriverReply))]
         private void CmdProcConfigVcselDriverReply(MsgHeader pkt)
         {
             if (pkt is not ConfigVcselDriverReply msg)

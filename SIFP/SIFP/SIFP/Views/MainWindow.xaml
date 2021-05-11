@@ -46,7 +46,8 @@
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigCorrectionView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}">
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <RadioButton.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Tune" />
@@ -60,7 +61,8 @@
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigPostProcView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}">
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <RadioButton.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="TuneVariant" />
@@ -68,6 +70,21 @@
                                         Margin="5,0,0,0"
                                         VerticalAlignment="Center"
                                         Text="PostProc" />
+                                </StackPanel>
+                            </RadioButton.Content>
+                        </RadioButton>
+                        <RadioButton
+                            Command="{Binding OpenLeftDrawerCmd}"
+                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigAlgView}"
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            Visibility="Collapsed">
+                            <RadioButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Filter" />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="ByPass" />
                                 </StackPanel>
                             </RadioButton.Content>
                         </RadioButton>

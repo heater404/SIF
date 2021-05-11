@@ -36,9 +36,9 @@ namespace ConfigCamera.ViewModels
             InitWorkMode();
 
             FourBgSyncCmd = new DelegateCommand(FourBgSync);
-            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCamera);
+            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCameraAsync);
 
-            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.UIThread, true);
+            this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.PublisherThread, true);
 
             this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, ThreadOption.BackgroundThread, true);
 
@@ -46,7 +46,7 @@ namespace ConfigCamera.ViewModels
 
             this.EventAggregator.GetEvent<ConfigArithParamsReplyEvent>().Subscribe(reply =>
             {
-                if (reply.Ack == 0)
+                if (reply.AEAck == 0)
                     this.IntegrationTimes = reply.IntegrationTimes;
                 else
                     this.PrintWatchLog("AE Fail", LogLevel.Error);
@@ -87,10 +87,11 @@ namespace ConfigCamera.ViewModels
             }
         }
 
-        private async void ApplyConfigCamera()
+        private async void ApplyConfigCameraAsync()
         {
             ConfigCameraSuccess = false;
             dialogService.Show(DialogNames.WaitingDialog);
+
             var res = await Task.Run(() => comm.ConfigCamera(GetCurrentConfig(), 5000));
             if (res.HasValue)
             {
@@ -117,6 +118,34 @@ namespace ConfigCamera.ViewModels
             EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
         }
 
+        private void ApplyConfigCamera()
+        {
+            ConfigCameraSuccess = false;
+
+            var res = comm.ConfigCamera(GetCurrentConfig(), 5000);
+            if (res.HasValue)
+            {
+                if (res.Value)
+                {
+                    this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
+                    this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
+                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.subWorkModeIndex);
+                    ConfigCameraSuccess = true;
+                }
+                else
+                {
+                    this.PrintNoticeLog("ConfigCamera Fail", LogLevel.Error);
+                    this.PrintWatchLog("ConfigCamera Fail", LogLevel.Error);
+                    ConfigCameraSuccess = false;
+                }
+            }
+            else
+            {
+                this.PrintNoticeLog("ConfigCamera Timeout", LogLevel.Error);
+                this.PrintWatchLog("ConfigCamera Timeout", LogLevel.Error);
+                ConfigCameraSuccess = false;
+            }
+        }
         private ConfigCameraRequest GetCurrentConfig()
         {
             SubWorkModeAttribute attribute = ((SubWorkModeE)subWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();

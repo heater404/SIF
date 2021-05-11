@@ -1,9 +1,9 @@
 {
     "OutPutParams": {
         "OutPointCloud": false,
-        "OutConfidence": false,
+        "OutConfidence": true,
         "OutPointCloudType": 0,
-        "OutDepthValueType": 0,
+        "OutDepthValueType": 1,
         "OutDepthDataType": 0
     },
     "CorrParams": {

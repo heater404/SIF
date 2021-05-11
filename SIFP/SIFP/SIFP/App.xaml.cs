@@ -34,6 +34,7 @@ using VcselDriverDialog.Views;
 using VcselDriverDialog.ViewModels;
 using PasswordDialog.Views;
 using System.Threading;
+using ConifgAlg.Views;
 
 namespace SIFP
 {
@@ -94,10 +95,12 @@ namespace SIFP
             containerRegistry.RegisterSingleton<ICommunication, Communication>();
             containerRegistry.RegisterSingleton<IInitArithParams, InitArithParams>();
             containerRegistry.RegisterSingleton<IInitCamera, InitCamera>();
+            containerRegistry.RegisterSingleton<IInitConfigAlg, InitConfigAlg>();
             containerRegistry.RegisterSingleton<CaptureDataViewModel, CaptureDataViewModel>();
             containerRegistry.RegisterSingleton<ConfigCameraView, ConfigCameraView>();
             containerRegistry.RegisterSingleton<ConfigCorrectionView, ConfigCorrectionView>();
             containerRegistry.RegisterSingleton<ConfigPostProcView, ConfigPostProcView>();
+            containerRegistry.RegisterSingleton<ConfigAlgView, ConfigAlgView>();
             containerRegistry.RegisterSingleton<VcselDriverViewModel, VcselDriverViewModel>();
 
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);

@@ -29,7 +29,7 @@ namespace ConfigPostProc.ViewModels
         public ConfigPostProcViewModel(IInitArithParams initArithParams, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
-            this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Subscribe(ConfigPostProc, true);
+            this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Subscribe(ConfigPostProc, ThreadOption.PublisherThread, true);
             this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
             {
                 if (type == SIFP.Core.Enums.UserAccessType.Expert)
@@ -42,7 +42,7 @@ namespace ConfigPostProc.ViewModels
             this.postProcParams = initArithParams.InitPostProc();
         }
 
-        private async void ConfigPostProc()
+        private async void ConfigPostProcAsync()
         {
             await Task.Run(() =>
             {
@@ -50,36 +50,41 @@ namespace ConfigPostProc.ViewModels
             });
         }
 
+        private void ConfigPostProc()
+        {
+            comm.ConfigPostProcParams(postProcParams);
+        }
+
         #region PostProcOutPut
         public bool OutPointCloud
         {
             get { return postProcParams.OutPutParams.OutPointCloud; }
-            set { postProcParams.OutPutParams.OutPointCloud = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.OutPutParams.OutPointCloud = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public bool OutConfidence
         {
             get { return postProcParams.OutPutParams.OutConfidence; }
-            set { postProcParams.OutPutParams.OutConfidence = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.OutPutParams.OutConfidence = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public bool OutFlag
         {
             get { return postProcParams.OutPutParams.OutFlag; }
-            set { postProcParams.OutPutParams.OutFlag = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.OutPutParams.OutFlag = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public PointCloudTypeE OutPointCloudType
         {
             get { return postProcParams.OutPutParams.OutPointCloudType; }
-            set { postProcParams.OutPutParams.OutPointCloudType = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.OutPutParams.OutPointCloudType = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public DepthValueTypeE OutDepthValueType
         {
             get { return postProcParams.OutPutParams.OutDepthValueType; }
-            set { postProcParams.OutPutParams.OutDepthValueType = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.OutPutParams.OutDepthValueType = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public DepthDataTypeE OutDepthDataType
         {
             get { return postProcParams.OutPutParams.OutDepthDataType; }
-            set { postProcParams.OutPutParams.OutDepthDataType = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.OutPutParams.OutDepthDataType = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         #endregion
 
@@ -87,17 +92,17 @@ namespace ConfigPostProc.ViewModels
         public DenoiseLevelE TDenoiseLevel
         {
             get { return postProcParams.DenoisingParams.TDenoiseLevel; }
-            set { postProcParams.DenoisingParams.TDenoiseLevel = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.DenoisingParams.TDenoiseLevel = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public DenoiseLevelE SDenoiseLevel
         {
             get { return postProcParams.DenoisingParams.SDenoiseLevel; }
-            set { postProcParams.DenoisingParams.SDenoiseLevel = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.DenoisingParams.SDenoiseLevel = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public SDenoiseMethodE SDenoiseMethod
         {
             get { return postProcParams.DenoisingParams.SDenoiseMethod; }
-            set { postProcParams.DenoisingParams.SDenoiseMethod = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.DenoisingParams.SDenoiseMethod = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         #endregion
 
@@ -105,12 +110,12 @@ namespace ConfigPostProc.ViewModels
         public bool DeFlyPixel
         {
             get { return postProcParams.RepairParams.DeFlyPixel; }
-            set { postProcParams.RepairParams.DeFlyPixel = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.RepairParams.DeFlyPixel = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public bool DeHoles
         {
             get { return postProcParams.RepairParams.DeHoles; }
-            set { postProcParams.RepairParams.DeHoles = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.RepairParams.DeHoles = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         #endregion
 
@@ -118,12 +123,12 @@ namespace ConfigPostProc.ViewModels
         public bool AntiALI
         {
             get { return postProcParams.AntiInterferenceParams.AntiALI; }
-            set { postProcParams.AntiInterferenceParams.AntiALI = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.AntiInterferenceParams.AntiALI = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         public bool AntiMCI
         {
             get { return postProcParams.AntiInterferenceParams.AntiMCI; }
-            set { postProcParams.AntiInterferenceParams.AntiMCI = value; RaisePropertyChanged(); ConfigPostProc(); }
+            set { postProcParams.AntiInterferenceParams.AntiMCI = value; RaisePropertyChanged(); ConfigPostProcAsync(); }
         }
         #endregion
 
@@ -141,7 +146,7 @@ namespace ConfigPostProc.ViewModels
 
                 postProcParams.ConfidenceParams.ValidDistMin = value;
                 RaisePropertyChanged();
-                ConfigPostProc();
+                ConfigPostProcAsync();
             }
         }
         public UInt32 ValidDistMax
@@ -157,7 +162,7 @@ namespace ConfigPostProc.ViewModels
 
                 postProcParams.ConfidenceParams.ValidDistMax = value;
                 RaisePropertyChanged();
-                ConfigPostProc();
+                ConfigPostProcAsync();
             }
         }
         #endregion

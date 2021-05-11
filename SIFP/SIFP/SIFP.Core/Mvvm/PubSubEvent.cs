@@ -18,6 +18,7 @@ namespace SIFP.Core.Mvvm
 
     public class StopStreamingReplyEvent : PubSubEvent<StopStreamingReply> { };
 
+    public class ConfigAlgRequestEvent : PubSubEvent { };
     public class ConfigAlgReplyEvent : PubSubEvent<ConfigAlgReply> { };
 
     public class CaptureReplyEvent : PubSubEvent<CaptureReply> { };
