@@ -1,1597 +1,252 @@
-[
-  {
+{
     "DoReset": 0,
     "StandByMode": 0,
     "SysXtalClkKHz": 19800,
-    "WorkMode": 0,
-    "SubWorkMode": 0,
-    "SubFrameModes": [ 0, 0, 0, 0 ],
-    "SpecialFrameModes": [ 0, 0, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 0, 0, 0 ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
+    "UserCases": [
+        {
+            "WorkMode": 0,
+            "SubWorkMode": 0,
+            "SubFrameModes": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "SpecialFrameModes": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "DifferentialBG": 0,
+            "FrameSeqSchedule": {
+                "Slot0FrameNum": 0,
+                "Slot1FrameNum": 1,
+                "Slot2FrameNum": 2,
+                "Slot3FrameNum": 3
+            },
+            "IntegrationTimes": [
+                {
+                    "Phase1_4Int": 1000000,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                }
+            ],
+            "PLLDLLDivs": [
+                {
+                    "Phase1_4Div": 5,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                }
+            ],
+            "NumSubFramePerFrame": [
+                1,
+                0,
+                0,
+                0
+            ],
+            "NumDepthSequencePerDepthMap": 1,
+            "MIPI_FS_FE_Pos": 0
+        },
+        {
+            "WorkMode": 0,
+            "SubWorkMode": 1,
+            "SubFrameModes": [
+                5,
+                0,
+                0,
+                0
+            ],
+            "SpecialFrameModes": [
+                1,
+                0,
+                0,
+                0
+            ],
+            "DifferentialBG": 0,
+            "FrameSeqSchedule": {
+                "Slot0FrameNum": 0,
+                "Slot1FrameNum": 1,
+                "Slot2FrameNum": 2,
+                "Slot3FrameNum": 3
+            },
+            "IntegrationTimes": [
+                {
+                    "Phase1_4Int": 1000000,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 1000000
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                }
+            ],
+            "PLLDLLDivs": [
+                {
+                    "Phase1_4Div": 5,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                }
+            ],
+            "NumSubFramePerFrame": [
+                1,
+                0,
+                0,
+                0
+            ],
+            "NumDepthSequencePerDepthMap": 1,
+            "MIPI_FS_FE_Pos": 0
+        },
+        {
+            "WorkMode": 1,
+            "SubWorkMode": 6,
+            "SubFrameModes": [
+                5,
+                5,
+                0,
+                0
+            ],
+            "SpecialFrameModes": [
+                1,
+                2,
+                0,
+                0
+            ],
+            "DifferentialBG": 0,
+            "FrameSeqSchedule": {
+                "Slot0FrameNum": 0,
+                "Slot1FrameNum": 1,
+                "Slot2FrameNum": 2,
+                "Slot3FrameNum": 3
+            },
+            "IntegrationTimes": [
+                {
+                    "Phase1_4Int": 1000000,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 1000000
+                },
+                {
+                    "Phase1_4Int": 1000000,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 1000000
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                }
+            ],
+            "PLLDLLDivs": [
+                {
+                    "Phase1_4Div": 5,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 8,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                }
+            ],
+            "NumSubFramePerFrame": [
+                1,
+                1,
+                0,
+                0
+            ],
+            "NumDepthSequencePerDepthMap": 1,
+            "MIPI_FS_FE_Pos": 0
+        }
     ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 0,
-    "MIPIFrameRate": 10,
+    "DepthFPS": 5,
     "SequencerRepeatMode": 1,
     "TriggerMode": 1,
     "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
+        "XStart": 0,
+        "XSize": 640,
+        "XStep": 1,
+        "YStart": 0,
+        "YSize": 480,
+        "YStep": 1
     },
     "BinningMode": 0,
     "MirrorMode": 0,
     "TSensorMode": 1,
     "PerformClkChanges": 0,
     "ClkDivOverride": {
-      "ClkDigSlowDiv": 0,
-      "PLLFBDiv": 0,
-      "PLLPreDiv": 0
+        "PLLPreDiv": 0,
+        "PLLFBDiv": 0,
+        "ClkDigSlowDiv": 0
     }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 0,
-    "SubWorkMode": 1,
-    "SubFrameModes": [ 5, 0, 0, 0 ],
-    "SpecialFrameModes": [ 1, 0, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 0, 0, 0 ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],  
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 0,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 0,
-    "SubWorkMode": 2,
-    "SubFrameModes": [ 5, 0, 0, 0 ],
-    "SpecialFrameModes": [ 2, 0, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 0, 0, 0 ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 0,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 0,
-    "SubWorkMode": 3,
-    "SubFrameModes": [ 0, 4, 0, 0 ],
-    "SpecialFrameModes": [ 0, 2, 0, 0 ],
-    "DifferentialBG":1,
-    "NumSubFramePerFrame": [ 1, 4, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 0,
-    "SubWorkMode": 4,
-    "SubFrameModes": [ 0, 4, 4, 0 ],
-    "SpecialFrameModes": [ 0, 2, 1, 0 ],
-    "DifferentialBG":1,
-    "NumSubFramePerFrame": [ 1, 4, 1, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 1,
-    "SubWorkMode": 5,
-    "SubFrameModes": [ 0, 0, 0, 0 ],
-    "SpecialFrameModes": [ 0, 0, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 8,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 0,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 1,
-    "SubWorkMode": 6,
-    "SubFrameModes": [ 6, 0, 0, 0 ],
-    "SpecialFrameModes": [ 1, 0, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 0, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 8,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 1,
-    "SubWorkMode": 7,
-    "SubFrameModes": [ 6, 0, 0, 0 ],
-    "SpecialFrameModes": [ 2, 0, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 0, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 8,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 1,
-    "SubWorkMode": 8,
-    "SubFrameModes": [ 5, 5, 0, 0 ],
-    "SpecialFrameModes": [ 1, 2, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 8,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 0,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 1,
-    "SubWorkMode": 9,
-    "SubFrameModes": [ 0, 4, 0, 4 ],
-    "SpecialFrameModes": [ 0, 2, 0, 2 ],
-    "DifferentialBG":1,
-    "NumSubFramePerFrame": [ 1, 4, 1, 4 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 8,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 1,
-    "SubWorkMode": 10,
-    "SubFrameModes": [ 0, 4, 5, 4 ],
-    "SpecialFrameModes": [ 0, 2, 1, 2 ],
-    "DifferentialBG":1,
-    "NumSubFramePerFrame": [ 1, 4, 1, 4 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 8,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 1,
-    "SubWorkMode": 11,
-    "SubFrameModes": [ 5, 4, 5, 4 ],
-    "SpecialFrameModes": [ 1, 2, 2, 2 ],
-    "DifferentialBG":1,
-    "NumSubFramePerFrame": [ 1, 4, 1, 4 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 8,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 2,
-    "SubWorkMode": 12,
-    "SubFrameModes": [ 0, 0, 0, 0 ],
-    "SpecialFrameModes": [ 0, 0, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 1, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 3,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 4,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 2,
-    "SubWorkMode": 13,
-    "SubFrameModes": [ 2, 5, 0, 0 ],
-    "SpecialFrameModes": [ 0, 1, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 3,
-        "Phase5_8Div": 4,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 2,
-    "SubWorkMode": 14,
-    "SubFrameModes": [ 2, 5, 0, 0 ],
-    "SpecialFrameModes": [ 0, 2, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 3,
-        "Phase5_8Div": 4,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 3,
-    "SubWorkMode": 15,
-    "SubFrameModes": [ 0, 0, 0, 0 ],
-    "SpecialFrameModes": [ 0, 0, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 1, 1 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 3,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 4,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 6,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 3,
-    "SubWorkMode": 16,
-    "SubFrameModes": [ 2, 6, 0, 0 ],
-    "SpecialFrameModes": [ 0, 1, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 3,
-        "Phase5_8Div": 4,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 6,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 3,
-    "SubWorkMode": 17,
-    "SubFrameModes": [ 2, 6, 0, 0 ],
-    "SpecialFrameModes": [ 0, 2, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 3,
-        "Phase5_8Div": 4,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 6,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  },
-
-  {
-    "DoReset": 0,
-    "StandByMode": 0,
-    "SysXtalClkKHz": 19800,
-    "WorkMode": 3,
-    "SubWorkMode": 18,
-    "SubFrameModes": [ 6, 6, 0, 0 ],
-    "SpecialFrameModes": [ 1, 2, 0, 0 ],
-    "DifferentialBG":0,
-    "NumSubFramePerFrame": [ 1, 1, 0, 0 ],
-    "IntegrationTimes": [
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 1000000,
-        "Phase5_8Int": 1000000,
-        "SpecialPhaseInt": 1000000
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      },
-      {
-        "Phase1_4Int": 0,
-        "Phase5_8Int": 0,
-        "SpecialPhaseInt": 0
-      }
-    ],
-    "PLLDLLDivs": [
-      {
-        "Phase1_4Div": 3,
-        "Phase5_8Div": 4,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 5,
-        "Phase5_8Div": 6,
-        "SpecialPhaseDiv": 3
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      },
-      {
-        "Phase1_4Div": 0,
-        "Phase5_8Div": 0,
-        "SpecialPhaseDiv": 0
-      }
-    ],
-    "FrameSeqSchedule": {
-      "Slot0FrameNum": 0,
-      "Slot1FrameNum": 1,
-      "Slot2FrameNum": 2,
-      "Slot3FrameNum": 3
-    },
-    "NumDepthSequencePerDepthMap": 1,
-    "MIPI_FS_FE_Pos": 1,
-    "MIPIFrameRate": 10,
-    "SequencerRepeatMode": 1,
-    "TriggerMode": 1,
-    "ROISetting": {
-      "XStart": 0,
-      "XSize": 640,
-      "XStep": 1,
-      "YStart": 0,
-      "YSize": 480,
-      "YStep": 1
-    },
-    "BinningMode": 0,
-    "MirrorMode": 0,
-    "TSensorMode": 1,
-    "PerformClkChanges": 0,
-    "ClkDivOverride": {
-      "PLLPreDiv": 0,
-      "PLLFBDiv": 0,
-      "ClkDigSlowDiv": 0
-    }
-  }
-]
+}

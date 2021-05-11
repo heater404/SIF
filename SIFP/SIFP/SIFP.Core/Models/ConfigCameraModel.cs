@@ -9,7 +9,7 @@ namespace SIFP.Core.Models
     public class ConfigCameraModel
     {
         [FieldOrder(1)]
-        public UInt32 DoReset { get; set; }
+        public UInt32 DoReset { get; set; }//0--false 1--true
 
         [FieldOrder(2)]
         public StandByModeE StandByMode { get; set; }
@@ -18,67 +18,37 @@ namespace SIFP.Core.Models
         public UInt32 SysXtalClkKHz { get; set; }
 
         [FieldOrder(4)]
-        public WorkModeE WorkMode { get; set; }
+        public UserCaseModel CurrentUserCase { get; set; }//当前使用的UserCase
 
+        [Ignore]//协议中是不需要这个字段的，但是在初始化的时候需要
+        public List<UserCaseModel> UserCases { get; set; }//预定义的所有UserCase集合
+
+        //深度帧帧率 但是协议需要MIPI帧率
         [FieldOrder(5)]
-        public SubWorkModeE SubWorkMode { get; set; }
+        public UInt32 DepthFPS { get; set; }
 
         [FieldOrder(6)]
-        [FieldCount(4)]
-        public SubFrameModeE[] SubFrameModes { get; set; } 
-
-        [FieldOrder(7)]
-        [FieldCount(4)]
-        public SpecialFrameModeE[] SpecialFrameModes { get; set; }
-        [FieldOrder(8)]
-        public UInt32 DifferentialBG { get; set; }
-
-        [FieldOrder(9)]
-        public FrameSeqSchedule FrameSeqSchedule { get; set; }
-
-        [FieldOrder(10)]
-        [FieldCount(4)]
-        public IntegrationTime[] IntegrationTimes { get; set; }
-
-        [FieldOrder(11)]
-        [FieldCount(4)]
-        public PLLDLLDiv[] PLLDLLDivs { get; set; }
-
-        [FieldOrder(12)]
-        [FieldCount(4)]
-        public UInt32[] NumSubFramePerFrame { get; set; }
-
-        [FieldOrder(13)]
-        public UInt32 NumDepthSequencePerDepthMap { get; set; }
-
-        [FieldOrder(14)]
-        public MIPI_FS_FE_PosE MIPI_FS_FE_Pos { get; set; }
-
-        [FieldOrder(15)]
-        public UInt32 MIPIFrameRate { get; set; }
-
-        [FieldOrder(16)]
         public SequencerRepeatModeE SequencerRepeatMode { get; set; }
 
-        [FieldOrder(17)]
+        [FieldOrder(7)]
         public TriggerModeE TriggerMode { get; set; }
 
-        [FieldOrder(18)]
+        [FieldOrder(8)]
         public ROISetting ROISetting { get; set; }
 
-        [FieldOrder(19)]
+        [FieldOrder(9)]
         public BinningModeE BinningMode { get; set; }
 
-        [FieldOrder(20)]
+        [FieldOrder(10)]
         public MirrorModeE MirrorMode { get; set; }
 
-        [FieldOrder(21)]
+        [FieldOrder(11)]
         public TSensorModeE TSensorMode { get; set; }
 
-        [FieldOrder(22)]
+        [FieldOrder(12)]
         public uint PerformClkChanges { get; set; }
 
-        [FieldOrder(23)]
+        [FieldOrder(13)]
         public ClkDIvOverride ClkDivOverride { get; set; }
     }
 }

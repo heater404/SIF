@@ -54,16 +54,10 @@ namespace SIFP.Core.Enums
         _4PHASE_4BG,
 
         [SubWorkMode(WorkModeE.SINGLE_FREQ, 1, 9, true)]
-        _4PHASE_4BG_GRAY,
+        _4PHASE_GRAY_5BG,
 
         [SubWorkMode(WorkModeE.DOUBLE_FREQ, 4, 2)]
-        _8PHASE,
-
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 9)]
-        _8PHASE_GRAY,
-
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 9)]
-        _8PHASE_BG,
+        _4PHASE_4PHASE,
 
         [SubWorkMode(WorkModeE.DOUBLE_FREQ, 5, 2)]
         _4PHASE_GRAY_4PHASE_BG,//for calibration usecase only
@@ -72,33 +66,25 @@ namespace SIFP.Core.Enums
         _4PHASE_4BG_4PHASE_4BG,
 
         [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 17, true)]
-        _4PHASE_4BG_4PHASE_GRAY_4BG,
+        _4PHASE_GRAY_5BG_4PHASE_GRAY_5BG,
 
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 18, true)]
-        _4PHASE_GRAY_4BG_4PHASE_BG_4BG,
+        [SubWorkMode(WorkModeE.DOUBLE_FREQ,1,17)]
+        _8PHASE_CALI,
 
         [SubWorkMode(WorkModeE.TRIPLE_FREQ, 4, 3)]
         _4PHASE_4PHASE_4PHASE,
 
         [SubWorkMode(WorkModeE.TRIPLE_FREQ, 1, 13)]
-        _8PHASE_4PHASE_GRAY,
-
-        [SubWorkMode(WorkModeE.TRIPLE_FREQ, 1, 13)]
-        _8PHASE_4PHASE_BG,
-        //TODO: cannot support triple frequency + 3*4BG yet.
+        _4PHASE_GRAY_4PHASE_GRAY_4PHASE_BG,
 
         [SubWorkMode(WorkModeE.QUAD_FREQ, 4, 4)]
         _4PHASE_4PHASE_4PHASE_4PHASE,
 
         [SubWorkMode(WorkModeE.QUAD_FREQ, 1, 17)]
-        _8PHASE_8PHASE_GRAY,
+        _4PHASE_GRAY_4PHASE_BG_4PHASE_GRAY_4PHASE_BG,
 
         [SubWorkMode(WorkModeE.QUAD_FREQ, 1, 17)]
-        _8PHASE_8PHASE_BG,
-
-        [SubWorkMode(WorkModeE.QUAD_FREQ, 1, 18)]
-        _8PHASE_GRAY_8PHASE_BG,//for calibration usecase only
-                               // TODO: cannot support quad frequency + 4*4BG yet.
+        _16PHASE_CALI,
     }
 
     public enum SubFrameModeE : UInt32

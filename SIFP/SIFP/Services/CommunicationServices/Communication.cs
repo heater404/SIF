@@ -137,12 +137,17 @@ namespace Services
         }
 
         private bool configCameraSuccess;
-        public bool? ConfigCamera(ConfigCameraRequest configCamera, int millisecondsTimeout)
+        public bool? ConfigCamera(ConfigCameraModel configCamera, int millisecondsTimeout)
         {
             if (client == null)
                 return false;
 
-            if (this.client.Send(configCamera) > 0)
+            ConfigCameraRequest request = new ConfigCameraRequest
+            {
+                ConfigCamera = configCamera,
+            };
+
+            if (this.client.Send(request) > 0)
             {
                 if (waitHandle.WaitOne(millisecondsTimeout))
                     return configCameraSuccess;
