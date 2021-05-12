@@ -11,22 +11,35 @@ namespace SIFP.Core.Models
     public class ConnectCameraReply : MsgHeader
     {
         [FieldOrder(1)]
-        public UInt32 CamChipID { get; set; }
+        public UInt32 ToFChipID { get; set; }
+
+        [FieldOrder(2)]
+        public UInt32 RGBChipID { get; set; }
 
         [FieldLength(64)]
-        [FieldOrder(2)]
-        public string CamName { get; set; }
-
         [FieldOrder(3)]
-        public UInt32 MaxImageWidth { get; set; }
+        public string ToFCamName { get; set; }
 
+        [FieldLength(64)]
         [FieldOrder(4)]
-        public UInt32 MaxImageHeight { get; set; }
+        public string RGBCamName { get; set; }
 
         [FieldOrder(5)]
-        public UInt32 LotNumber { get; set; }
+        public UInt32 ToFMaxImageWidth { get; set; }
 
         [FieldOrder(6)]
+        public UInt32 ToFMaxImageHeight { get; set; }
+
+        [FieldOrder(7)]
+        public UInt32 RGBMaxImageWidth { get; set; }
+
+        [FieldOrder(8)]
+        public UInt32 RGBMaxImageHeight { get; set; }
+
+        [FieldOrder(9)]
+        public UInt32 LotNumber { get; set; }
+
+        [FieldOrder(10)]
         public UInt32 WaferId { get; set; }
     }
 }

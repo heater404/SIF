@@ -33,22 +33,26 @@ namespace SIFP.Core.Models
         [FieldOrder(7)]
         public TriggerModeE TriggerMode { get; set; }
 
+        //configure XVS trigger polarity (only used when triggerMode is TRIGGER_MODE_SLAVE_MODE). true: being triggerd on positive level signal
         [FieldOrder(8)]
-        public ROISetting ROISetting { get; set; }
+        public UInt32 SlaveTriggeredOnPosLevel { get; set; }
 
         [FieldOrder(9)]
-        public BinningModeE BinningMode { get; set; }
+        public ROISetting ROISetting { get; set; }
 
         [FieldOrder(10)]
-        public MirrorModeE MirrorMode { get; set; }
+        public BinningModeE BinningMode { get; set; }
 
         [FieldOrder(11)]
-        public TSensorModeE TSensorMode { get; set; }
+        public MirrorModeE MirrorMode { get; set; }
 
         [FieldOrder(12)]
-        public uint PerformClkChanges { get; set; }
+        public TSensorModeE TSensorMode { get; set; }
 
         [FieldOrder(13)]
+        public uint PerformClkChanges { get; set; }
+
+        [FieldOrder(14)]
         public ClkDIvOverride ClkDivOverride { get; set; }
     }
 }

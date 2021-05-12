@@ -476,7 +476,7 @@ namespace Services
             if (pkt is not ConnectCameraReply msg)
                 return;
 
-            this.CamChipID = msg.CamChipID;
+            this.CamChipID = msg.ToFChipID;
             if (waitHandle.Set())
             {
                 eventAggregator.GetEvent<ConnectCameraReplyEvent>().Publish(msg);

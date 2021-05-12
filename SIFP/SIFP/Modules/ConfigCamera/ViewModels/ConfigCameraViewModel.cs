@@ -72,7 +72,7 @@ namespace ConfigCamera.ViewModels
 
             this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
             {
-                MaxImageSize = new Size(reply.MaxImageWidth, reply.MaxImageHeight);
+                MaxImageSize = new Size(reply.ToFMaxImageWidth, reply.ToFMaxImageHeight);
             }, true);
         }
 

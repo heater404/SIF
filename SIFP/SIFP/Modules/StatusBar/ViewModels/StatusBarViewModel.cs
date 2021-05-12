@@ -77,8 +77,8 @@ namespace StatusBar.ViewModels
 
             this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
             {
-                CamChipID = "0x" + reply.CamChipID.ToString("x2");
-                CamName = reply.CamName.Split('\0')[0];
+                CamChipID = "0x" + reply.ToFChipID.ToString("x2");
+                CamName = reply.ToFCamName.Split('\0')[0];
 
                 LotNumber = "0x" + reply.LotNumber.ToString("x2");
                 WaferId = "0x" + reply.WaferId.ToString("x2");

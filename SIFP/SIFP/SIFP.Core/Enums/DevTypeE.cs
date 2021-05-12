@@ -68,9 +68,6 @@ namespace SIFP.Core.Enums
         [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 17, true)]
         _4PHASE_GRAY_5BG_4PHASE_GRAY_5BG,
 
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ,1,17)]
-        _8PHASE_CALI,
-
         [SubWorkMode(WorkModeE.TRIPLE_FREQ, 4, 3)]
         _4PHASE_4PHASE_4PHASE,
 
@@ -82,9 +79,6 @@ namespace SIFP.Core.Enums
 
         [SubWorkMode(WorkModeE.QUAD_FREQ, 1, 17)]
         _4PHASE_GRAY_4PHASE_BG_4PHASE_GRAY_4PHASE_BG,
-
-        [SubWorkMode(WorkModeE.QUAD_FREQ, 1, 17)]
-        _16PHASE_CALI,
     }
 
     public enum SubFrameModeE : UInt32
