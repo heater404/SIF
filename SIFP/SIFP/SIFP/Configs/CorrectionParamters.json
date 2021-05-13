@@ -8,7 +8,7 @@
     },
     "CorrParams": {
         "CorrBP": true,
-        "CorrLen": true,
+        "CorrLens": true,
         "CorrTemp": true,
         "CorrOffsetAuto": true,
         "CorrFPPN": true,

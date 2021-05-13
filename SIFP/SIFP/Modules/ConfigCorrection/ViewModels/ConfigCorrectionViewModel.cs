@@ -89,10 +89,10 @@ namespace ConfigCorrection.ViewModels
             get { return corrParams.CorrParams.CorrBP; }
             set { corrParams.CorrParams.CorrBP = value; RaisePropertyChanged(); ConfigCorrectionAsync(); }
         }
-        public bool CorrLen
+        public bool CorrLens
         {
-            get { return corrParams.CorrParams.CorrLen; }
-            set { corrParams.CorrParams.CorrLen = value; RaisePropertyChanged(); ConfigCorrectionAsync(); }
+            get { return corrParams.CorrParams.CorrLens; }
+            set { corrParams.CorrParams.CorrLens = value; RaisePropertyChanged(); ConfigCorrectionAsync(); }
         }
         public bool CorrTemp
         {
