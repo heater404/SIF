@@ -35,7 +35,8 @@ namespace SIFP.Core.Models
 
         //configure XVS trigger polarity (only used when triggerMode is TRIGGER_MODE_SLAVE_MODE). true: being triggerd on positive level signal
         [FieldOrder(8)]
-        public UInt32 SlaveTriggeredOnPosLevel { get; set; }
+        [FieldLength(4)]
+        public bool SlaveTriggeredOnPosLevel { get; set; }
 
         [FieldOrder(9)]
         public ROISetting ROISetting { get; set; }

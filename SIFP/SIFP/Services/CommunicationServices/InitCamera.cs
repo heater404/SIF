@@ -179,9 +179,9 @@ namespace Services
                                 break;
                         }
                     }
-                    usercase.NumPhaseFramePerMIPIFrame = (uint)numPhasePerFrame.Sum() * usercase.NumDepthSequencePerDepthMap;
+                    usercase.NumPhasePerFrameStruct = (uint)numPhasePerFrame.Sum() * usercase.NumDepthSequencePerDepthMap;
 
-                    usercase.MaxFPS = Math.Min(30, 240 / usercase.NumPhaseFramePerMIPIFrame);
+                    usercase.MaxFPS = Math.Min(30, 240 / usercase.NumPhasePerFrameStruct);
                 }
                 
                 if (configs.UserCases.Exists(config => config.SubWorkMode == subWorkMode))

@@ -232,6 +232,7 @@
     "DepthFPS": 5,
     "SequencerRepeatMode": 1,
     "TriggerMode": 1,
+    "SlaveTriggeredOnPosLevel":false,
     "ROISetting": {
         "XStart": 0,
         "XSize": 640,

@@ -51,7 +51,7 @@ namespace SIFP.Core.Models
 
         //number of phase frames in a MIPI frame (determines the expected data size per MIPI frame)
         [Ignore]
-        public UInt32 NumPhaseFramePerMIPIFrame { get; set; }
+        public UInt32 NumPhasePerFrameStruct { get; set; }
 
         [Ignore]
         public UInt32 MaxFPS { get; set; }
