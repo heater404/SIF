@@ -9,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace StatusBar.ViewModels
 {
@@ -71,12 +73,39 @@ namespace StatusBar.ViewModels
             set { workMode = value; RaisePropertyChanged(); }
         }
 
+        private Brush heartBeat = new SolidColorBrush(new Color { A = 0xff, R = 0xf0, G = 0xb4, B = 0 });
+        public Brush HeartBeat
+        {
+            get { return heartBeat; }
+            set { heartBeat = value; RaisePropertyChanged(); }
+        }
+
+        private bool isConnected;
+        public bool IsConnected
+        {
+            get { return isConnected; }
+            set
+            {
+                isConnected = value;
+                RaisePropertyChanged();
+                if (value)
+                    beat.StartHeartBeat(new CancellationTokenSource());//开始心跳
+                else
+                    beat.StopHeartBeat();
+            }
+        }
+
+        private ServerHeartBeat beat = new ServerHeartBeat(8000);
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
+            beat.HeartBeatTimeoutEvent += HeartBeatTimeoutEvent;
+
             this.EventAggregator.GetEvent<NoticeLogEvent>().Subscribe(log => this.Log = log, ThreadOption.BackgroundThread, true);
 
             this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
             {
+                IsConnected = true;
+
                 CamChipID = "0x" + reply.ToFChipID.ToString("x2");
                 CamName = reply.ToFCamName.Split('\0')[0];
 
@@ -96,8 +125,19 @@ namespace StatusBar.ViewModels
 
             this.EventAggregator.GetEvent<GetSysStatusReplyEvent>().Subscribe(reply =>
             {
+                beat.HeartBeat(DateTime.Now);
                 TSensor = reply.TSensor;
             }, ThreadOption.BackgroundThread, true);
+
+            this.EventAggregator.GetEvent<DisconnectCameraReplyEvent>().Subscribe(reply =>
+            {
+                IsConnected = false;
+            }, ThreadOption.BackgroundThread, true);
+        }
+
+        private void HeartBeatTimeoutEvent(object sender, EventArgs e)
+        {
+            heartBeat = new SolidColorBrush(new Color { A = 0xff, R = 0xff, G = 0x00, B = 0x00 });
         }
     }
 }

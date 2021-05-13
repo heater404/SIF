@@ -225,6 +225,7 @@ namespace Services
             return false;
         }
 
+        private bool disconnectCameraAck;
         public bool? DisconnectCamera(int millisecondsTimeout)
         {
             if (client == null)
@@ -237,8 +238,10 @@ namespace Services
 
             if (this.client.Send(msg) > 0)
             {
-                //同步等待
-                return true;
+                if (waitHandle.WaitOne(millisecondsTimeout))
+                    return disconnectCameraAck;
+                else
+                    return null;
             }
 
             return false;
@@ -556,6 +559,19 @@ namespace Services
                 return;
 
             eventAggregator.GetEvent<ConfigVcselDriverReplyEvent>().Publish(msg);
+        }
+
+        [RecvMsg(MsgTypeE.DisconnectCameraReplyType, typeof(DisconnectCameraReply))]
+        private void CmdProcDisconnectCameraReply(MsgHeader pkt)
+        {
+            if (pkt is not DisconnectCameraReply msg)
+                return;
+
+            disconnectCameraAck = msg.Ack == 0;
+            if (waitHandle.Set())
+            {
+                eventAggregator.GetEvent<DisconnectCameraReplyEvent>().Publish(msg);
+            }
         }
     }
 }

@@ -33,6 +33,8 @@ namespace SIFP.Core.Mvvm
 
     public class DisconnectCameraRequestEvent : PubSubEvent { };
 
+    public class DisconnectCameraReplyEvent : PubSubEvent<DisconnectCameraReply> { };
+
     public class ReadRegisterReplyEvent : PubSubEvent<ReadRegisterReply> { };
 
     public class GetSysStatusReplyEvent : PubSubEvent<GetSysStatusReply> { };

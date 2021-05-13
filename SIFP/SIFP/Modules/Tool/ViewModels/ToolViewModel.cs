@@ -471,14 +471,14 @@ namespace Tool.ViewModels
                     {
                         this.PrintNoticeLog("DisonnectCamera Fail", LogLevel.Error);
                         this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
-                        return false;
+                        return true;
                     }
                 }
                 else
                 {
                     this.PrintNoticeLog("DisonnectCamera Timeout", LogLevel.Error);
                     this.PrintWatchLog("DisonnectCamera Timeout", LogLevel.Error);
-                    return false;
+                    return true;
                 }
 
                 if (!comm.Close())
