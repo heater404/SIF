@@ -246,7 +246,7 @@
                     </DockPanel>
                 </HeaderedContentControl.Header>
                 <ContentControl
-                    Width="400"
+                    Width="420"
                     VerticalAlignment="Top"
                     VerticalContentAlignment="Top"
                     Content="{Binding LeftDrawerContent}" />
