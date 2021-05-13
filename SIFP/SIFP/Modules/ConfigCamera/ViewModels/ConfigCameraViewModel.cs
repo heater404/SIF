@@ -74,6 +74,21 @@ namespace ConfigCamera.ViewModels
             {
                 MaxImageSize = new Size(reply.ToFMaxImageWidth, reply.ToFMaxImageHeight);
             }, true);
+
+            this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
+            {
+                if (type == SIFP.Core.Enums.UserAccessType.Expert)
+                    IsExpert = true;
+                else
+                    IsExpert = false;
+            }, true);
+        }
+
+        private bool isExpert;
+        public bool IsExpert
+        {
+            get { return isExpert; }
+            set { isExpert = value; RaisePropertyChanged(); }
         }
 
         private bool isEnable = true;
@@ -111,9 +126,20 @@ namespace ConfigCamera.ViewModels
 
         private async void ApplyConfigCameraAsync()
         {
+            //使用analog binning时，yStart必须是偶数, yStep必须是(2 - 32)之间的偶数
+            if (AnalogBinning)
+            {
+                if (StartPoint.Y % 2 != 0 || YStep % 2 != 0)
+                {
+                    this.PrintNoticeLog("when analogbinning,yStart and yStep must be even number", LogLevel.Error);
+                    this.PrintWatchLog("when analogbinning,yStart and yStep must be even number", LogLevel.Error);
+                    return;
+                }
+            }
+
             ConfigCameraSuccess = false;
             dialogService.Show(DialogNames.WaitingDialog);
-            var res = await Task.Run(() => comm.ConfigCamera(configCameraModel , 5000));
+            var res = await Task.Run(() => comm.ConfigCamera(configCameraModel, 5000));
             if (res.HasValue)
             {
                 if (res.Value)
@@ -261,6 +287,13 @@ namespace ConfigCamera.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        /*
+         分辨率的设置有限制条件：
+         1、ROI Width需要是4的倍数
+         2、使用analog binning时，yStart必须是偶数, yStep必须是(2-32)之间的偶数
+         3、客户版中digital Binning不能与XStep同时使用
+         */
         public Point StartPoint
         {
             get
@@ -291,6 +324,8 @@ namespace ConfigCamera.ViewModels
             }
             set
             {
+                if (value.Width % 4 != 0) //ROI Width需要是4的倍数
+                    throw new ArgumentException($"The width must be a multiple of 4");
                 if (value.Width < 0 || value.Width < 0)
                     throw new ArgumentException($"invalid value");
                 if (StartPoint.X + value.Width > maxImageSize.Width)
@@ -322,7 +357,7 @@ namespace ConfigCamera.ViewModels
             set
             {
                 if (value < 1 || value > 32)
-                    throw new ArgumentOutOfRangeException("OutOfRange:[1,32]");
+                    throw new ArgumentException("OutOfRange:[1,32]");
                 configCameraModel.ROISetting.YStep = value;
                 RaisePropertyChanged();
                 Resolution = CalculateResolution(ROISize, XStep, YStep);

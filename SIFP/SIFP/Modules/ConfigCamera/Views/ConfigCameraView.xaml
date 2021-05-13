@@ -476,15 +476,16 @@
                         <UniformGrid
                             Grid.Row="2"
                             Margin="0,5,0,0"
-                            Columns="2">
-                            <CheckBox
-                                HorizontalAlignment="Left"
-                                Content="AnalogBinning"
-                                IsChecked="{Binding AnalogBinning}" />
+                            Columns="2"
+                            Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <CheckBox
                                 HorizontalAlignment="Left"
                                 Content="DigitalBinning"
                                 IsChecked="{Binding DigitalBinning}" />
+                            <CheckBox
+                                HorizontalAlignment="Left"
+                                Content="AnalogBinning"
+                                IsChecked="{Binding AnalogBinning}" />
                         </UniformGrid>
                     </Grid>
                 </GroupBox>
