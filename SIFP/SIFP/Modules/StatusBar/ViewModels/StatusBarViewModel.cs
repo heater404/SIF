@@ -85,12 +85,12 @@ namespace StatusBar.ViewModels
 
                 if (value.HasValue)
                 {
-                    if (value.Value)
+                    if (value.Value)//连接上了
                         beat.StartHeartBeat(new CancellationTokenSource());//开始心跳
-                    else
+                    else//心跳超时
                         beat.StopHeartBeat();
                 }
-                else
+                else//连接断开了
                     beat.StopHeartBeat();
             }
         }
