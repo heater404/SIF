@@ -95,7 +95,7 @@ namespace StatusBar.ViewModels
             }
         }
 
-        private ServerHeartBeat beat = new ServerHeartBeat(60000);
+        private ServerHeartBeat beat = new ServerHeartBeat(5000);
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             beat.HeartBeatTimeoutEvent += HeartBeatTimeoutEvent;
@@ -138,6 +138,8 @@ namespace StatusBar.ViewModels
         private void HeartBeatTimeoutEvent(object sender, EventArgs e)
         {
             IsConnected = false;
+            PrintNoticeLog("HeartBeatTiemout", LogLevel.Error);
+            PrintWatchLog("HeartBeatTiemout", LogLevel.Error);
         }
     }
 }

@@ -9,6 +9,10 @@ namespace SIFP.Core.Models
     [MsgType(MsgTypeE.DisconnectCameraReplyType)]
     public class DisconnectCameraReply : MsgHeader
     {
+        public override uint GetMsgLen()
+        {
+            return 4;
+        }
         public UInt32 Ack { get; set; }//0表示success  1表示fail
     }
 }
