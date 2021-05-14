@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace StatusBar
     {
         private CancellationTokenSource tokenSource;
         private int timeoutms;
-        private DateTime heartBeatTime = DateTime.Now;
+        private DateTime heartBeatTime;
         public event EventHandler HeartBeatTimeoutEvent;
 
         public ServerHeartBeat(int millisecondsTimeout)
@@ -26,6 +27,8 @@ namespace StatusBar
 
         public void StartHeartBeat(CancellationTokenSource cancellationTokenSource)
         {
+            Debug.WriteLine("StartHeartBeat");
+            heartBeatTime = DateTime.Now;
             tokenSource = cancellationTokenSource;
             Task.Run(() =>
             {
@@ -33,15 +36,17 @@ namespace StatusBar
                 {
                     if ((DateTime.Now - heartBeatTime).TotalMilliseconds > timeoutms)
                     {
+                        Debug.WriteLine("HeartBeatTimeout");
                         HeartBeatTimeoutEvent?.Invoke(null, null);
                     }
-                    Thread.Sleep(timeoutms);
+                    Thread.Sleep(100);
                 }
             }, tokenSource.Token);
         }
 
         public void StopHeartBeat()
         {
+            Debug.WriteLine("StopHeartBeat");
             tokenSource.Cancel();
         }
     }

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 
 namespace StatusBar.ViewModels
@@ -73,29 +74,28 @@ namespace StatusBar.ViewModels
             set { workMode = value; RaisePropertyChanged(); }
         }
 
-        private Brush heartBeat = new SolidColorBrush(new Color { A = 0xff, R = 0xf0, G = 0xb4, B = 0 });
-        public Brush HeartBeat
-        {
-            get { return heartBeat; }
-            set { heartBeat = value; RaisePropertyChanged(); }
-        }
-
-        private bool isConnected;
-        public bool IsConnected
+        private bool? isConnected;
+        public bool? IsConnected
         {
             get { return isConnected; }
             set
             {
                 isConnected = value;
                 RaisePropertyChanged();
-                if (value)
-                    beat.StartHeartBeat(new CancellationTokenSource());//开始心跳
+
+                if (value.HasValue)
+                {
+                    if (value.Value)
+                        beat.StartHeartBeat(new CancellationTokenSource());//开始心跳
+                    else
+                        beat.StopHeartBeat();
+                }
                 else
                     beat.StopHeartBeat();
             }
         }
 
-        private ServerHeartBeat beat = new ServerHeartBeat(8000);
+        private ServerHeartBeat beat = new ServerHeartBeat(60000);
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             beat.HeartBeatTimeoutEvent += HeartBeatTimeoutEvent;
@@ -131,13 +131,13 @@ namespace StatusBar.ViewModels
 
             this.EventAggregator.GetEvent<DisconnectCameraReplyEvent>().Subscribe(reply =>
             {
-                IsConnected = false;
+                IsConnected = null;
             }, ThreadOption.BackgroundThread, true);
         }
 
         private void HeartBeatTimeoutEvent(object sender, EventArgs e)
         {
-            heartBeat = new SolidColorBrush(new Color { A = 0xff, R = 0xff, G = 0x00, B = 0x00 });
+            IsConnected = false;
         }
     }
 }

@@ -50,23 +50,40 @@
                     Width="15"
                     Height="15"
                     Margin="5,0,0,0"
-                    Fill="{Binding HeartBeat}">
-
+                    Fill="{StaticResource PrimaryHueMidBrush}">
                     <Ellipse.Style>
                         <Style TargetType="Ellipse">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsConnected}" Value="true">
+                                <DataTrigger Binding="{Binding IsConnected}" Value="false">
                                     <DataTrigger.EnterActions>
-                                        <BeginStoryboard x:Name="heatebeat">
+                                        <BeginStoryboard x:Name="timeout">
                                             <Storyboard AutoReverse="True" RepeatBehavior="Forever">
-                                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
-                                                    <EasingColorKeyFrame KeyTime="0:0:1" Value="Transparent" />
-                                                </ColorAnimationUsingKeyFrames>
+                                                <ColorAnimation
+                                                    Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                    From="Transparent"
+                                                    To="#FFFF0000"
+                                                    Duration="0:0:1" />
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </DataTrigger.EnterActions>
                                     <DataTrigger.ExitActions>
-                                        <StopStoryboard BeginStoryboardName="heatebeat" />
+                                        <RemoveStoryboard BeginStoryboardName="timeout" />
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsConnected}" Value="true">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard x:Name="heartbeat">
+                                            <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                                                <ColorAnimation
+                                                    Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                    From="Transparent"
+                                                    To="#FFF0b400"
+                                                    Duration="0:0:1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <RemoveStoryboard BeginStoryboardName="heartbeat" />
                                     </DataTrigger.ExitActions>
                                 </DataTrigger>
                             </Style.Triggers>
