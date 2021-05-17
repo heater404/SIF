@@ -479,6 +479,11 @@ namespace Tool.ViewModels
                         this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
                         return true;
                     }
+                    else
+                    {
+                        this.PrintNoticeLog("DisconnectCamera Success", LogLevel.Warning);
+                        this.PrintWatchLog("DisconnectCamera Success", LogLevel.Warning);
+                    }
                 }
                 else
                 {
@@ -498,8 +503,6 @@ namespace Tool.ViewModels
             if (!KillAssembly(processor))
                 return false;
 
-            this.PrintNoticeLog("DisconnectCamera Success", LogLevel.Warning);
-            this.PrintWatchLog("DisconnectCamera Success", LogLevel.Warning);
             return true;
         }
     }
