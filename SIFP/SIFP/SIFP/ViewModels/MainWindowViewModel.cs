@@ -105,6 +105,13 @@ namespace SIFP.ViewModels
             set { isEnable = value;RaisePropertyChanged(); }
         }
 
+        private bool isStreaming = false;
+        public bool IsStreaming
+        {
+            get { return isStreaming; }
+            set { isStreaming = value;RaisePropertyChanged(); }
+        }
+
         public DelegateCommand OpenPasswordDialogCmd { get; set; }
         public DelegateCommand<Type> OpenLeftDrawerCmd { get; set; }
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
@@ -140,6 +147,8 @@ namespace SIFP.ViewModels
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigAlgView);
 
             this.EventAggregator.GetEvent<MainWindowEnableEvent>().Subscribe(b => IsEnable = b, true);
+
+            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsStreaming = isStreaming, ThreadOption.BackgroundThread, true);
 
         }
     }

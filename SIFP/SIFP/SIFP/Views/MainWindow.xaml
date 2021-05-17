@@ -137,7 +137,7 @@
                             PlacementMode="BottomAndAlignRightEdges"
                             StaysOpen="False">
                             <StackPanel>
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel IsEnabled="{Binding IsStreaming, Converter={StaticResource NotConverter}}" Orientation="Horizontal">
                                     <TextBlock Text="Normal" />
                                     <ToggleButton
                                         Margin="5,0,5,0"
