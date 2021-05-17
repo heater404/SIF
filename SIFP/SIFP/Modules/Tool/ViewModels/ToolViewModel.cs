@@ -138,7 +138,7 @@ namespace Tool.ViewModels
         private CancellationTokenSource cancellationTokenSource = null;
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
-        private UserAccessType user=UserAccessType.Normal;
+        private UserAccessType user = UserAccessType.Normal;
         public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             this.comm = comm;
@@ -498,8 +498,8 @@ namespace Tool.ViewModels
             if (!KillAssembly(processor))
                 return false;
 
-            //this.PrintNoticeLog("DisconnectCamera Success", LogLevel.Warning);
-            //this.PrintWatchLog("DisconnectCamera Success", LogLevel.Warning);
+            this.PrintNoticeLog("DisconnectCamera Success", LogLevel.Warning);
+            this.PrintWatchLog("DisconnectCamera Success", LogLevel.Warning);
             return true;
         }
     }

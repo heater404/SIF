@@ -138,8 +138,8 @@ namespace StatusBar.ViewModels
         private void HeartBeatTimeoutEvent(object sender, EventArgs e)
         {
             IsConnected = false;
-            PrintNoticeLog("HeartBeatTiemout", LogLevel.Error);
-            PrintWatchLog("HeartBeatTiemout", LogLevel.Error);
+            PrintNoticeLog("HeartBeat Tiemout", LogLevel.Error);
+            PrintWatchLog("HeartBeat Tiemout", LogLevel.Error);
         }
     }
 }
