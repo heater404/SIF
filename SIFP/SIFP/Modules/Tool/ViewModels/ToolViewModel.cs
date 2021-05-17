@@ -138,6 +138,7 @@ namespace Tool.ViewModels
         private CancellationTokenSource cancellationTokenSource = null;
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
+        private UserAccessType user=UserAccessType.Normal;
         public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             this.comm = comm;
@@ -172,6 +173,11 @@ namespace Tool.ViewModels
             {
                 IsConfigCameraSuccess = isSuccess;
             }, ThreadOption.PublisherThread, true);
+
+            this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
+            {
+                user = type;
+            }, true);
         }
 
         private void ShowVcselDriverDialog()
@@ -314,7 +320,7 @@ namespace Tool.ViewModels
             {
                 if (await Task.Run(ConnectCamera))
                 {
-                    //comm.SwitchUserAccess(UserAccessType.Expert);
+                    comm.SwitchUserAccess(user);
 
                     cancellationTokenSource = new CancellationTokenSource();
                     comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
