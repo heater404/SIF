@@ -39,7 +39,7 @@ namespace StatusBar
                         Debug.WriteLine("HeartBeatTimeout");
                         HeartBeatTimeoutEvent?.Invoke(null, null);
                     }
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000);
                 }
             }, tokenSource.Token);
         }

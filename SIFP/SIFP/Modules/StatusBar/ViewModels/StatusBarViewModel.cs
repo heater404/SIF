@@ -87,15 +87,15 @@ namespace StatusBar.ViewModels
                 {
                     if (value.Value)//连接上了
                         beat.StartHeartBeat(new CancellationTokenSource());//开始心跳
-                    else//心跳超时
-                        beat.StopHeartBeat();
+                    //else//心跳超时
+                    //    beat.StopHeartBeat();
                 }
                 else//连接断开了
                     beat.StopHeartBeat();
             }
         }
 
-        private ServerHeartBeat beat = new ServerHeartBeat(6000);
+        private ServerHeartBeat beat = new ServerHeartBeat(5000);
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             beat.HeartBeatTimeoutEvent += HeartBeatTimeoutEvent;
