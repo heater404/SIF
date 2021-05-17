@@ -6,11 +6,11 @@ namespace SIFP.Core.Models
 {
     public class LensCaliArgs
     {
-        public float Fx { get; set; }
-        public float Fy { get; set; }
-        public float Cx { get; set; }
-        public float Cy { get; set; }
-        public float FOVZoom { get; set; }
+        public float Fx { get; set; } = 528;
+        public float Fy { get; set; } = 528;
+        public float Cx { get; set; } = 320;
+        public float Cy { get; set; } = 240;
+        public float FOVZoom { get; set; } = 1;
 
         public override string ToString()
         {
