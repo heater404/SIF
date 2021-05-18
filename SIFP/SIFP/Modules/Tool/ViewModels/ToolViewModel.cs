@@ -480,7 +480,6 @@ namespace Tool.ViewModels
                     {
                         this.PrintNoticeLog("DisonnectCamera Fail", LogLevel.Error);
                         this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
-                        return true;
                     }
                     else
                     {
@@ -492,20 +491,18 @@ namespace Tool.ViewModels
                 {
                     this.PrintNoticeLog("DisonnectCamera Timeout", LogLevel.Error);
                     this.PrintWatchLog("DisonnectCamera Timeout", LogLevel.Error);
-                    return true;
                 }
 
                 if (!comm.Close())
                 {
                     this.PrintNoticeLog("Close CommClient Fail", LogLevel.Error);
                     this.PrintWatchLog("Close CommClient Fail", LogLevel.Error);
-                    return false;
                 }
             }
 
-            if (!KillAssembly(processor))
-                return false;
+            KillAssembly(processor);
 
+            Thread.Sleep(2000);
             return true;
         }
     }
