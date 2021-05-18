@@ -14,7 +14,7 @@ namespace StatusBar
         private int timeoutms;
         private DateTime heartBeatTime;
         public event EventHandler HeartBeatTimeoutEvent;
-
+        public event EventHandler HeartBeatAliveEvent;
         public ServerHeartBeat(int millisecondsTimeout)
         {
             timeoutms = millisecondsTimeout;
@@ -39,6 +39,8 @@ namespace StatusBar
                         Debug.WriteLine("HeartBeatTimeout");
                         HeartBeatTimeoutEvent?.Invoke(null, null);
                     }
+                    else
+                        HeartBeatAliveEvent?.Invoke(null, null);
                     Thread.Sleep(1000);
                 }
             }, tokenSource.Token);
@@ -47,7 +49,7 @@ namespace StatusBar
         public void StopHeartBeat()
         {
             Debug.WriteLine("StopHeartBeat");
-            tokenSource.Cancel();
+            tokenSource?.Cancel();
         }
     }
 }

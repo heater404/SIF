@@ -99,6 +99,7 @@ namespace StatusBar.ViewModels
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             beat.HeartBeatTimeoutEvent += HeartBeatTimeoutEvent;
+            beat.HeartBeatAliveEvent += HeartBeatAliveEvent;
 
             this.EventAggregator.GetEvent<NoticeLogEvent>().Subscribe(log => this.Log = log, ThreadOption.BackgroundThread, true);
 
@@ -133,6 +134,11 @@ namespace StatusBar.ViewModels
             {
                 IsConnected = null;
             }, ThreadOption.BackgroundThread, true);
+        }
+
+        private void HeartBeatAliveEvent(object sender, EventArgs e)
+        {
+            IsConnected = true;
         }
 
         private void HeartBeatTimeoutEvent(object sender, EventArgs e)
