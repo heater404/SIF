@@ -421,27 +421,17 @@ namespace Services
             await task;
         }
 
-        public bool? ConfigCorrectionParams(CorrectionParams correction)
+        public bool? ConfigArithParams(CorrectionParams correction, PostProcParams postProc)
         {
             if (null == client)
                 return false;
 
-            ConfigCorrectionParamsRequest msg = new ConfigCorrectionParamsRequest()
+            ConfigArithParamsRequest msg = new ConfigArithParamsRequest()
             {
                 Correction = correction,
-            };
-
-            return client.Send(msg) > 0;
-        }
-
-        public bool? ConfigPostProcParams(PostProcParams postProc)
-        {
-            if (null == client)
-                return false;
-
-            ConfigPostProcParamsRequest msg = new ConfigPostProcParamsRequest()
-            {
                 PostProc = postProc,
+                UseCorrParams = 1,
+                UsePostProcParams = 1,
             };
 
             return client.Send(msg) > 0;

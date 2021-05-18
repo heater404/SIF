@@ -15,27 +15,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ConfigCorrection.Views
+namespace ConfigArithParams.Views
 {
     /// <summary>
     /// Interaction logic for ViewA.xaml
     /// </summary>
-    public partial class ConfigCorrectionView : UserControl
+    public partial class ConfigArithParamsView : UserControl
     {
         IEventAggregator eventAggregator;
-        public ConfigCorrectionView(IEventAggregator eventAggregator)
+        public ConfigArithParamsView(IEventAggregator eventAggregator)
         {
-            InitializeComponent();
             this.eventAggregator = eventAggregator;
-            eventAggregator.GetEvent<ChangeDrawerRegionSizeEvent>().Subscribe(size =>
+            InitializeComponent();
+            this.eventAggregator.GetEvent<ChangeDrawerRegionSizeEvent>().Subscribe(size =>
             {
                 this.Height = Math.Max(size.Height - 80, 0);
             }, true);
-        }
-
-        private void ConfigCorrectionChanged(object sender, RoutedEventArgs e)
-        {
-            this.eventAggregator?.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
         }
     }
 }

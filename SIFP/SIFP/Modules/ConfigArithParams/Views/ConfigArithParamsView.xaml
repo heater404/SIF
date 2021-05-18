@@ -1,11 +1,10 @@
 ﻿<UserControl
-    x:Class="ConfigCorrection.Views.ConfigCorrectionView"
+    x:Class="ConfigArithParams.Views.ConfigArithParamsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:core="clr-namespace:SIFP.Core;assembly=SIFP.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:local="clr-namespace:ConfigCorrection.Views"
+    xmlns:local="clr-namespace:ConfigArithParams.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
@@ -147,6 +146,109 @@
                         Content="AntiAliCorr"
                         IsChecked="{Binding AntiAliCorr}"
                         Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox
+                Margin="10"
+                Header="PostProcOutPut"
+                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox
+                        Margin="0,5,0,5"
+                        Content="OutPointCloud"
+                        IsChecked="{Binding OutPointCloudPP}" />
+                    <CheckBox
+                        Margin="0,5,0,5"
+                        Content="OutConfidence"
+                        IsChecked="{Binding OutConfidencePP}" />
+                    <CheckBox
+                        Margin="0,5,0,5"
+                        Content="OutFlag"
+                        IsChecked="{Binding OutFlag}" />
+                    <ComboBox
+                        Margin="0,5,0,5"
+                        materialDesign:TextFieldAssist.PrefixText="PointCloudType : "
+                        ItemsSource="{x:Static core:EnumsTypes.PointCloudTypes}"
+                        SelectedItem="{Binding OutPointCloudTypePP}" />
+                    <ComboBox
+                        Margin="0,5,0,5"
+                        materialDesign:TextFieldAssist.PrefixText="DepthValueType : "
+                        ItemsSource="{x:Static core:EnumsTypes.DepthValueTypes}"
+                        SelectedItem="{Binding OutDepthValueTypePP}" />
+                    <ComboBox
+                        Margin="0,5,0,5"
+                        materialDesign:TextFieldAssist.PrefixText="DepthDataType : "
+                        ItemsSource="{x:Static core:EnumsTypes.DepthDataTypes}"
+                        SelectedItem="{Binding OutDepthDataTypePP}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Margin="10" Header="Denoising">
+                <StackPanel Orientation="Vertical">
+                    <ComboBox
+                        Margin="0,5,0,5"
+                        materialDesign:TextFieldAssist.PrefixText="TDenoiseLevel : "
+                        ItemsSource="{x:Static core:EnumsTypes.DenoiseLevels}"
+                        SelectedItem="{Binding TDenoiseLevel}" />
+                    <ComboBox
+                        Margin="0,5,0,5"
+                        materialDesign:TextFieldAssist.PrefixText="SDenoiseLevel : "
+                        ItemsSource="{x:Static core:EnumsTypes.DenoiseLevels}"
+                        SelectedItem="{Binding SDenoiseLevel}" />
+                    <ComboBox
+                        Margin="0,5,0,5"
+                        materialDesign:TextFieldAssist.PrefixText="SDenoiseMethod : "
+                        ItemsSource="{x:Static core:EnumsTypes.SDenoiseMethods}"
+                        SelectedItem="{Binding SDenoiseMethod}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox
+                Margin="10"
+                Header="Repair"
+                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox
+                        Margin="0,5,0,5"
+                        Content="DeFlyPixel"
+                        IsChecked="{Binding DeFlyPixel}" />
+
+                    <CheckBox
+                        Margin="0,5,0,5"
+                        Content="DeHoles"
+                        IsChecked="{Binding DeHoles}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox
+                Margin="10"
+                Header="AntiInterference"
+                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox
+                        Margin="0,5,0,5"
+                        Content="AntiALI"
+                        IsChecked="{Binding AntiALI}" />
+                    <CheckBox
+                        Margin="0,5,0,5"
+                        Content="AntiMCI"
+                        IsChecked="{Binding AntiMCI}" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Margin="10" Header="Confidence">
+                <StackPanel Orientation="Vertical">
+                    <TextBox
+                        Margin="0,5,0,5"
+                        materialDesign:TextFieldAssist.PrefixText="ValidDistMin : "
+                        materialDesign:TextFieldAssist.SuffixText="mm"
+                        Text="{Binding ValidDistMin, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+                    <TextBox
+                        Margin="0,5,0,5"
+                        materialDesign:TextFieldAssist.PrefixText="ValidDistMax : "
+                        materialDesign:TextFieldAssist.SuffixText="mm"
+                        Text="{Binding ValidDistMax, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
                 </StackPanel>
             </GroupBox>
         </StackPanel>

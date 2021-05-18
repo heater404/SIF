@@ -142,8 +142,7 @@ namespace SIFP.ViewModels
               });
 
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
-            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCorrectionView);
-            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigPostProcView);
+            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigArithParamsView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigAlgView);
 
             this.EventAggregator.GetEvent<MainWindowEnableEvent>().Subscribe(b => IsEnable = b, true);

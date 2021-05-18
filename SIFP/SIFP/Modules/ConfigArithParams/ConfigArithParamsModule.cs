@@ -1,11 +1,11 @@
-﻿using ConfigPostProc.Views;
+﻿using ConfigArithParams.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 
-namespace ConfigPostProc
+namespace ConfigArithParams
 {
-    public class ConfigPostProcModule : IModule
+    public class ConfigArithParamsModule : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {

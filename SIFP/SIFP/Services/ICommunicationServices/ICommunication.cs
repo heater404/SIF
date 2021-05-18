@@ -35,9 +35,7 @@ namespace Services.Interfaces
 
         Task GetSysStatusAsync(CancellationToken cancellationToken, int interval);
 
-        bool? ConfigCorrectionParams(CorrectionParams correction);
-
-        bool? ConfigPostProcParams(PostProcParams postProc);
+        bool? ConfigArithParams(CorrectionParams correction,PostProcParams postProc);
 
         bool? ConfigVcselDriver(ConfigVcselDriver vcselDriver);
     }

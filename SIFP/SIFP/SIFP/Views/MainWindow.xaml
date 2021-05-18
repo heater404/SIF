@@ -45,7 +45,7 @@
                         </RadioButton>
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigCorrectionView}"
+                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigArithParamsView}"
                             Style="{StaticResource MaterialDesignTabRadioButton}"
                             Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <RadioButton.Content>
@@ -54,22 +54,7 @@
                                     <TextBlock
                                         Margin="5,0,0,0"
                                         VerticalAlignment="Center"
-                                        Text="Correction" />
-                                </StackPanel>
-                            </RadioButton.Content>
-                        </RadioButton>
-                        <RadioButton
-                            Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigPostProcView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}"
-                            Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <RadioButton.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="TuneVariant" />
-                                    <TextBlock
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="PostProc" />
+                                        Text="ArithParams" />
                                 </StackPanel>
                             </RadioButton.Content>
                         </RadioButton>

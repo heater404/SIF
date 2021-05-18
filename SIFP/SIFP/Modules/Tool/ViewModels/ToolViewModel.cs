@@ -330,7 +330,7 @@ namespace Tool.ViewModels
 
                     //有这个顺序要求
                     this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
-                    this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
+                    this.EventAggregator.GetEvent<ConfigArithParamsRequestEvent>().Publish();
 
                     this.EventAggregator.GetEvent<ConfigAlgRequestEvent>().Publish();
 
