@@ -82,16 +82,6 @@ namespace StatusBar.ViewModels
             {
                 isConnected = value;
                 RaisePropertyChanged();
-
-                if (value.HasValue)
-                {
-                    if (value.Value)//连接上了
-                        beat.StartHeartBeat(new CancellationTokenSource());//开始心跳
-                    //else//心跳超时
-                    //    beat.StopHeartBeat();
-                }
-                else//连接断开了
-                    beat.StopHeartBeat();
             }
         }
 
@@ -106,6 +96,7 @@ namespace StatusBar.ViewModels
             this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
             {
                 IsConnected = true;
+                beat.StartHeartBeat(new CancellationTokenSource());//开始心跳检测
 
                 CamChipID = "0x" + reply.ToFChipID.ToString("x2");
                 CamName = reply.ToFCamName.Split('\0')[0];
@@ -133,6 +124,7 @@ namespace StatusBar.ViewModels
             this.EventAggregator.GetEvent<DisconnectCameraReplyEvent>().Subscribe(reply =>
             {
                 IsConnected = null;
+                beat.StopHeartBeat();//停止心跳检测
             }, ThreadOption.BackgroundThread, true);
         }
 
