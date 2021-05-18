@@ -35,6 +35,9 @@ namespace Tool.ViewModels
                 CanConnectCtrlCmd = CanConnectCtrl();
                 CanStreamingCtrlCmd = CanStreamingOn();
                 CanCaptureCtrlCmd = CanCaptureCtrl();
+
+                if (!value)
+                    this.EventAggregator.GetEvent<DisconnectCameraReplyEvent>().Publish(null);
             }
         }
 
@@ -161,7 +164,7 @@ namespace Tool.ViewModels
                     KillAssembly(processor);
                     comm.DisconnectCamera(0);
                 }
-            }, true);
+            }, true);//CLose窗体的时候触发
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
                 IsCapturing = false;

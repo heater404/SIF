@@ -139,7 +139,7 @@ namespace StatusBar.ViewModels
         {
             IsConnected = false;
             PrintNoticeLog("HeartBeat Tiemout", LogLevel.Error);
-            PrintWatchLog("HeartBeat Tiemout", LogLevel.Error);
+            //PrintWatchLog("HeartBeat Tiemout", LogLevel.Error);
         }
     }
 }
