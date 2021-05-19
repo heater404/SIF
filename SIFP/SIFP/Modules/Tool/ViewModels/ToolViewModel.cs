@@ -447,7 +447,7 @@ namespace Tool.ViewModels
                         return true;
 
                 if (!pro.HasExited)
-                    pro.Kill();
+                    pro.Kill(true);
             }
             catch (Exception ex)
             {
