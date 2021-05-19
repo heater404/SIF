@@ -58,22 +58,14 @@ namespace SIFP.ViewModels
         {
             if (result.Result == ButtonResult.Yes)
             {
-                if (comm.SwitchUserAccess(!isExpertMode ? UserAccessType.Expert : UserAccessType.Normal))
+                comm.SwitchUserAccess(!isExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                IsExpertMode = !isExpertMode;
+                if (!IsExpertMode)
                 {
-                    IsExpertMode = !isExpertMode;
-                    if (!IsExpertMode)
-                    {
-                        this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
-                        LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
-                    }
-                    this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                    this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
+                    LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
                 }
-                else
-                {
-                    this.PrintNoticeLog("SwitchUserAccess Fail,please check the connection status", LogLevel.Error);
-                    this.PrintWatchLog("SwitchUserAccess Fail,please check the connection status", LogLevel.Error);
-                    IsExpertMode = isExpertMode;
-                }
+                this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
             }
             else
                 IsExpertMode = isExpertMode;
@@ -98,18 +90,18 @@ namespace SIFP.ViewModels
             set { leftDrawerContent = value; RaisePropertyChanged(); }
         }
 
-        private bool isEnable=true;
+        private bool isEnable = true;
         public bool IsEnable
         {
             get { return isEnable; }
-            set { isEnable = value;RaisePropertyChanged(); }
+            set { isEnable = value; RaisePropertyChanged(); }
         }
 
         private bool isStreaming = false;
         public bool IsStreaming
         {
             get { return isStreaming; }
-            set { isStreaming = value;RaisePropertyChanged(); }
+            set { isStreaming = value; RaisePropertyChanged(); }
         }
 
         public DelegateCommand OpenPasswordDialogCmd { get; set; }

@@ -65,8 +65,6 @@ namespace ConfigCamera.ViewModels
             {
                 if (reply.AEAck == 0)
                     this.IntegrationTimes = reply.IntegrationTimes;
-                else
-                    this.PrintWatchLog("AE Fail", LogLevel.Error);
 
             }, ThreadOption.BackgroundThread, true);
 
