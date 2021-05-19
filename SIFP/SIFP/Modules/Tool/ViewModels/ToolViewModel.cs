@@ -329,7 +329,6 @@ namespace Tool.ViewModels
                     comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
 
                     //有这个顺序要求
-                    this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
                     this.EventAggregator.GetEvent<ConfigArithParamsRequestEvent>().Publish();
 
                     this.EventAggregator.GetEvent<ConfigAlgRequestEvent>().Publish();

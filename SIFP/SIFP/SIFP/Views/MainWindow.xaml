@@ -10,13 +10,12 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{materialDesign:MaterialDesignFont}"
-    IsEnabled="{Binding IsEnable}"
     SizeChanged="Window_SizeChanged"
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
     <materialDesign:DrawerHost x:Name="DrawerHost" IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}">
-        <DockPanel LastChildFill="True">
+        <DockPanel IsEnabled="{Binding IsEnable}" LastChildFill="True">
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
             <Grid Margin="0,5,0,0" DockPanel.Dock="Top">

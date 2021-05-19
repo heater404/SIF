@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Services.Interfaces;
+using SIFP.Core.Enums;
 using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
@@ -33,7 +34,7 @@ namespace ConfigArithParams.ViewModels
             this.EventAggregator.GetEvent<ConfigArithParamsRequestEvent>().Subscribe(ConfigArithParams, ThreadOption.PublisherThread, true);
             this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
             {
-                if (type == SIFP.Core.Enums.UserAccessType.Expert)
+                if (type == UserAccessType.Expert)
                     IsExpert = true;
                 else
                     IsExpert = false;

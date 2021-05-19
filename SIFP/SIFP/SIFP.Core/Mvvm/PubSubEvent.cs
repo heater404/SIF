@@ -27,8 +27,6 @@ namespace SIFP.Core.Mvvm
 
     public class ConfigCameraRequestEvent : PubSubEvent { };
 
-    public class ConfigCorrectionParamsRequestEvent : PubSubEvent { };
-
     public class ConfigArithParamsRequestEvent : PubSubEvent { };
 
     public class DisconnectCameraRequestEvent : PubSubEvent { };
