@@ -32,6 +32,7 @@ namespace ConfigArithParams.ViewModels
             postProcParams = initArithParams.InitPostProc();
             this.comm = communication;
             this.EventAggregator.GetEvent<ConfigArithParamsRequestEvent>().Subscribe(ConfigArithParams, ThreadOption.PublisherThread, true);
+            this.EventAggregator.GetEvent<ConfigCameraAEChangedEvent>().Subscribe(enable => AE = enable, ThreadOption.BackgroundThread, true);
             this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
             {
                 if (type == UserAccessType.Expert)
