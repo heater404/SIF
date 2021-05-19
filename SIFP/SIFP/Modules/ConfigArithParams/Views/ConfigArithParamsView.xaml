@@ -21,7 +21,7 @@
             <GroupBox
                 Margin="10"
                 Header="OutPut"
-                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+                Visibility="Collapsed">
                 <StackPanel Orientation="Vertical">
                     <CheckBox
                         Margin="0,5,0,5"
