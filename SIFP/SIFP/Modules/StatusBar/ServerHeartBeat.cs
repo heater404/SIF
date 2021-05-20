@@ -15,6 +15,7 @@ namespace StatusBar
         private DateTime heartBeatTime;
         public event EventHandler HeartBeatTimeoutEvent;
         public event EventHandler HeartBeatAliveEvent;
+        ReaderWriterLockSlim lockSlim = new ReaderWriterLockSlim();
         public ServerHeartBeat(int millisecondsTimeout)
         {
             timeoutms = millisecondsTimeout;
@@ -22,19 +23,27 @@ namespace StatusBar
 
         public void HeartBeat(DateTime time)
         {
+            lockSlim.EnterWriteLock();
             this.heartBeatTime = time;
+            lockSlim.ExitWriteLock();
         }
 
         public void StartHeartBeat(CancellationTokenSource cancellationTokenSource)
         {
             Debug.WriteLine("StartHeartBeat");
+            lockSlim.EnterWriteLock();
             heartBeatTime = DateTime.Now;
+            lockSlim.ExitWriteLock();
             tokenSource = cancellationTokenSource;
             Task.Run(() =>
             {
                 while (!tokenSource.Token.IsCancellationRequested)
                 {
-                    if ((DateTime.Now - heartBeatTime).TotalMilliseconds > timeoutms)
+                    lockSlim.EnterReadLock();
+                    var elapsed = DateTime.Now - heartBeatTime;
+                    lockSlim.ExitReadLock();
+
+                    if (elapsed.TotalMilliseconds > timeoutms)
                     {
                         Debug.WriteLine("HeartBeatTimeout");
                         HeartBeatTimeoutEvent?.Invoke(null, null);
