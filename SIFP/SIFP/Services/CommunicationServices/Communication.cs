@@ -99,7 +99,7 @@ namespace Services
                 if (0 == RecvOnePkt(recvData, out MsgHeader msg))
                 {
                     foreach (var proc in procMap)
-                        if (msg.MsgType == proc.Key.MsgType)
+                        if (msg?.MsgType == proc.Key.MsgType)
                             proc.Value?.Invoke(msg);
                 }
             }
