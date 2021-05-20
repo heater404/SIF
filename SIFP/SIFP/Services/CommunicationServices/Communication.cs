@@ -18,7 +18,12 @@ namespace Services
     {
         private ICommClient client;
         private IEventAggregator eventAggregator;
-        private readonly AutoResetEvent waitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent configCameraWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent connectCameraWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent stopStreamingWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent disconnectCameraWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent configAlgWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent captureWaitHandle = new AutoResetEvent(false);
         private readonly Dictionary<RecvMsgAttribute, Action<MsgHeader>> procMap = new Dictionary<RecvMsgAttribute, Action<MsgHeader>>();
         private void InitProcessMap()
         {
@@ -149,7 +154,7 @@ namespace Services
 
             if (this.client.Send(request) > 0)
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                if (configCameraWaitHandle.WaitOne(millisecondsTimeout))
                     return configCameraSuccess;
                 else
                     return null;
@@ -176,7 +181,7 @@ namespace Services
 
             if (this.client.Send(msg) > 0)
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                if (connectCameraWaitHandle.WaitOne(millisecondsTimeout))
                     return CamChipID != 0xdeadbeef;
                 else
                     return null;
@@ -216,7 +221,7 @@ namespace Services
 
             if (this.client.Send(msg) > 0)
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                if (stopStreamingWaitHandle.WaitOne(millisecondsTimeout))
                     return true;
                 else
                     return null;
@@ -238,7 +243,7 @@ namespace Services
 
             if (this.client.Send(msg) > 0)
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                if (disconnectCameraWaitHandle.WaitOne(millisecondsTimeout))
                     return disconnectCameraAck;
                 else
                     return null;
@@ -254,7 +259,7 @@ namespace Services
 
             if (this.client.Send(configAlg) > 0)
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                if (configAlgWaitHandle.WaitOne(millisecondsTimeout))
                     return configAlgAck;
                 else
                     return null;
@@ -288,7 +293,7 @@ namespace Services
 
             if (0 < client.Send(msg))
             {
-                if (waitHandle.WaitOne((int)frameNum * 1000))
+                if (captureWaitHandle.WaitOne((int)frameNum * 1000))
                     return this.captureAck;
                 else
                     return null;
@@ -457,7 +462,7 @@ namespace Services
                 return;
 
             configCameraSuccess = msg.ConfigAck == 0;
-            if (waitHandle.Set())
+            if (configCameraWaitHandle.Set())
             {
                 eventAggregator.GetEvent<ConfigCameraReplyEvent>().Publish(msg);
             }
@@ -470,7 +475,7 @@ namespace Services
                 return;
 
             this.CamChipID = msg.ToFChipID;
-            if (waitHandle.Set())
+            if (connectCameraWaitHandle.Set())
             {
                 eventAggregator.GetEvent<ConnectCameraReplyEvent>().Publish(msg);
             }
@@ -482,7 +487,7 @@ namespace Services
             if (pkt is not StopStreamingReply msg)
                 return;
 
-            if (waitHandle.Set())
+            if (stopStreamingWaitHandle.Set())
             {
                 eventAggregator.GetEvent<StopStreamingReplyEvent>().Publish(msg);
             }
@@ -496,7 +501,7 @@ namespace Services
                 return;
 
             configAlgAck = msg.ConfigAck == 0;
-            if (waitHandle.Set())
+            if (configAlgWaitHandle.Set())
             {
                 eventAggregator.GetEvent<ConfigAlgReplyEvent>().Publish(msg);
             }
@@ -509,7 +514,7 @@ namespace Services
                 return;
 
             this.captureAck = msg.ACK;
-            if (waitHandle.Set())
+            if (captureWaitHandle.Set())
             {
                 eventAggregator.GetEvent<CaptureReplyEvent>().Publish(msg);
             }
@@ -558,7 +563,7 @@ namespace Services
                 return;
 
             disconnectCameraAck = msg.Ack == 0;
-            if (waitHandle.Set())
+            if (disconnectCameraWaitHandle.Set())
             {
                 eventAggregator.GetEvent<DisconnectCameraReplyEvent>().Publish(msg);
             }
