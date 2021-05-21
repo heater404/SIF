@@ -9,7 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 
 namespace StatusBar.ViewModels
 {
@@ -71,14 +74,32 @@ namespace StatusBar.ViewModels
             set { workMode = value; RaisePropertyChanged(); }
         }
 
+        private bool? isConnected;
+        public bool? IsConnected
+        {
+            get { return isConnected; }
+            set
+            {
+                isConnected = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private ServerHeartBeat beat = new ServerHeartBeat(5000);
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
+            beat.HeartBeatTimeoutEvent += HeartBeatTimeoutEvent;
+            beat.HeartBeatAliveEvent += HeartBeatAliveEvent;
+
             this.EventAggregator.GetEvent<NoticeLogEvent>().Subscribe(log => this.Log = log, ThreadOption.BackgroundThread, true);
 
             this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
             {
-                CamChipID = "0x" + reply.CamChipID.ToString("x2");
-                CamName = reply.CamName.Split('\0')[0];
+                IsConnected = true;
+                beat.StartHeartBeat(new CancellationTokenSource());//开始心跳检测
+
+                CamChipID = "0x" + reply.ToFChipID.ToString("x2");
+                CamName = reply.ToFCamName.Split('\0')[0];
 
                 LotNumber = "0x" + reply.LotNumber.ToString("x2");
                 WaferId = "0x" + reply.WaferId.ToString("x2");
@@ -96,8 +117,27 @@ namespace StatusBar.ViewModels
 
             this.EventAggregator.GetEvent<GetSysStatusReplyEvent>().Subscribe(reply =>
             {
+                beat.HeartBeat(DateTime.Now);
                 TSensor = reply.TSensor;
             }, ThreadOption.BackgroundThread, true);
+
+            this.EventAggregator.GetEvent<DisconnectCameraReplyEvent>().Subscribe(reply =>
+            {
+                IsConnected = null;
+                beat.StopHeartBeat();//停止心跳检测
+            }, ThreadOption.BackgroundThread, true);
+        }
+
+        private void HeartBeatAliveEvent(object sender, EventArgs e)
+        {
+            IsConnected = true;
+        }
+
+        private void HeartBeatTimeoutEvent(object sender, EventArgs e)
+        {
+            IsConnected = false;
+            PrintWatchLog("HeartBeat Tiemout", LogLevel.Error);
+            //PrintWatchLog("HeartBeat Tiemout", LogLevel.Error);
         }
     }
 }

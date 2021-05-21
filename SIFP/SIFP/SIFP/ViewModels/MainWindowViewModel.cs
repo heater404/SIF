@@ -29,7 +29,7 @@ namespace SIFP.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        private string version = "1.03.210507";
+        private string version = "1.04.210520";
         public string Version
         {
             get { return version; }
@@ -58,22 +58,14 @@ namespace SIFP.ViewModels
         {
             if (result.Result == ButtonResult.Yes)
             {
-                if (comm.SwitchUserAccess(!isExpertMode ? UserAccessType.Expert : UserAccessType.Normal))
+                comm.SwitchUserAccess(!isExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                IsExpertMode = !isExpertMode;
+                if (!IsExpertMode)
                 {
-                    IsExpertMode = !isExpertMode;
-                    if (!IsExpertMode)
-                    {
-                        this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
-                        LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
-                    }
-                    this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                    this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
+                    LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
                 }
-                else
-                {
-                    this.PrintNoticeLog("SwitchUserAccess Fail,please check the connection status", LogLevel.Error);
-                    this.PrintWatchLog("SwitchUserAccess Fail,please check the connection status", LogLevel.Error);
-                    IsExpertMode = isExpertMode;
-                }
+                this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
             }
             else
                 IsExpertMode = isExpertMode;
@@ -98,11 +90,18 @@ namespace SIFP.ViewModels
             set { leftDrawerContent = value; RaisePropertyChanged(); }
         }
 
-        private bool isEnable=true;
+        private bool isEnable = true;
         public bool IsEnable
         {
             get { return isEnable; }
-            set { isEnable = value;RaisePropertyChanged(); }
+            set { isEnable = value; RaisePropertyChanged(); }
+        }
+
+        private bool isStreaming = false;
+        public bool IsStreaming
+        {
+            get { return isStreaming; }
+            set { isStreaming = value; RaisePropertyChanged(); }
         }
 
         public DelegateCommand OpenPasswordDialogCmd { get; set; }
@@ -135,11 +134,12 @@ namespace SIFP.ViewModels
               });
 
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
-            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCorrectionView);
-            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigPostProcView);
+            LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigArithParamsView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigAlgView);
 
             this.EventAggregator.GetEvent<MainWindowEnableEvent>().Subscribe(b => IsEnable = b, true);
+
+            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsStreaming = isStreaming, ThreadOption.BackgroundThread, true);
 
         }
     }

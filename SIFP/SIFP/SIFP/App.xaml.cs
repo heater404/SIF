@@ -26,15 +26,13 @@ using RegMap;
 using CaptureDataDialog.ViewModels;
 using System;
 using License;
-using ConfigCorrection.Views;
-using ConfigCorrection;
-using ConfigPostProc;
-using ConfigPostProc.Views;
 using VcselDriverDialog.Views;
 using VcselDriverDialog.ViewModels;
 using PasswordDialog.Views;
 using System.Threading;
 using ConifgAlg.Views;
+using ConfigArithParams.Views;
+using ConfigArithParams;
 
 namespace SIFP
 {
@@ -98,8 +96,7 @@ namespace SIFP
             containerRegistry.RegisterSingleton<IInitConfigAlg, InitConfigAlg>();
             containerRegistry.RegisterSingleton<CaptureDataViewModel, CaptureDataViewModel>();
             containerRegistry.RegisterSingleton<ConfigCameraView, ConfigCameraView>();
-            containerRegistry.RegisterSingleton<ConfigCorrectionView, ConfigCorrectionView>();
-            containerRegistry.RegisterSingleton<ConfigPostProcView, ConfigPostProcView>();
+            containerRegistry.RegisterSingleton<ConfigArithParamsView, ConfigArithParamsView>();
             containerRegistry.RegisterSingleton<ConfigAlgView, ConfigAlgView>();
             containerRegistry.RegisterSingleton<VcselDriverViewModel, VcselDriverViewModel>();
 
@@ -119,8 +116,7 @@ namespace SIFP
             moduleCatalog.AddModule<ToolModule>();
             moduleCatalog.AddModule<WatchLogModule>();
             moduleCatalog.AddModule<ConfigCameraModule>();
-            moduleCatalog.AddModule<ConfigCorrectionModule>();
-            moduleCatalog.AddModule<ConfigPostProcModule>();
+            moduleCatalog.AddModule<ConfigArithParamsModule>();
             moduleCatalog.AddModule<StatusBarModule>();
             moduleCatalog.AddModule<PointCloudModule>();
             moduleCatalog.AddModule<RegMapModule>();

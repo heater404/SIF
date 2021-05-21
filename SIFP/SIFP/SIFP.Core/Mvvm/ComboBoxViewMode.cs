@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace SIFP.Core.Mvvm
 {
-    public class ComboBoxItemMode<T> : ViewModelBase
+    public class ComboBoxViewMode<T> : ViewModelBase
     {
         public string Description { get; set; }
         public T SelectedModel { get; set; }

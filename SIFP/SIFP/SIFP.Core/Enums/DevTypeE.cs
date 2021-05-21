@@ -41,64 +41,44 @@ namespace SIFP.Core.Enums
 
     public enum SubWorkModeE : UInt32
     {
-        [SubWorkMode(WorkModeE.SINGLE_FREQ, 4, 1)]
+        [SubWorkMode(WorkModeE.SINGLE_FREQ)]
         _4PHASE = 0u,
 
-        [SubWorkMode(WorkModeE.SINGLE_FREQ, 5, 1)]
+        [SubWorkMode(WorkModeE.SINGLE_FREQ)]
         _4PHASE_GRAY,
 
-        [SubWorkMode(WorkModeE.SINGLE_FREQ, 5, 1)]
+        [SubWorkMode(WorkModeE.SINGLE_FREQ)]
         _4PHASE_BG,
 
-        [SubWorkMode(WorkModeE.SINGLE_FREQ, 1, 8, true)]
+        [SubWorkMode(WorkModeE.SINGLE_FREQ)]
         _4PHASE_4BG,
 
-        [SubWorkMode(WorkModeE.SINGLE_FREQ, 1, 9, true)]
-        _4PHASE_4BG_GRAY,
+        [SubWorkMode(WorkModeE.SINGLE_FREQ)]
+        _4PHASE_GRAY_5BG,
 
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 4, 2)]
-        _8PHASE,
+        [SubWorkMode(WorkModeE.DOUBLE_FREQ)]
+        _4PHASE_4PHASE,
 
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 9)]
-        _8PHASE_GRAY,
-
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 9)]
-        _8PHASE_BG,
-
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 5, 2)]
+        [SubWorkMode(WorkModeE.DOUBLE_FREQ)]
         _4PHASE_GRAY_4PHASE_BG,//for calibration usecase only
 
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 16, true)]
+        [SubWorkMode(WorkModeE.DOUBLE_FREQ)]
         _4PHASE_4BG_4PHASE_4BG,
 
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 17, true)]
-        _4PHASE_4BG_4PHASE_GRAY_4BG,
+        [SubWorkMode(WorkModeE.DOUBLE_FREQ)]
+        _4PHASE_GRAY_5BG_4PHASE_GRAY_5BG,
 
-        [SubWorkMode(WorkModeE.DOUBLE_FREQ, 1, 18, true)]
-        _4PHASE_GRAY_4BG_4PHASE_BG_4BG,
-
-        [SubWorkMode(WorkModeE.TRIPLE_FREQ, 4, 3)]
+        [SubWorkMode(WorkModeE.TRIPLE_FREQ)]
         _4PHASE_4PHASE_4PHASE,
 
-        [SubWorkMode(WorkModeE.TRIPLE_FREQ, 1, 13)]
-        _8PHASE_4PHASE_GRAY,
+        [SubWorkMode(WorkModeE.TRIPLE_FREQ)]
+        _4PHASE_GRAY_4PHASE_GRAY_4PHASE_BG,
 
-        [SubWorkMode(WorkModeE.TRIPLE_FREQ, 1, 13)]
-        _8PHASE_4PHASE_BG,
-        //TODO: cannot support triple frequency + 3*4BG yet.
-
-        [SubWorkMode(WorkModeE.QUAD_FREQ, 4, 4)]
+        [SubWorkMode(WorkModeE.QUAD_FREQ)]
         _4PHASE_4PHASE_4PHASE_4PHASE,
 
-        [SubWorkMode(WorkModeE.QUAD_FREQ, 1, 17)]
-        _8PHASE_8PHASE_GRAY,
-
-        [SubWorkMode(WorkModeE.QUAD_FREQ, 1, 17)]
-        _8PHASE_8PHASE_BG,
-
-        [SubWorkMode(WorkModeE.QUAD_FREQ, 1, 18)]
-        _8PHASE_GRAY_8PHASE_BG,//for calibration usecase only
-                               // TODO: cannot support quad frequency + 4*4BG yet.
+        [SubWorkMode(WorkModeE.QUAD_FREQ)]
+        _4PHASE_GRAY_4PHASE_BG_4PHASE_GRAY_4PHASE_BG,
     }
 
     public enum SubFrameModeE : UInt32

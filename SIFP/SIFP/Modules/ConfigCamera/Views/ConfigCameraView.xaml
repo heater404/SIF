@@ -47,7 +47,7 @@
                             VerticalAlignment="Center"
                             DisplayMemberPath="Description"
                             ItemsSource="{Binding WorkModes}"
-                            SelectedValue="{Binding WorkModeIndex}"
+                            SelectedValue="{Binding WorkMode}"
                             SelectedValuePath="SelectedModel">
                             <ComboBox.ItemContainerStyle>
                                 <Style TargetType="ComboBoxItem">
@@ -63,7 +63,7 @@
                             VerticalAlignment="Center"
                             DisplayMemberPath="Description"
                             ItemsSource="{Binding SubWorkModes}"
-                            SelectedValue="{Binding SubWorkModeIndex}"
+                            SelectedValue="{Binding SubWorkMode}"
                             SelectedValuePath="SelectedModel">
                             <ComboBox.ItemContainerStyle>
                                 <Style TargetType="ComboBoxItem">
@@ -164,13 +164,7 @@
                                     <Slider
                                         x:Name="Slider0"
                                         Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[0].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="ValueChanged">
-                                                <i:InvokeCommandAction Command="{Binding FourBgSyncCmd}" />
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </Slider>
+                                        Value="{Binding IntegrationTimes[0].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
                                     <TextBox Grid.Column="3" Text="{Binding ElementName=Slider0, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
@@ -187,7 +181,6 @@
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
                                         SelectedValue="{Binding PLLDLLDivs[0].Phase5_8Div}" />
-
                                     <Slider
                                         x:Name="Slider1"
                                         Grid.Column="2"
@@ -444,41 +437,55 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <ComboBox
-                            Grid.Row="0"
-                            Margin="0,0,0,10"
-                            Padding="10"
-                            materialDesign:TextFieldAssist.PrefixText="ROI : "
-                            SelectedItem="{Binding Roi}"
-                            Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                            <ComboBoxItem Content="640*480" IsSelected="True" />
-                            <ComboBoxItem Content="320*240" />
-                            <ComboBoxItem Content="160*120" />
-                        </ComboBox>
-                        <UniformGrid Grid.Row="1" Columns="2">
-                            <ComboBox
-                                Margin="0,0,5,0"
-                                Padding="10"
-                                HorizontalAlignment="Stretch"
+                        <UniformGrid Grid.Row="0" Columns="2">
+                            <TextBox
+                                HorizontalAlignment="Left"
+                                materialDesign:TextFieldAssist.PrefixText="ROISize : "
+                                Text="{Binding ROISize, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.ToolTip>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="MaxImageSize : " />
+                                        <TextBlock Text="{Binding MaxImageSize}" />
+                                    </StackPanel>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                            <TextBox
+                                HorizontalAlignment="Left"
+                                materialDesign:TextFieldAssist.PrefixText="StartPoint : "
+                                Text="{Binding StartPoint, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" />
+                        </UniformGrid>
+
+                        <UniformGrid
+                            Grid.Row="1"
+                            Margin="0,5,0,0"
+                            Columns="2">
+                            <TextBox
+                                HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="XStep : "
-                                SelectedItem="{Binding XStep}"
-                                Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                                <ComboBoxItem Content="1" IsSelected="True" />
-                                <ComboBoxItem Content="2" />
-                                <ComboBoxItem Content="4" />
-                            </ComboBox>
-                            <ComboBox
-                                Margin="5,0,0,0"
-                                Padding="10"
-                                HorizontalAlignment="Stretch"
+                                Text="{Binding XStep, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="StepRange:[1,32]" />
+                            <TextBox
+                                HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="YStep : "
-                                SelectedItem="{Binding YStep}"
-                                Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                                <ComboBoxItem Content="1" IsSelected="True" />
-                                <ComboBoxItem Content="2" />
-                                <ComboBoxItem Content="4" />
-                            </ComboBox>
+                                Text="{Binding YStep, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="StepRange:[1,32]" />
+                        </UniformGrid>
+
+                        <UniformGrid
+                            Grid.Row="2"
+                            Margin="0,5,0,0"
+                            Columns="2"
+                            Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <CheckBox
+                                HorizontalAlignment="Left"
+                                Content="DigitalBinning"
+                                IsChecked="{Binding DigitalBinning}" />
+                            <CheckBox
+                                HorizontalAlignment="Left"
+                                Content="AnalogBinning"
+                                IsChecked="{Binding AnalogBinning}" />
                         </UniformGrid>
                     </Grid>
                 </GroupBox>

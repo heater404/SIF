@@ -39,9 +39,8 @@
   <ItemGroup>
     <ProjectReference Include="..\License\License.csproj" />
     <ProjectReference Include="..\Modules\CaptureDataDialog\CaptureDataDialog.csproj" />
+    <ProjectReference Include="..\Modules\ConfigArithParams\ConfigArithParams.csproj" />
     <ProjectReference Include="..\Modules\ConfigCamera\ConfigCamera.csproj" />
-    <ProjectReference Include="..\Modules\ConfigCorrection\ConfigCorrection.csproj" />
-    <ProjectReference Include="..\Modules\ConfigPostProc\ConfigPostProc.csproj" />
     <ProjectReference Include="..\Modules\ConifgAlg\ConifgAlg.csproj" />
     <ProjectReference Include="..\Modules\Menu\Menu.csproj" />
     <ProjectReference Include="..\Modules\NotificationDialog\NotificationDialog.csproj" />

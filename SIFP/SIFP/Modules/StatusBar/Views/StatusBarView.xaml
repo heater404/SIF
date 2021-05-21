@@ -11,29 +11,88 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <StatusBar Background="{StaticResource MaterialDesignToolBarBackground}">
-        <!--<StatusBarItem Margin="8,0,8,0">
+        <StatusBarItem Margin="8,0,8,0">
             <StackPanel Orientation="Horizontal">
+                <StackPanel.ToolTip>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <StackPanel
+                            Grid.Row="0"
+                            Margin="5"
+                            Orientation="Horizontal">
+                            <Ellipse
+                                Width="15"
+                                Height="15"
+                                Fill="#FFF0b400" />
+                            <TextBlock Text=" : Connected" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="1"
+                            Margin="5"
+                            Orientation="Horizontal">
+                            <Ellipse
+                                Width="15"
+                                Height="15"
+                                Fill="#FFFF0000" />
+                            <TextBlock Text=" : HeartBeat Timeout" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel.ToolTip>
                 <Ellipse
+                    x:Name="Ellipse"
                     Width="15"
                     Height="15"
-                    Fill="#FFFF0000" />
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0,0,0"
-                    Fill="WhiteSmoke" />
-                <Ellipse
-                    Width="15"
-                    Height="15"
-                    Margin="5,0,0,0"
-                    Fill="#FFF0B400" />
+                    Margin="0,0,0,0"
+                    Fill="{StaticResource PrimaryHueMidBrush}">
+                    <Ellipse.Style>
+                        <Style TargetType="Ellipse">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsConnected}" Value="false">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard x:Name="timeout">
+                                            <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                                                <ColorAnimation
+                                                    Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                    From="Transparent"
+                                                    To="#FFFF0000"
+                                                    Duration="0:0:1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <RemoveStoryboard BeginStoryboardName="timeout" />
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsConnected}" Value="true">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard x:Name="heartbeat">
+                                            <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                                                <ColorAnimation
+                                                    Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                    From="Transparent"
+                                                    To="#FFF0b400"
+                                                    Duration="0:0:1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <RemoveStoryboard BeginStoryboardName="heartbeat" />
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>
             </StackPanel>
         </StatusBarItem>
-        <Separator />-->
+        <Separator />
         <StatusBarItem Margin="8,0,8,0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="TSensor : " />
-                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding TSensor, StringFormat={}{0}℃}" />
+                <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding TSensor, StringFormat={}{0:f2}℃}" />
             </StackPanel>
         </StatusBarItem>
         <Separator />

@@ -18,7 +18,7 @@ namespace Services.Interfaces
 
         bool? StopStreaming(int millisecondsTimeout);
 
-        bool? ConfigCamera(ConfigCameraRequest configCamera, int millisecondsTimeout);
+        bool? ConfigCamera(ConfigCameraModel configCamera, int millisecondsTimeout);
 
         bool? ConfigAlg(ConfigAlgRequest configAlg, int millisecondsTimeout);
 
@@ -35,9 +35,7 @@ namespace Services.Interfaces
 
         Task GetSysStatusAsync(CancellationToken cancellationToken, int interval);
 
-        bool? ConfigCorrectionParams(CorrectionParams correction);
-
-        bool? ConfigPostProcParams(PostProcParams postProc);
+        bool? ConfigArithParams(CorrectionParams correction,PostProcParams postProc);
 
         bool? ConfigVcselDriver(ConfigVcselDriver vcselDriver);
     }

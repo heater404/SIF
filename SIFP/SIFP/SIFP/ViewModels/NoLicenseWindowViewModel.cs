@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Serilog;
 using System.Windows;
 
 namespace SIFP.ViewModels
@@ -11,7 +12,14 @@ namespace SIFP.ViewModels
             ComputerInfo = License.ComputerInfo.GetComputerInfo();
             CopyCmd = new DelegateCommand<string>(msg=>
             {
-                Clipboard.SetText(msg);
+                try
+                {
+                    Clipboard.SetText(msg);
+                }
+                catch (System.Exception ex)
+                {
+                    Log.Logger.Error(ex,"Clipboard Error");
+                }
             });
         }
 

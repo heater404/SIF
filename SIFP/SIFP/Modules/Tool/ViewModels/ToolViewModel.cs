@@ -35,6 +35,9 @@ namespace Tool.ViewModels
                 CanConnectCtrlCmd = CanConnectCtrl();
                 CanStreamingCtrlCmd = CanStreamingOn();
                 CanCaptureCtrlCmd = CanCaptureCtrl();
+
+                if (!value)
+                    this.EventAggregator.GetEvent<DisconnectCameraReplyEvent>().Publish(null);
             }
         }
 
@@ -138,6 +141,7 @@ namespace Tool.ViewModels
         private CancellationTokenSource cancellationTokenSource = null;
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
+        private UserAccessType user = UserAccessType.Normal;
         public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             this.comm = comm;
@@ -160,7 +164,7 @@ namespace Tool.ViewModels
                     KillAssembly(processor);
                     comm.DisconnectCamera(0);
                 }
-            }, true);
+            }, true);//CLose窗体的时候触发
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
                 IsCapturing = false;
@@ -172,6 +176,11 @@ namespace Tool.ViewModels
             {
                 IsConfigCameraSuccess = isSuccess;
             }, ThreadOption.PublisherThread, true);
+
+            this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
+            {
+                user = type;
+            }, true);
         }
 
         private void ShowVcselDriverDialog()
@@ -314,16 +323,15 @@ namespace Tool.ViewModels
             {
                 if (await Task.Run(ConnectCamera))
                 {
-                    //comm.SwitchUserAccess(UserAccessType.Expert);
+                    comm.SwitchUserAccess(user);
 
                     cancellationTokenSource = new CancellationTokenSource();
                     comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
 
                     //有这个顺序要求
-                    this.EventAggregator.GetEvent<ConfigCorrectionParamsRequestEvent>().Publish();
-                    this.EventAggregator.GetEvent<ConfigPostProcParamsRequestEvent>().Publish();
-
                     this.EventAggregator.GetEvent<ConfigAlgRequestEvent>().Publish();
+
+                    this.EventAggregator.GetEvent<ConfigArithParamsRequestEvent>().Publish();
 
                     this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 
@@ -435,11 +443,11 @@ namespace Tool.ViewModels
                     return true;
 
                 if (pro.CloseMainWindow())
-                    if (pro.WaitForExit(100))
+                    if (pro.WaitForExit(300))
                         return true;
 
                 if (!pro.HasExited)
-                    pro.Kill();
+                    pro.Kill(true);
             }
             catch (Exception ex)
             {
@@ -471,29 +479,29 @@ namespace Tool.ViewModels
                     {
                         this.PrintNoticeLog("DisonnectCamera Fail", LogLevel.Error);
                         this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
-                        return false;
+                    }
+                    else
+                    {
+                        this.PrintNoticeLog("DisconnectCamera Success", LogLevel.Warning);
+                        this.PrintWatchLog("DisconnectCamera Success", LogLevel.Warning);
                     }
                 }
                 else
                 {
                     this.PrintNoticeLog("DisonnectCamera Timeout", LogLevel.Error);
                     this.PrintWatchLog("DisonnectCamera Timeout", LogLevel.Error);
-                    return false;
                 }
 
                 if (!comm.Close())
                 {
                     this.PrintNoticeLog("Close CommClient Fail", LogLevel.Error);
                     this.PrintWatchLog("Close CommClient Fail", LogLevel.Error);
-                    return false;
                 }
             }
 
-            if (!KillAssembly(processor))
-                return false;
+            KillAssembly(processor);
 
-            //this.PrintNoticeLog("DisconnectCamera Success", LogLevel.Warning);
-            //this.PrintWatchLog("DisconnectCamera Success", LogLevel.Warning);
+            Thread.Sleep(2000);
             return true;
         }
     }

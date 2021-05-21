@@ -63,7 +63,7 @@ namespace SIFP.Core.Models
 
         [FieldOrder(2)]
         [FieldLength(4)]
-        public bool CorrLen { get; set; } = true;
+        public bool CorrLens { get; set; } = true;
 
         [FieldOrder(3)]
         [FieldLength(4)]

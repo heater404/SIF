@@ -18,7 +18,12 @@ namespace Services
     {
         private ICommClient client;
         private IEventAggregator eventAggregator;
-        private readonly AutoResetEvent waitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent configCameraWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent connectCameraWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent stopStreamingWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent disconnectCameraWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent configAlgWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent captureWaitHandle = new AutoResetEvent(false);
         private readonly Dictionary<RecvMsgAttribute, Action<MsgHeader>> procMap = new Dictionary<RecvMsgAttribute, Action<MsgHeader>>();
         private void InitProcessMap()
         {
@@ -94,7 +99,7 @@ namespace Services
                 if (0 == RecvOnePkt(recvData, out MsgHeader msg))
                 {
                     foreach (var proc in procMap)
-                        if (msg.MsgType == proc.Key.MsgType)
+                        if (msg?.MsgType == proc.Key.MsgType)
                             proc.Value?.Invoke(msg);
                 }
             }
@@ -137,14 +142,19 @@ namespace Services
         }
 
         private bool configCameraSuccess;
-        public bool? ConfigCamera(ConfigCameraRequest configCamera, int millisecondsTimeout)
+        public bool? ConfigCamera(ConfigCameraModel configCamera, int millisecondsTimeout)
         {
             if (client == null)
                 return false;
 
-            if (this.client.Send(configCamera) > 0)
+            ConfigCameraRequest request = new ConfigCameraRequest
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                ConfigCamera = configCamera,
+            };
+
+            if (this.client.Send(request) > 0)
+            {
+                if (configCameraWaitHandle.WaitOne(millisecondsTimeout))
                     return configCameraSuccess;
                 else
                     return null;
@@ -171,7 +181,7 @@ namespace Services
 
             if (this.client.Send(msg) > 0)
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                if (connectCameraWaitHandle.WaitOne(millisecondsTimeout))
                     return CamChipID != 0xdeadbeef;
                 else
                     return null;
@@ -211,7 +221,7 @@ namespace Services
 
             if (this.client.Send(msg) > 0)
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                if (stopStreamingWaitHandle.WaitOne(millisecondsTimeout))
                     return true;
                 else
                     return null;
@@ -220,6 +230,7 @@ namespace Services
             return false;
         }
 
+        private bool disconnectCameraAck;
         public bool? DisconnectCamera(int millisecondsTimeout)
         {
             if (client == null)
@@ -232,8 +243,10 @@ namespace Services
 
             if (this.client.Send(msg) > 0)
             {
-                //同步等待
-                return true;
+                if (disconnectCameraWaitHandle.WaitOne(millisecondsTimeout))
+                    return disconnectCameraAck;
+                else
+                    return null;
             }
 
             return false;
@@ -246,7 +259,7 @@ namespace Services
 
             if (this.client.Send(configAlg) > 0)
             {
-                if (waitHandle.WaitOne(millisecondsTimeout))
+                if (configAlgWaitHandle.WaitOne(millisecondsTimeout))
                     return configAlgAck;
                 else
                     return null;
@@ -280,7 +293,7 @@ namespace Services
 
             if (0 < client.Send(msg))
             {
-                if (waitHandle.WaitOne((int)frameNum * 1000))
+                if (captureWaitHandle.WaitOne((int)frameNum * 1000))
                     return this.captureAck;
                 else
                     return null;
@@ -413,27 +426,17 @@ namespace Services
             await task;
         }
 
-        public bool? ConfigCorrectionParams(CorrectionParams correction)
+        public bool? ConfigArithParams(CorrectionParams correction, PostProcParams postProc)
         {
             if (null == client)
                 return false;
 
-            ConfigCorrectionParamsRequest msg = new ConfigCorrectionParamsRequest()
+            ConfigArithParamsRequest msg = new ConfigArithParamsRequest()
             {
                 Correction = correction,
-            };
-
-            return client.Send(msg) > 0;
-        }
-
-        public bool? ConfigPostProcParams(PostProcParams postProc)
-        {
-            if (null == client)
-                return false;
-
-            ConfigPostProcParamsRequest msg = new ConfigPostProcParamsRequest()
-            {
                 PostProc = postProc,
+                UseCorrParams = 1,
+                UsePostProcParams = 1,
             };
 
             return client.Send(msg) > 0;
@@ -459,7 +462,7 @@ namespace Services
                 return;
 
             configCameraSuccess = msg.ConfigAck == 0;
-            if (waitHandle.Set())
+            if (configCameraWaitHandle.Set())
             {
                 eventAggregator.GetEvent<ConfigCameraReplyEvent>().Publish(msg);
             }
@@ -471,8 +474,8 @@ namespace Services
             if (pkt is not ConnectCameraReply msg)
                 return;
 
-            this.CamChipID = msg.CamChipID;
-            if (waitHandle.Set())
+            this.CamChipID = msg.ToFChipID;
+            if (connectCameraWaitHandle.Set())
             {
                 eventAggregator.GetEvent<ConnectCameraReplyEvent>().Publish(msg);
             }
@@ -484,7 +487,7 @@ namespace Services
             if (pkt is not StopStreamingReply msg)
                 return;
 
-            if (waitHandle.Set())
+            if (stopStreamingWaitHandle.Set())
             {
                 eventAggregator.GetEvent<StopStreamingReplyEvent>().Publish(msg);
             }
@@ -498,7 +501,7 @@ namespace Services
                 return;
 
             configAlgAck = msg.ConfigAck == 0;
-            if (waitHandle.Set())
+            if (configAlgWaitHandle.Set())
             {
                 eventAggregator.GetEvent<ConfigAlgReplyEvent>().Publish(msg);
             }
@@ -511,7 +514,7 @@ namespace Services
                 return;
 
             this.captureAck = msg.ACK;
-            if (waitHandle.Set())
+            if (captureWaitHandle.Set())
             {
                 eventAggregator.GetEvent<CaptureReplyEvent>().Publish(msg);
             }
@@ -551,6 +554,19 @@ namespace Services
                 return;
 
             eventAggregator.GetEvent<ConfigVcselDriverReplyEvent>().Publish(msg);
+        }
+
+        [RecvMsg(MsgTypeE.DisconnectCameraReplyType, typeof(DisconnectCameraReply))]
+        private void CmdProcDisconnectCameraReply(MsgHeader pkt)
+        {
+            if (pkt is not DisconnectCameraReply msg)
+                return;
+
+            disconnectCameraAck = msg.Ack == 0;
+            if (disconnectCameraWaitHandle.Set())
+            {
+                eventAggregator.GetEvent<DisconnectCameraReplyEvent>().Publish(msg);
+            }
         }
     }
 }

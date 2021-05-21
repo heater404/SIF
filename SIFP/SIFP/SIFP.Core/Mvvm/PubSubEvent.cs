@@ -27,11 +27,11 @@ namespace SIFP.Core.Mvvm
 
     public class ConfigCameraRequestEvent : PubSubEvent { };
 
-    public class ConfigCorrectionParamsRequestEvent : PubSubEvent { };
-
-    public class ConfigPostProcParamsRequestEvent : PubSubEvent { };
+    public class ConfigArithParamsRequestEvent : PubSubEvent { };
 
     public class DisconnectCameraRequestEvent : PubSubEvent { };
+
+    public class DisconnectCameraReplyEvent : PubSubEvent<DisconnectCameraReply> { };
 
     public class ReadRegisterReplyEvent : PubSubEvent<ReadRegisterReply> { };
 

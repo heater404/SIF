@@ -16,7 +16,7 @@ namespace SIFP.Core.Models
 
         [FieldOrder(3)]
         [FieldScale(1000)]
-        [SerializeAs(serializedType: SerializedType.UInt4)]
+        [SerializeAs(serializedType: SerializedType.Int4)]
         public double TSensor { get; set; }//扩大1000倍的摄氏度
 
     }

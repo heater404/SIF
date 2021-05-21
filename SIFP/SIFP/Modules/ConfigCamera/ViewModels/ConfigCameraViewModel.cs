@@ -25,17 +25,34 @@ namespace ConfigCamera.ViewModels
     {
         private ICommunication comm;
         private IDialogService dialogService;
+        private ConfigCameraModel configCameraModel;
+
+        private Size maxImageSize = new Size(640, 480);
+        public Size MaxImageSize
+        {
+            get { return maxImageSize; }
+            set { maxImageSize = value; RaisePropertyChanged(); }
+        }
+        //用于绑定到ComboBox的以供选择的频率值,单位MHz。从配置文件读取
+        public List<ComboBoxViewMode<UInt32>> Frequencies { get; set; } = new List<ComboBoxViewMode<UInt32>>();
+        //积分时间的上下限，用于绑定到slider上。从配置文件获取
+        public Tuple<UInt32, UInt32> IntegrationTimeRange { get; set; }
+        //WorkMode的集合用于后台的绑定
+        public List<ComboBoxViewMode<WorkModeE>> WorkModes { get; set; } = new List<ComboBoxViewMode<WorkModeE>>();
+        //SubWorkMode的集合用于后台的绑定 这个集合是根据WorkMode动态生成的
+        public List<ComboBoxViewMode<SubWorkModeE>> SubWorkModes { get; set; } = new List<ComboBoxViewMode<SubWorkModeE>>();
+
         public ConfigCameraViewModel(IInitCamera initCamera, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
             this.comm = communication;
             this.dialogService = dialogService;
             IntegrationTimeRange = initCamera.InitIntegrationTimesRange();
-            InitDefaultConfigCamera();
-            InitConfigs();
-            InitWorkMode();
+            Frequencies = initCamera.InitFrequencies();
+            configCameraModel = initCamera.InitConfigCamera(SubWorkModeE._4PHASE_GRAY_4PHASE_BG);
+            InitWorkModes();
+            Resolution = CalculateResolution(ROISize, XStep, YStep);
 
-            FourBgSyncCmd = new DelegateCommand(FourBgSync);
             ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCameraAsync);
 
             this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.PublisherThread, true);
@@ -48,10 +65,28 @@ namespace ConfigCamera.ViewModels
             {
                 if (reply.AEAck == 0)
                     this.IntegrationTimes = reply.IntegrationTimes;
-                else
-                    this.PrintWatchLog("AE Fail", LogLevel.Error);
 
             }, ThreadOption.BackgroundThread, true);
+
+            this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
+            {
+                MaxImageSize = new Size(reply.ToFMaxImageWidth, reply.ToFMaxImageHeight);
+            }, true);
+
+            this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
+            {
+                if (type == SIFP.Core.Enums.UserAccessType.Expert)
+                    IsExpert = true;
+                else
+                    IsExpert = false;
+            }, true);
+        }
+
+        private bool isExpert;
+        public bool IsExpert
+        {
+            get { return isExpert; }
+            set { isExpert = value; RaisePropertyChanged(); }
         }
 
         private bool isEnable = true;
@@ -89,17 +124,27 @@ namespace ConfigCamera.ViewModels
 
         private async void ApplyConfigCameraAsync()
         {
+            //使用analog binning时，yStart必须是偶数, yStep必须是(2 - 32)之间的偶数
+            if (AnalogBinning)
+            {
+                if (StartPoint.Y % 2 != 0 || YStep % 2 != 0)
+                {
+                    this.PrintNoticeLog("when analogbinning,yStart and yStep must be even number", LogLevel.Error);
+                    this.PrintWatchLog("when analogbinning,yStart and yStep must be even number", LogLevel.Error);
+                    return;
+                }
+            }
+
             ConfigCameraSuccess = false;
             dialogService.Show(DialogNames.WaitingDialog);
-
-            var res = await Task.Run(() => comm.ConfigCamera(GetCurrentConfig(), 5000));
+            var res = await Task.Run(() => comm.ConfigCamera(configCameraModel, 5000));
             if (res.HasValue)
             {
                 if (res.Value)
                 {
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
-                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.subWorkModeIndex);
+                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
                     ConfigCameraSuccess = true;
                 }
                 else
@@ -122,14 +167,14 @@ namespace ConfigCamera.ViewModels
         {
             ConfigCameraSuccess = false;
 
-            var res = comm.ConfigCamera(GetCurrentConfig(), 5000);
+            var res = comm.ConfigCamera(configCameraModel, 5000);
             if (res.HasValue)
             {
                 if (res.Value)
                 {
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
-                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.subWorkModeIndex);
+                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
                     ConfigCameraSuccess = true;
                 }
                 else
@@ -146,132 +191,292 @@ namespace ConfigCamera.ViewModels
                 ConfigCameraSuccess = false;
             }
         }
-        private ConfigCameraRequest GetCurrentConfig()
-        {
-            SubWorkModeAttribute attribute = ((SubWorkModeE)subWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();
-
-            ConfigCameraRequest request = new ConfigCameraRequest
-            {
-                ConfigCamera = new ConfigCameraModel
-                {
-                    DoReset = config.DoReset,
-                    StandByMode = config.StandByMode,
-                    SysXtalClkKHz = config.SysXtalClkKHz,
-                    WorkMode = this.WorkModeIndex,
-                    SubWorkMode = this.SubWorkModeIndex,
-                    SubFrameModes = config.SubFrameModes,
-                    SpecialFrameModes = config.SpecialFrameModes,
-                    DifferentialBG = config.DifferentialBG,
-                    FrameSeqSchedule = config.FrameSeqSchedule,
-                    IntegrationTimes = this.integrationTimes,
-                    PLLDLLDivs = this.pLLDLLDivs,
-                    NumSubFramePerFrame = config.NumSubFramePerFrame,
-                    NumDepthSequencePerDepthMap = config.NumDepthSequencePerDepthMap,
-                    MIPI_FS_FE_Pos = config.MIPI_FS_FE_Pos,
-                    MIPIFrameRate = this.fps * attribute.NumDepthMapPerDepth,
-                    SequencerRepeatMode = config.SequencerRepeatMode,
-                    TriggerMode = config.TriggerMode,
-                    ROISetting = this.GetCurrentROISetting(),
-                    BinningMode = config.BinningMode,
-                    MirrorMode = this.MirrorMode,
-                    TSensorMode = config.TSensorMode,
-                    PerformClkChanges = config.PerformClkChanges,
-                    ClkDivOverride = config.ClkDivOverride,
-                }
-            };
-            return request;
-        }
-
-        private ROISetting GetCurrentROISetting()
-        {
-            var roiSetting = new ROISetting
-            {
-                XStart = (UInt16)((640 - roi.Width) / 2),
-                XSize = (UInt16)roi.Width,
-                XStep = xStep,
-                YStart = (UInt16)((480 - roi.Height) / 2),
-                YSize = (UInt16)roi.Height,
-                YStep = yStep,
-            };
-
-            return roiSetting;
-        }
-
-        private void FourBgSync()
-        {
-            if (subWorkModeIndex.GetTAttribute<SubWorkModeAttribute>().IsAsync)
-            {
-                IntegrationTimes[1].SpecialPhaseInt = IntegrationTimes[0].Phase1_4Int;
-                IntegrationTimes[3].SpecialPhaseInt = IntegrationTimes[2].Phase1_4Int;
-            }
-        }
 
         /// <summary>
         /// 初始化工作模式和SubWorkMode
         /// </summary>
-        private void InitWorkMode()
+        private void InitWorkModes()
         {
-            foreach (WorkModeE item in Enum.GetValues(typeof(WorkModeE)))
-            {
-                if (item == WorkModeE.SINGLE_FREQ || item == WorkModeE.DOUBLE_FREQ)
-                    WorkModes.Add(new ComboBoxItemMode<WorkModeE> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
-            };
+            if (configCameraModel == null)
+                return;
 
-            foreach (SubWorkModeE item in Enum.GetValues(typeof(SubWorkModeE)))
+            foreach (var usercase in configCameraModel.UserCases)
             {
-                if (item == SubWorkModeE._4PHASE_GRAY
-                    || item == SubWorkModeE._4PHASE_GRAY_4PHASE_BG)
-                    SubWorkModes.Add(new ComboBoxItemMode<SubWorkModeE> { Description = item.ToString(), SelectedModel = item, IsShow = Visibility.Visible });
-            };
+                var wm = new ComboBoxViewMode<WorkModeE> { Description = usercase.WorkMode.ToString(), SelectedModel = usercase.WorkMode, IsShow = Visibility.Visible };
+                if (!WorkModes.Exists(item => item.SelectedModel == wm.SelectedModel))
+                    WorkModes.Add(wm);
+
+                var swm = new ComboBoxViewMode<SubWorkModeE> { Description = usercase.SubWorkMode.ToString(), SelectedModel = usercase.SubWorkMode, IsShow = Visibility.Visible };
+                if (!SubWorkModes.Exists(item => item.SelectedModel == swm.SelectedModel))
+                    SubWorkModes.Add(swm);
+            }
 
             //初始化的时候默认的SubWorkMode,其实是根据默认的WorkMode
-            FilterSubWorkMode((WorkModeE)workModeIndex);
+            FilterSubWorkMode((WorkModeE)WorkMode);
         }
 
         public DelegateCommand ApplyConfigCameraCmd { get; set; }
-        public DelegateCommand FourBgSyncCmd { get; set; }
 
-        private void InitConfigs()
+        public WorkModeE WorkMode
         {
-            GetFrequencies();
-        }
-
-        private void InitDefaultConfigCamera()
-        {
-            string path = @"Configs\ConfigCamera.json";
-            if (!File.Exists(path))
-            {
-                return;
-            }
-
-            string config = File.ReadAllText(path);
-
-            defaultConfig = JsonSerializer.Deserialize<List<ConfigCameraModel>>(config);
-        }
-
-        private List<ConfigCameraModel> defaultConfig = new List<ConfigCameraModel>();
-        private ConfigCameraModel config = null;
-
-        //WorkMode的集合用于后台的绑定
-        public List<ComboBoxItemMode<WorkModeE>> WorkModes { get; set; } = new List<ComboBoxItemMode<WorkModeE>>();
-
-        //SubWorkMode的集合用于后台的绑定 这个集合是根据WorkMode动态生成的
-        public List<ComboBoxItemMode<SubWorkModeE>> SubWorkModes { get; set; } = new List<ComboBoxItemMode<SubWorkModeE>>();
-
-        //被选中的WorkMode的索引
-        private WorkModeE workModeIndex = WorkModeE.DOUBLE_FREQ;//决定初始化的时候是的WorkMode
-
-        public WorkModeE WorkModeIndex
-        {
-            get { return workModeIndex; }
-
+            get { return configCameraModel.CurrentUserCase.WorkMode; }
             set
             {
-                workModeIndex = value;
+                FilterSubWorkMode(value);
                 RaisePropertyChanged();
+            }
+        }
+        //被选中的SubWorkMode的索引
+        public SubWorkModeE SubWorkMode
+        {
+            get { return configCameraModel.CurrentUserCase.SubWorkMode; }
+            set
+            {
+                configCameraModel.CurrentUserCase = configCameraModel.UserCases.Find(usercase => usercase.SubWorkMode == value);
 
-                //每一次切换WorkMode之后都需要更新SubWorkMode
-                FilterSubWorkMode((WorkModeE)value);
+                SubFrameModes = configCameraModel.CurrentUserCase.SubFrameModes;
+                IntegrationTimes = configCameraModel.CurrentUserCase.IntegrationTimes;
+                PLLDLLDivs = configCameraModel.CurrentUserCase.PLLDLLDivs;
+                NumSubFramePerFrame = configCameraModel.CurrentUserCase.NumSubFramePerFrame;
+                SubFrameModes = configCameraModel.CurrentUserCase.SubFrameModes;
+                SpecialFrameModes = configCameraModel.CurrentUserCase.SpecialFrameModes;
+                MaxFPS = configCameraModel.CurrentUserCase.MaxFPS;
+                RaisePropertyChanged();
+            }
+        }
+        public IntegrationTime[] IntegrationTimes //ns
+        {
+            get { return configCameraModel.CurrentUserCase.IntegrationTimes; }
+            set { configCameraModel.CurrentUserCase.IntegrationTimes = value; RaisePropertyChanged(); }
+        }
+        public PLLDLLDiv[] PLLDLLDivs//这里的单位都是KHz
+        {
+            get { return configCameraModel.CurrentUserCase.PLLDLLDivs; }
+            set { configCameraModel.CurrentUserCase.PLLDLLDivs = value; RaisePropertyChanged(); }
+        }
+        public UInt32[] NumSubFramePerFrame
+        {
+            get { return configCameraModel.CurrentUserCase.NumSubFramePerFrame; }
+            set { configCameraModel.CurrentUserCase.NumSubFramePerFrame = value; RaisePropertyChanged(); }
+        }
+        public SubFrameModeE[] SubFrameModes
+        {
+            get { return configCameraModel.CurrentUserCase.SubFrameModes; }
+            set { configCameraModel.CurrentUserCase.SubFrameModes = value; RaisePropertyChanged(); }
+        }
+        public SpecialFrameModeE[] SpecialFrameModes
+        {
+            get { return configCameraModel.CurrentUserCase.SpecialFrameModes; }
+            set { configCameraModel.CurrentUserCase.SpecialFrameModes = value; RaisePropertyChanged(); }
+        }
+        public UInt32 MaxFPS
+        {
+            get { return configCameraModel.CurrentUserCase.MaxFPS; }
+            set { configCameraModel.CurrentUserCase.MaxFPS = value; RaisePropertyChanged(); }
+        }
+        //深度帧帧率
+
+        public UInt32 FPS
+        {
+            get { return configCameraModel.DepthFPS; }
+            set
+            {
+                configCameraModel.DepthFPS = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        /*
+         分辨率的设置有限制条件：
+         1、ROI Width需要是4的倍数
+         2、使用analog binning时，yStart必须是偶数, yStep必须是(2-32)之间的偶数
+         3、客户版中digital Binning不能与XStep同时使用
+         */
+        public Point StartPoint
+        {
+            get
+            {
+                return new Point(configCameraModel.ROISetting.XStart,
+                    configCameraModel.ROISetting.XStart);
+            }
+            set
+            {
+                if (value.X < 0 || value.Y < 0)
+                    throw new ArgumentException($"invalid value");
+                if (value.X + ROISize.Width > maxImageSize.Width)
+                    throw new ArgumentException($"{value.X} + {ROISize.Width} > {maxImageSize.Width}");
+                if (value.Y + ROISize.Height > maxImageSize.Height)
+                    throw new ArgumentException($"{value.Y} + {ROISize.Height} > {maxImageSize.Height}");
+
+                configCameraModel.ROISetting.XStart = (UInt16)value.X;
+                configCameraModel.ROISetting.YStart = (UInt16)value.Y;
+                RaisePropertyChanged();
+            }
+        }
+        public Size ROISize
+        {
+            get
+            {
+                return new Size(configCameraModel.ROISetting.XSize,
+                configCameraModel.ROISetting.YSize);
+            }
+            set
+            {
+                if (value.Width % 4 != 0) //ROI Width需要是4的倍数
+                    throw new ArgumentException($"The width must be a multiple of 4");
+                if (value.Width < 0 || value.Width < 0)
+                    throw new ArgumentException($"invalid value");
+                if (StartPoint.X + value.Width > maxImageSize.Width)
+                    throw new ArgumentException($"{StartPoint.X} + {value.Width} > {maxImageSize.Width}");
+                if (StartPoint.Y + value.Height > maxImageSize.Height)
+                    throw new ArgumentException($"{StartPoint.Y} + {value.Height} > {maxImageSize.Height}");
+
+                configCameraModel.ROISetting.XSize = (UInt16)value.Width;
+                configCameraModel.ROISetting.YSize = (UInt16)value.Height;
+                RaisePropertyChanged();
+                Resolution = CalculateResolution(ROISize, XStep, YStep);
+            }
+        }
+        public UInt16 XStep
+        {
+            get { return configCameraModel.ROISetting.XStep; }
+            set
+            {
+                if (value < 1 || value > 32)
+                    throw new ArgumentException("OutOfRange:[1,32]");
+                configCameraModel.ROISetting.XStep = value;
+                RaisePropertyChanged();
+                Resolution = CalculateResolution(ROISize, XStep, YStep);
+            }
+        }
+        public UInt16 YStep
+        {
+            get { return configCameraModel.ROISetting.YStep; }
+            set
+            {
+                if (value < 1 || value > 32)
+                    throw new ArgumentException("OutOfRange:[1,32]");
+                configCameraModel.ROISetting.YStep = value;
+                RaisePropertyChanged();
+                Resolution = CalculateResolution(ROISize, XStep, YStep);
+            }
+        }
+        public bool AnalogBinning
+        {
+            get
+            {
+                if (configCameraModel.BinningMode == BinningModeE.Analog ||
+                    configCameraModel.BinningMode == BinningModeE.Both)
+                    return true;
+                else
+                    return false;
+            }
+            set
+            {
+                if (value)
+                {
+                    if (DigitalBinning)
+                        configCameraModel.BinningMode = BinningModeE.Both;
+                    else
+                        configCameraModel.BinningMode = BinningModeE.Analog;
+                }
+                else
+                {
+                    if (DigitalBinning)
+                        configCameraModel.BinningMode = BinningModeE.Digital;
+                    else
+                        configCameraModel.BinningMode = BinningModeE.None;
+                }
+                RaisePropertyChanged();
+                Resolution = CalculateResolution(ROISize, XStep, YStep);
+            }
+        }
+        public bool DigitalBinning
+        {
+            get
+            {
+                if (configCameraModel.BinningMode == BinningModeE.Digital ||
+                    configCameraModel.BinningMode == BinningModeE.Both)
+                    return true;
+                else
+                    return false;
+            }
+            set
+            {
+                if (value)
+                {
+                    if (AnalogBinning)
+                        configCameraModel.BinningMode = BinningModeE.Both;
+                    else
+                        configCameraModel.BinningMode = BinningModeE.Digital;
+                }
+                else
+                {
+                    if (AnalogBinning)
+                        configCameraModel.BinningMode = BinningModeE.Analog;
+                    else
+                        configCameraModel.BinningMode = BinningModeE.None;
+                }
+                RaisePropertyChanged();
+                Resolution = CalculateResolution(ROISize, XStep, YStep);
+            }
+        }
+        public bool HorizontalMirror
+        {
+            get
+            {
+                if (configCameraModel.MirrorMode == MirrorModeE.Horizontal ||
+                    configCameraModel.MirrorMode == MirrorModeE.Both)
+                    return true;
+                else
+                    return false;
+            }
+            set
+            {
+                if (value)
+                {
+                    if (VerticalMirror)
+                        configCameraModel.MirrorMode = MirrorModeE.Both;
+                    else
+                        configCameraModel.MirrorMode = MirrorModeE.Horizontal;
+                }
+                else
+                {
+                    if (VerticalMirror)
+                        configCameraModel.MirrorMode = MirrorModeE.Vertical;
+                    else
+                        configCameraModel.MirrorMode = MirrorModeE.None;
+                }
+                RaisePropertyChanged();
+            }
+        }
+        public bool VerticalMirror
+        {
+            get
+            {
+                if (configCameraModel.MirrorMode == MirrorModeE.Vertical ||
+                     configCameraModel.MirrorMode == MirrorModeE.Both)
+                    return true;
+                else
+                    return false;
+            }
+            set
+            {
+                if (value)
+                {
+                    if (HorizontalMirror)
+                        configCameraModel.MirrorMode = MirrorModeE.Both;
+                    else
+                        configCameraModel.MirrorMode = MirrorModeE.Vertical;
+                }
+                else
+                {
+                    if (HorizontalMirror)
+                        configCameraModel.MirrorMode = MirrorModeE.Horizontal;
+                    else
+                        configCameraModel.MirrorMode = MirrorModeE.None;
+                }
+                RaisePropertyChanged();
             }
         }
 
@@ -283,7 +488,7 @@ namespace ConfigCamera.ViewModels
         {
             foreach (var item in SubWorkModes)
             {
-                SubWorkModeE subWorkMode = (SubWorkModeE)Enum.Parse(typeof(SubWorkModeE), item.Description);
+                SubWorkModeE subWorkMode = item.SelectedModel;
 
                 if (subWorkMode.GetTAttribute<SubWorkModeAttribute>().WorkModeType != workMode)
                     item.IsShow = Visibility.Collapsed;
@@ -292,179 +497,7 @@ namespace ConfigCamera.ViewModels
             }
 
             //切换SubWorkMode后需要重新选择,而且默认选择第一个。
-            SubWorkModeIndex = SubWorkModes.First(s => s.IsShow == Visibility.Visible).SelectedModel;
-        }
-
-        //被选中的SubWorkMode的索引
-        private SubWorkModeE subWorkModeIndex;
-
-        public SubWorkModeE SubWorkModeIndex
-        {
-            get { return subWorkModeIndex; }
-
-            set
-            {
-                subWorkModeIndex = value;
-                RaisePropertyChanged();
-
-                //每一次切换SubWorkMode之后都需要更新Config
-                SetConfigs((SubWorkModeE)value);
-            }
-        }
-
-        /// <summary>
-        /// 通过SubWorkMode配置Configs的数量
-        /// </summary>
-        /// <param name="subWorkMode">被选中的SubWorkMode</param>
-        private void SetConfigs(SubWorkModeE subWorkMode)
-        {
-            this.config = defaultConfig.Find(c => c.SubWorkMode == subWorkMode);
-
-            if (config == null)
-                return;
-
-            //得到默认配置后,需要给界面绑定的值赋值,那么给DS发送ConfigCamera指令的时候,被绑定的值使用绑定的值，没有绑定的值还是使用config中的值
-            SetBindingData();
-            SubWorkModeAttribute attribute = ((SubWorkModeE)subWorkModeIndex).GetTAttribute<SubWorkModeAttribute>();
-
-            this.MaxFPS = Math.Min(30, 240 / attribute.NumPhasePerDepthMap / attribute.NumDepthMapPerDepth);
-            //this.FPS = this.maxFPS;
-        }
-
-        private void SetBindingData()
-        {
-            this.IntegrationTimes = config.IntegrationTimes;
-            this.PLLDLLDivs = config.PLLDLLDivs;
-            this.FPS = config.MIPIFrameRate;
-            //this.BinningMode = config.BinningMode;
-            //this.MirrorMode = config.MirrorMode;
-            this.NumSubFramePerFrame = config.NumSubFramePerFrame;
-            this.SubFrameModes = config.SubFrameModes;
-            this.SpecialFrameModes = config.SpecialFrameModes;
-        }
-
-        private IntegrationTime[] integrationTimes;
-        public IntegrationTime[] IntegrationTimes
-        {
-            get { return integrationTimes; }
-            set { integrationTimes = value; RaisePropertyChanged(); }
-        }
-
-        private PLLDLLDiv[] pLLDLLDivs;//这里的单位都是KHz
-        public PLLDLLDiv[] PLLDLLDivs
-        {
-            get { return pLLDLLDivs; }
-            set { pLLDLLDivs = value; RaisePropertyChanged(); }
-        }
-
-        private UInt32[] numSubFramePerFrame;
-        public UInt32[] NumSubFramePerFrame
-        {
-            get { return numSubFramePerFrame; }
-            set { numSubFramePerFrame = value; RaisePropertyChanged(); }
-        }
-
-        private SubFrameModeE[] subFrameModes;
-        public SubFrameModeE[] SubFrameModes
-        {
-            get { return subFrameModes; }
-            set { subFrameModes = value; RaisePropertyChanged(); }
-        }
-
-        private SpecialFrameModeE[] specialFrameModes;
-        public SpecialFrameModeE[] SpecialFrameModes
-        {
-            get { return specialFrameModes; }
-            set { specialFrameModes = value; RaisePropertyChanged(); }
-        }
-
-        //用于绑定到ComboBox的以供选择的频率值,单位MHz。从配置文件读取
-        public List<ComboBoxItemMode<UInt32>> Frequencies { get; set; } = new List<ComboBoxItemMode<UInt32>>();
-
-        //积分时间的上下限，用于绑定到slider上。从配置文件获取
-        public Tuple<UInt32, UInt32> IntegrationTimeRange { get; set; }
-
-        /*DLL(output of DLL is fMod) frequency div
-        clock path:
-        |PLL| -> |PLL_DLL div| -> |div by 2 fixed| -> DLL(fMod)
-
-        e.g. for PHASE1_4's modulation frequency:
-        The final division ratio from PLL to output of DLL(fMod) is PHASE1_4_PLL_DLL_DIV * 2
-        So, fMod = fPLL / (PHASE1_4_PLL_DLL_DIV * 2)
-
-        IMPORTANT: allowed values for the 3 values in the struct are:
-        2,3,4,5 and from 6 to 30(only even numbers)
-        2的时候频率太高不需要
-        */
-        private void GetFrequencies()
-        {
-            string fre = "990";// AppConfigHelper.GetAppConfigValue("PllFrequency");
-
-            double pllFreq = double.Parse(fre);//Pll频率 
-
-            for (uint i = 3; i < 6; i++)//分频 2的时候频率太高不需要
-            {
-                Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00"), SelectedModel = i, IsShow = Visibility.Visible });
-            }
-            for (uint i = 6; i <= 30; i++)//分频
-            {
-                if (i % 2 == 0)
-                    Frequencies.Add(new ComboBoxItemMode<UInt32> { Description = (pllFreq / i / 2.0).ToString("0.00"), SelectedModel = i, IsShow = Visibility.Visible });
-            }
-        }
-
-        private Size roi;
-        public ComboBoxItem Roi
-        {
-            get
-            {
-                return new ComboBoxItem { Content = roi.Width + "*" + roi.Height };
-            }
-            set
-            {
-                string rois = string.Empty;
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    rois = value.Content.ToString();
-                });
-                roi = new Size(UInt16.Parse(rois.Split('*')[0]), UInt16.Parse(rois.Split('*')[1]));
-                RaisePropertyChanged();
-                Resolution = CalculateResolution(roi, xStep, yStep);
-            }
-        }
-
-        private UInt16 xStep;
-        public ComboBoxItem XStep
-        {
-            get { return new ComboBoxItem { Content = xStep }; }
-            set
-            {
-                string xs = string.Empty;
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    xs = value.Content.ToString();
-                });
-                xStep = UInt16.Parse(xs);
-                RaisePropertyChanged();
-                Resolution = CalculateResolution(roi, xStep, yStep);
-            }
-        }
-
-        private UInt16 yStep;
-        public ComboBoxItem YStep
-        {
-            get { return new ComboBoxItem { Content = yStep }; }
-            set
-            {
-                string ys = string.Empty;
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    ys = value.Content.ToString();
-                });
-                yStep = UInt16.Parse(ys);
-                RaisePropertyChanged();
-                Resolution = CalculateResolution(roi, xStep, yStep);
-            }
+            SubWorkMode = SubWorkModes.First(swm => swm.IsShow == Visibility.Visible).SelectedModel;
         }
 
         private Size resolution;
@@ -473,7 +506,6 @@ namespace ConfigCamera.ViewModels
             get { return resolution; }
             set { resolution = value; RaisePropertyChanged(); }
         }
-
         private Size CalculateResolution(Size roi, UInt16 xstep, UInt16 ystep)
         {
             uint width = (UInt16)((roi.Width + xstep - 1) / xstep / 4) * 4u;
@@ -481,75 +513,6 @@ namespace ConfigCamera.ViewModels
             uint height = (UInt16)((roi.Height + ystep - 1) / ystep);
 
             return new Size(width, height);
-        }
-
-        private UInt32 fps = 25;
-
-        public UInt32 FPS
-        {
-            get { return fps; }
-            set { fps = value; RaisePropertyChanged(); }
-        }
-
-        private UInt32 maxFPS;
-        public UInt32 MaxFPS
-        {
-            get { return maxFPS; }
-            set { maxFPS = value; RaisePropertyChanged(); }
-        }
-
-        private bool horizontalMirror;
-
-        public bool HorizontalMirror
-        {
-            get { return horizontalMirror; }
-            set { horizontalMirror = value; RaisePropertyChanged(); }
-        }
-
-        private bool verticalMirror;
-
-        public bool VerticalMirror
-        {
-            get { return verticalMirror; }
-            set { verticalMirror = value; RaisePropertyChanged(); }
-        }
-
-        public MirrorModeE MirrorMode
-        {
-            get
-            {
-                if (horizontalMirror && verticalMirror)
-                    return MirrorModeE.Both;
-                else if (horizontalMirror)
-                    return MirrorModeE.Horizontal;
-                else if (verticalMirror)
-                    return MirrorModeE.Vertical;
-                else
-                    return MirrorModeE.None;
-            }
-            set
-            {
-                if (value == MirrorModeE.None)
-                {
-                    horizontalMirror = false;
-                    verticalMirror = false;
-                }
-                else if (value == MirrorModeE.Horizontal)
-                {
-                    horizontalMirror = true;
-                    verticalMirror = false;
-                }
-                else if (value == MirrorModeE.Vertical)
-                {
-                    verticalMirror = true;
-                    horizontalMirror = false;
-                }
-                else
-                {
-                    horizontalMirror = true;
-                    verticalMirror = true;
-                }
-            }
         }
     }
 }
