@@ -16,6 +16,9 @@
         ItemsSource="{Binding WatchLogs}"
         ScrollViewer.CanContentScroll="True"
         ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <ListView.Resources>
+            <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
+        </ListView.Resources>
         <ListView.ContextMenu>
             <ContextMenu>
                 <MenuItem Command="{Binding ClearWatchLogsCmd}" Header="Clear" />
