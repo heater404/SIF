@@ -7,6 +7,24 @@ using System.Threading.Tasks;
 
 namespace SIFP.Core.Enums
 {
+    public enum State
+    {
+        Disconnected,
+        Connected,
+        Streaming,
+        Capturing,
+    }
+
+    public enum Trigger
+    {
+        Connect,
+        Disconnect,
+        StreamingOn,
+        StreamingOff,
+        Capture,
+        CancelCapture,
+    }
+
     public enum UserAccessType
     {
         Normal,
