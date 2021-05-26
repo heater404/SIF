@@ -2,73 +2,132 @@
 using SIFP.Core.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Services
 {
-    public class StateMachine : IStateMachine
+    public class StateMachine : Stateless.StateMachine<States, Triggers>, IStateMachine, INotifyPropertyChanged
     {
-        Stateless.StateMachine<States, Triggers> machine = new Stateless.StateMachine<States, Triggers>(States.Disconnected);
-
-        public States CurrentState
+        public StateMachine() : base(States.Disconnected)
         {
-            get { return machine.State; }
+            OnTransitioned(t =>
+            {
+                OnPropertyChanged("State");
+                CommandManager.InvalidateRequerySuggested();
+            });
+
+            OnTransitioned(t =>
+            {
+                Debug.WriteLine("State Machine transitioned from {0} -> {1} [{2}]", t.Source, t.Destination, t.Trigger);
+            });
         }
 
-        public StateMachine()
+        public void ConfigureConnectedState(Func<Task> entryAction, Action exitAction)
         {
-            machine.Configure(States.Disconnected)
-                .Permit(Triggers.Connect, States.Connecting);
-
-            machine.Configure(States.Connected)
+            this.Configure(States.Connected)
+                .OnEntryAsync(entryAction)
+                .OnExit(exitAction)
                 .Permit(Triggers.Disconnect, States.Disconnected)
                 .Permit(Triggers.StreamingOn, States.Streaming);
+        }
 
-            machine.Configure(States.Streaming)
+        public void ConfigureDisconnectAction(Action entryAction, Action exitAction)
+        {
+            this.Configure(States.Disconnected)
+                .OnEntry(entryAction)
+                .OnExit(exitAction)
+                .Permit(Triggers.Connect, States.Connected);
+        }
+
+        public void ConfigureStreamingAction(Action entryAction, Action exitAction)
+        {
+            this.Configure(States.Streaming)
+                .OnEntry(entryAction)
+                .OnExit(exitAction)
                 .Permit(Triggers.StreamingOff, States.Connected)
                 .Permit(Triggers.Disconnect, States.Disconnected)
                 .Permit(Triggers.Capture, States.Capturing);
-
-            machine.Configure(States.Capturing)
-                .Permit(Triggers.CancelCapture, States.Streaming);
-
-
-
-            string graph = Stateless.Graph.UmlDotGraph.Format(machine.GetInfo());
-            Debug.WriteLine(graph);
         }
 
-        public void Connect()
+        public void ConfigureCapturingAction(Action entryAction, Action exitAction)
         {
-            machine.Fire(Triggers.Connect);
+            this.Configure(States.Capturing)
+                .OnEntry(entryAction)
+                .OnExit(exitAction)
+                .Permit(Triggers.CancelCapture, States.Streaming);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        public Task Connect()
+        {
+           return this.FireAsync(Triggers.Connect);
         }
 
         public void Disconnect()
         {
-            machine.Fire(Triggers.Disconnect);
+            this.Fire(Triggers.Disconnect);
         }
 
         public void StreamingOn()
         {
-            machine.Fire(Triggers.StreamingOn);
+            this.Fire(Triggers.StreamingOn);
         }
 
         public void StreamingOff()
         {
-            machine.Fire(Triggers.StreamingOff);
+            this.Fire(Triggers.StreamingOff);
         }
 
         public void Capture()
         {
-            machine.Fire(Triggers.Capture);
+            this.Fire(Triggers.Capture);
         }
 
         public void CancelCapture()
         {
-            machine.Fire(Triggers.CancelCapture);
+            this.Fire(Triggers.CancelCapture);
+        }
+
+        public bool CanConnect()
+        {
+            return this.CanFire(Triggers.Connect);
+        }
+
+        public bool CanDisconnect()
+        {
+            return this.CanFire(Triggers.Disconnect);
+        }
+
+        public bool CanStreamingOn()
+        {
+            return this.CanFire(Triggers.StreamingOff);
+        }
+
+        public bool CanStreamingOff()
+        {
+            return this.CanFire(Triggers.StreamingOff);
+        }
+
+        public bool CanCapture()
+        {
+            return this.CanFire(Triggers.Capture);
+        }
+
+        public bool CanCancelCapture()
+        {
+            return this.CanFire(Triggers.CancelCapture);
         }
     }
 }

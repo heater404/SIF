@@ -10,12 +10,8 @@ namespace SIFP.Core.Enums
     public enum States
     {
         Disconnected,
-        Connecting,
         Connected,
-        Disconnecting,
-        StartStreaming,
         Streaming,
-        StopStreaming,
         Capturing,
     }
 
