@@ -36,7 +36,7 @@ namespace ConfigCamera.ViewModels
         //用于绑定到ComboBox的以供选择的频率值,单位MHz。从配置文件读取
         public List<ComboBoxViewMode<UInt32>> Frequencies { get; set; } = new List<ComboBoxViewMode<UInt32>>();
         //积分时间的上下限，用于绑定到slider上。从配置文件获取
-        public Tuple<UInt32, UInt32> IntegrationTimeRange { get; set; }
+        public Tuple<double, double> IntegrationTimeRange { get; set; }
         //WorkMode的集合用于后台的绑定
         public List<ComboBoxViewMode<WorkModeE>> WorkModes { get; set; } = new List<ComboBoxViewMode<WorkModeE>>();
         //SubWorkMode的集合用于后台的绑定 这个集合是根据WorkMode动态生成的

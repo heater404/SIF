@@ -10,7 +10,7 @@ namespace SIFP.Core.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (UInt32)((UInt32)value / 1000);
+            return (double)((UInt32)value / 1000);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

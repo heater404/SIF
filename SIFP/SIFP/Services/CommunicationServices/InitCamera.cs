@@ -230,12 +230,12 @@ namespace Services
             return frequencies;
         }
 
-        public Tuple<uint, uint> InitIntegrationTimesRange()
+        public Tuple<double, double> InitIntegrationTimesRange()
         {
             try
             {
                 var json = File.ReadAllText(@"Configs\Camera.json");
-                return JsonSerializer.Deserialize<Tuple<uint, uint>>(json);
+                return JsonSerializer.Deserialize<Tuple<double, double>>(json);
             }
             catch (Exception ex)
             {

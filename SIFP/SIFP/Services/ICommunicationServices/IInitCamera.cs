@@ -11,7 +11,7 @@ namespace Services.Interfaces
 {
     public interface IInitCamera
     {
-        Tuple<UInt32, UInt32> InitIntegrationTimesRange();
+        Tuple<double, double> InitIntegrationTimesRange();
 
         List<ComboBoxViewMode<UInt32>> InitFrequencies();
 
