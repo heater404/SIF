@@ -32,9 +32,13 @@ namespace Tool.ViewModels
             {
                 isConnected = value;
                 RaisePropertyChanged();
-                CanConnectCtrlCmd = CanConnectCtrl();
-                CanStreamingCtrlCmd = CanStreamingOn();
-                CanCaptureCtrlCmd = CanCaptureCtrl();
+
+                if (value)
+                    machine.Fire(Triggers.Connect);
+                else
+                    machine.Fire(Triggers.Disconnect);
+
+                StreamingCtrlCmd.RaiseCanExecuteChanged();
 
                 if (!value)
                     this.EventAggregator.GetEvent<DisconnectCameraReplyEvent>().Publish(null);
@@ -49,14 +53,12 @@ namespace Tool.ViewModels
             {
                 isStreaming = value;
                 RaisePropertyChanged();
+                if (value)
+                    machine.Fire(Triggers.StreamingOff);
+                else
+                    machine.Fire(Triggers.StreamingOn);
+
                 this.EventAggregator.GetEvent<IsStreamingEvent>().Publish(value);
-
-                //是否能够捕获取决于是否streaming
-                CanConnectCtrlCmd = CanConnectCtrl();
-
-                CanStreamingCtrlCmd = CanStreamingOn();
-
-                CanCaptureCtrlCmd = CanCaptureCtrl();
             }
         }
 
@@ -136,20 +138,34 @@ namespace Tool.ViewModels
         public DelegateCommand CaptureDataShowCmd { get; private set; }
         private IDialogService dialogService;
         private ICommunication comm;
+        private IStateMachine machine;
         private Process processor = null;
 
         private CancellationTokenSource cancellationTokenSource = null;
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
         private UserAccessType user = UserAccessType.Normal;
-        public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        public ToolViewModel(IStateMachine stateMachine, ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
+            this.machine = stateMachine;
             this.comm = comm;
             this.dialogService = dialogService;
             VcselDriverShowCmd = new DelegateCommand(ShowVcselDriverDialog).ObservesCanExecute(() => IsConnected);
             CaptureDataShowCmd = new DelegateCommand(ShowCaptureDialog).ObservesCanExecute(() => CanCaptureCtrlCmd);
-            ConnectCtrlCmd = new DelegateCommand(ConnectCtrl).ObservesCanExecute(() => CanConnectCtrlCmd);
-            StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => CanStreamingCtrlCmd);
+            ConnectCtrlCmd = new DelegateCommand(ConnectCtrl, () =>
+                {
+                    if (isConnected)
+                        return machine.CanFire(Triggers.Disconnect);
+                    else
+                        return machine.CanFire(Triggers.Connect);
+                });
+            StreamingCtrlCmd = new DelegateCommand(StreamingCtrl, () =>
+             {
+                 if (isStreaming)
+                     return machine.CanFire(Triggers.StreamingOff);
+                 else
+                     return machine.CanFire(Triggers.StreamingOn);
+             });
             EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply, true);
             EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
             {

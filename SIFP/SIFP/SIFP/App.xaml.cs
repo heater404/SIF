@@ -94,6 +94,8 @@ namespace SIFP
             containerRegistry.RegisterSingleton<IInitArithParams, InitArithParams>();
             containerRegistry.RegisterSingleton<IInitCamera, InitCamera>();
             containerRegistry.RegisterSingleton<IInitConfigAlg, InitConfigAlg>();
+            containerRegistry.RegisterSingleton<IStateMachine, StateMachine>();
+
             containerRegistry.RegisterSingleton<CaptureDataViewModel, CaptureDataViewModel>();
             containerRegistry.RegisterSingleton<ConfigCameraView, ConfigCameraView>();
             containerRegistry.RegisterSingleton<ConfigArithParamsView, ConfigArithParamsView>();
