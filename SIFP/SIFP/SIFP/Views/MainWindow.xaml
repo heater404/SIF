@@ -13,7 +13,8 @@
     SizeChanged="Window_SizeChanged"
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
-    TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    WindowStartupLocation="CenterScreen">
     <materialDesign:DrawerHost x:Name="DrawerHost" IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}">
         <DockPanel IsEnabled="{Binding IsEnable}" LastChildFill="True">
             <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
