@@ -79,7 +79,7 @@ namespace Tool.ViewModels
             this.machine = stateMachine;
 
             this.machine.ConfigureDisconnectAction(() => DisconnectCamera(), () => Debug.WriteLine("Exit Disconnect"));
-            this.machine.ConfigureConnectedState(ConnectCamera, () => Debug.WriteLine("Exit Connect"));
+            this.machine.ConfigureConnectedState(async () => await Task.Run(ConnectCamera), () => Debug.WriteLine("Exit Connect"));
 
             this.comm = comm;
             this.dialogService = dialogService;
@@ -268,8 +268,7 @@ namespace Tool.ViewModels
             dialogService.Show(DialogNames.WaitingDialog);
             if (!isConnected)
             {
-                this.machine.Connect();
-
+                Task task = this.machine.Connect();
                 //if (await Task.Run(ConnectCamera))
                 //{
                 //    comm.SwitchUserAccess(user);
@@ -294,14 +293,15 @@ namespace Tool.ViewModels
             }
             else
             {
-                if (await Task.Run(DisconnectCamera))
-                {
-                    IsConnected = false;
-                }
-                else
-                {
-                    IsConnected = true;
-                }
+                this.machine.Disconnect();
+                //if (await Task.Run(DisconnectCamera))
+                //{
+                //    IsConnected = false;
+                //}
+                //else
+                //{
+                //    IsConnected = true;
+                //}
             }
             EventAggregator.GetEvent<CloseWaitingDialogEvent>().Publish();
         }
