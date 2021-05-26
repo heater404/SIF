@@ -47,7 +47,7 @@
                     Margin="5,0,5,0"
                     Command="{Binding StreamingCtrlCmd}"
                     IsChecked="{Binding IsStreaming, Mode=OneWay}"
-                    ToolTip="OpenCamera or CloseCamera">
+                    ToolTip="StreamingOn or StreamingOff">
                     <ToggleButton.Style>
                         <Style BasedOn="{StaticResource MaterialDesignOutlinedButton}" TargetType="ToggleButton">
                             <Style.Triggers>
