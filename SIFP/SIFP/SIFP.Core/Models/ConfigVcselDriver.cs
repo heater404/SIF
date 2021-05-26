@@ -13,7 +13,14 @@ namespace SIFP.Core.Models
         public VDriverWorkModeE Mode { get; set; } = VDriverWorkModeE.Fix;
 
         [FieldOrder(2)]
-        public UInt32 IBias { get; set; } = 400;//threshold current mA
+        public UInt32 IBias
+        {
+            get
+            {
+                if (Isw == 0) return 0;
+                else return 400;
+            }
+        }//threshold current mA
 
         [FieldOrder(3)]
         [SerializeAs(serializedType: SerializedType.UInt4)]
@@ -23,8 +30,8 @@ namespace SIFP.Core.Models
 
     public enum VDriverWorkModeE
     {
-        Fix=0,
-        Fake_Apc=1,
-        Apc=2,
+        Fix = 0,
+        Fake_Apc = 1,
+        Apc = 2,
     }
 }
