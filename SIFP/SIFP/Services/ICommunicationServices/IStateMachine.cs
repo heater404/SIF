@@ -9,7 +9,7 @@ namespace Services.Interfaces
 {
     public interface IStateMachine
     {
-        public State CurrentState { get; }
+        public States CurrentState { get; }
 
         public void Connect();
 

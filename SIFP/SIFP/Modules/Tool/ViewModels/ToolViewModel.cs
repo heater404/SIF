@@ -92,20 +92,20 @@ namespace Tool.ViewModels
         }
         private bool CanCaptureCtrl()
         {
-            return machine.CurrentState == State.Streaming
-                ||machine.CurrentState==State.Capturing;
+            return machine.CurrentState == States.Streaming
+                ||machine.CurrentState==States.Capturing;
         }
         private bool CanConnectCtrl()
         {
-            return machine.CurrentState != State.Capturing;
+            return machine.CurrentState != States.Capturing;
         }
         private bool CanStreamingCtrl()
         {
-            if (machine.CurrentState == State.Capturing)
+            if (machine.CurrentState == States.Capturing)
                 return false;
             else
-                return machine.CurrentState == State.Connected 
-                    ||machine.CurrentState==State.Streaming;
+                return machine.CurrentState == States.Connected 
+                    ||machine.CurrentState==States.Streaming;
         }
 
         private bool canConnectCtrlCmd = true;

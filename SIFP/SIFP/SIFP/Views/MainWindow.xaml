@@ -14,227 +14,234 @@
     TextElement.FontSize="14"
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}">
-    <materialDesign:DrawerHost x:Name="DrawerHost" IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}">
-        <DockPanel IsEnabled="{Binding IsEnable}" LastChildFill="True">
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
-            <Grid Margin="0,5,0,0" DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <ToolBarTray Grid.Column="0" IsLocked="False">
-                    <ToolBar
-                        Margin="0,5,0,5"
-                        ClipToBounds="False"
-                        Style="{DynamicResource MaterialDesignToolBar}">
-                        <RadioButton
-                            Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigCameraView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}">
-                            <RadioButton.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="CameraControl" />
-                                    <TextBlock
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="Camera" />
-                                </StackPanel>
-                            </RadioButton.Content>
-                        </RadioButton>
-                        <RadioButton
-                            Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigArithParamsView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}"
-                            Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <RadioButton.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Tune" />
-                                    <TextBlock
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="ArithParams" />
-                                </StackPanel>
-                            </RadioButton.Content>
-                        </RadioButton>
-                        <RadioButton
-                            Command="{Binding OpenLeftDrawerCmd}"
-                            CommandParameter="{x:Static local:ConfigViewTypes.ConfigAlgView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}"
-                            Visibility="Collapsed">
-                            <RadioButton.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Filter" />
-                                    <TextBlock
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="ByPass" />
-                                </StackPanel>
-                            </RadioButton.Content>
-                        </RadioButton>
-                    </ToolBar>
-                    <ToolBar
-                        Margin="5"
-                        ClipToBounds="False"
-                        Style="{DynamicResource MaterialDesignToolBar}">
-                        <RadioButton
-                            Command="{Binding MainRegionNavigationCmd}"
-                            CommandParameter="{x:Static core:ViewNames.PointCloudView}"
-                            IsChecked="True"
-                            Style="{StaticResource MaterialDesignTabRadioButton}">
-                            <RadioButton.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Cloud" />
-                                    <TextBlock
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="PointCloud" />
-                                </StackPanel>
-                            </RadioButton.Content>
-                        </RadioButton>
-                        <RadioButton
-                            Command="{Binding MainRegionNavigationCmd}"
-                            CommandParameter="{x:Static core:ViewNames.RegMapView}"
-                            IsChecked="False"
-                            Style="{StaticResource MaterialDesignTabRadioButton}"
-                            Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <RadioButton.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="Map" />
-                                    <TextBlock
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="RegMap" />
-                                </StackPanel>
-                            </RadioButton.Content>
-                        </RadioButton>
-                    </ToolBar>
-                </ToolBarTray>
+    <Grid>
+        <materialDesign:DrawerHost x:Name="DrawerHost" IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}">
+            <DockPanel IsEnabled="{Binding IsEnable}" LastChildFill="True">
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MenuRegion}" DockPanel.Dock="Top" />
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ToolRegion}" DockPanel.Dock="Top" />
+                <Grid Margin="0,5,0,0" DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <ToolBarTray Grid.Column="0" IsLocked="False">
+                        <ToolBar
+                            Margin="0,5,0,5"
+                            ClipToBounds="False"
+                            Style="{DynamicResource MaterialDesignToolBar}">
+                            <RadioButton
+                                Command="{Binding OpenLeftDrawerCmd}"
+                                CommandParameter="{x:Static local:ConfigViewTypes.ConfigCameraView}"
+                                Style="{StaticResource MaterialDesignTabRadioButton}">
+                                <RadioButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CameraControl" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="Camera" />
+                                    </StackPanel>
+                                </RadioButton.Content>
+                            </RadioButton>
+                            <RadioButton
+                                Command="{Binding OpenLeftDrawerCmd}"
+                                CommandParameter="{x:Static local:ConfigViewTypes.ConfigArithParamsView}"
+                                Style="{StaticResource MaterialDesignTabRadioButton}"
+                                Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <RadioButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Tune" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="ArithParams" />
+                                    </StackPanel>
+                                </RadioButton.Content>
+                            </RadioButton>
+                            <RadioButton
+                                Command="{Binding OpenLeftDrawerCmd}"
+                                CommandParameter="{x:Static local:ConfigViewTypes.ConfigAlgView}"
+                                Style="{StaticResource MaterialDesignTabRadioButton}"
+                                Visibility="Collapsed">
+                                <RadioButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Filter" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="ByPass" />
+                                    </StackPanel>
+                                </RadioButton.Content>
+                            </RadioButton>
+                        </ToolBar>
+                        <ToolBar
+                            Margin="5"
+                            ClipToBounds="False"
+                            Style="{DynamicResource MaterialDesignToolBar}">
+                            <RadioButton
+                                Command="{Binding MainRegionNavigationCmd}"
+                                CommandParameter="{x:Static core:ViewNames.PointCloudView}"
+                                IsChecked="True"
+                                Style="{StaticResource MaterialDesignTabRadioButton}">
+                                <RadioButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Cloud" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="PointCloud" />
+                                    </StackPanel>
+                                </RadioButton.Content>
+                            </RadioButton>
+                            <RadioButton
+                                Command="{Binding MainRegionNavigationCmd}"
+                                CommandParameter="{x:Static core:ViewNames.RegMapView}"
+                                IsChecked="False"
+                                Style="{StaticResource MaterialDesignTabRadioButton}"
+                                Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <RadioButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Map" />
+                                        <TextBlock
+                                            Margin="5,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="RegMap" />
+                                    </StackPanel>
+                                </RadioButton.Content>
+                            </RadioButton>
+                        </ToolBar>
+                    </ToolBarTray>
 
-                <ToolBarTray Grid.Column="1" IsLocked="True">
-                    <ToolBar
-                        Margin="0,5,0,5"
-                        ClipToBounds="False"
-                        Style="{DynamicResource MaterialDesignToolBar}">
-                        <materialDesign:PopupBox
-                            Padding="10"
-                            PlacementMode="BottomAndAlignRightEdges"
-                            StaysOpen="False">
-                            <StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Normal" />
-                                    <ToggleButton
-                                        Margin="5,0,5,0"
-                                        Command="{Binding OpenPasswordDialogCmd}"
-                                        IsChecked="{Binding IsExpertMode, Mode=OneWay}"
-                                        Style="{StaticResource MaterialDesignSwitchLightToggleButton}" />
-                                    <TextBlock Text="Expert" />
-                                </StackPanel>
-                                <Separator />
-                                <!--<CheckBox
+                    <ToolBarTray Grid.Column="1" IsLocked="True">
+                        <ToolBar
+                            Margin="0,5,0,5"
+                            ClipToBounds="False"
+                            Style="{DynamicResource MaterialDesignToolBar}">
+                            <materialDesign:PopupBox
+                                Padding="10"
+                                PlacementMode="BottomAndAlignRightEdges"
+                                StaysOpen="False">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Normal" />
+                                        <ToggleButton
+                                            Margin="5,0,5,0"
+                                            Command="{Binding OpenPasswordDialogCmd}"
+                                            IsChecked="{Binding IsExpertMode, Mode=OneWay}"
+                                            Style="{StaticResource MaterialDesignSwitchLightToggleButton}" />
+                                        <TextBlock Text="Expert" />
+                                    </StackPanel>
+                                    <Separator />
+                                    <!--<CheckBox
                                     Margin="10"
                                     Content="Debug"
                                     IsChecked="{Binding IsDebug, Mode=TwoWay}" />
                                 <Separator />-->
-                                <Button Content="Help" />
-                                <Button Content="About" />
-                                <Separator />
-                                <TextBox
-                                    materialDesign:TextFieldAssist.PrefixText="Version"
-                                    IsReadOnly="True"
-                                    Text="{Binding Version}" />
-                            </StackPanel>
-                        </materialDesign:PopupBox>
+                                    <Button Content="Help" />
+                                    <Button Content="About" />
+                                    <Separator />
+                                    <TextBox
+                                        materialDesign:TextFieldAssist.PrefixText="Version"
+                                        IsReadOnly="True"
+                                        Text="{Binding Version}" />
+                                </StackPanel>
+                            </materialDesign:PopupBox>
 
-                        <Button
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                            CommandParameter="{x:Static Dock.Right}"
-                            Content="{materialDesign:PackIcon Size=25,
-                                                              Kind=ArrowLeftBold}"
-                            Style="{StaticResource MaterialDesignFlatButton}"
-                            ToolTip="WatchLogs" />
-                    </ToolBar>
-                </ToolBarTray>
-            </Grid>
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" DockPanel.Dock="Bottom" />
-            <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MainRegion}" />
-        </DockPanel>
-        <materialDesign:DrawerHost.RightDrawerContent>
-            <HeaderedContentControl>
-                <HeaderedContentControl.Header>
-                    <DockPanel>
-                        <Button
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                            CommandParameter="{x:Static Dock.Right}"
-                            Content="{materialDesign:PackIcon Kind=Close,
-                                                              Size=20}"
-                            DockPanel.Dock="Left"
-                            Style="{StaticResource MaterialDesignFlatButton}" />
-                    </DockPanel>
-                </HeaderedContentControl.Header>
-                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.WatchLogRegion}" />
-            </HeaderedContentControl>
-        </materialDesign:DrawerHost.RightDrawerContent>
+                            <Button
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                                CommandParameter="{x:Static Dock.Right}"
+                                Content="{materialDesign:PackIcon Size=25,
+                                                                  Kind=ArrowLeftBold}"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                ToolTip="WatchLogs" />
+                        </ToolBar>
+                    </ToolBarTray>
+                </Grid>
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" DockPanel.Dock="Bottom" />
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.MainRegion}" />
+            </DockPanel>
+            <materialDesign:DrawerHost.RightDrawerContent>
+                <HeaderedContentControl>
+                    <HeaderedContentControl.Header>
+                        <DockPanel>
+                            <Button
+                                HorizontalAlignment="Left"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                                CommandParameter="{x:Static Dock.Right}"
+                                Content="{materialDesign:PackIcon Kind=Close,
+                                                                  Size=20}"
+                                DockPanel.Dock="Left"
+                                Style="{StaticResource MaterialDesignFlatButton}" />
+                        </DockPanel>
+                    </HeaderedContentControl.Header>
+                    <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.WatchLogRegion}" />
+                </HeaderedContentControl>
+            </materialDesign:DrawerHost.RightDrawerContent>
 
-        <materialDesign:DrawerHost.LeftDrawerContent>
-            <HeaderedContentControl VerticalAlignment="Top" VerticalContentAlignment="Top">
-                <HeaderedContentControl.Header>
-                    <DockPanel>
-                        <Button
-                            HorizontalAlignment="Center"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                            CommandParameter="{x:Static Dock.Left}"
-                            Content="{materialDesign:PackIcon Kind=Close,
-                                                              Size=20}"
-                            DockPanel.Dock="Right"
-                            Style="{StaticResource MaterialDesignFlatButton}" />
-                        <ToggleButton
-                            HorizontalAlignment="Right"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Checked="ToggleButton_Checked"
-                            DockPanel.Dock="Right"
-                            IsChecked="True"
-                            Unchecked="ToggleButton_Unchecked"
-                            Visibility="Collapsed">
-                            <ToggleButton.Style>
-                                <Style BasedOn="{StaticResource MaterialDesignFlatButton}" TargetType="ToggleButton">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsChecked" Value="True">
-                                            <Setter Property="Content">
-                                                <Setter.Value>
-                                                    <materialDesign:PackIcon Kind="LockOpen" />
-                                                </Setter.Value>
-                                            </Setter>
-                                            <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}" />
-                                        </Trigger>
-                                        <Trigger Property="IsChecked" Value="False">
-                                            <Setter Property="Content">
-                                                <Setter.Value>
-                                                    <materialDesign:PackIcon Kind="LockOpenVariant" />
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ToggleButton.Style>
-                        </ToggleButton>
-                    </DockPanel>
-                </HeaderedContentControl.Header>
-                <ContentControl
-                    Width="420"
-                    VerticalAlignment="Top"
-                    VerticalContentAlignment="Top"
-                    Content="{Binding LeftDrawerContent}" />
-            </HeaderedContentControl>
-        </materialDesign:DrawerHost.LeftDrawerContent>
-    </materialDesign:DrawerHost>
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <HeaderedContentControl VerticalAlignment="Top" VerticalContentAlignment="Top">
+                    <HeaderedContentControl.Header>
+                        <DockPanel>
+                            <Button
+                                HorizontalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                                CommandParameter="{x:Static Dock.Left}"
+                                Content="{materialDesign:PackIcon Kind=Close,
+                                                                  Size=20}"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource MaterialDesignFlatButton}" />
+                            <ToggleButton
+                                HorizontalAlignment="Right"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Checked="ToggleButton_Checked"
+                                DockPanel.Dock="Right"
+                                IsChecked="True"
+                                Unchecked="ToggleButton_Unchecked"
+                                Visibility="Collapsed">
+                                <ToggleButton.Style>
+                                    <Style BasedOn="{StaticResource MaterialDesignFlatButton}" TargetType="ToggleButton">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <materialDesign:PackIcon Kind="LockOpen" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}" />
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" Value="False">
+                                                <Setter Property="Content">
+                                                    <Setter.Value>
+                                                        <materialDesign:PackIcon Kind="LockOpenVariant" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                        </DockPanel>
+                    </HeaderedContentControl.Header>
+                    <ContentControl
+                        Width="420"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Top"
+                        Content="{Binding LeftDrawerContent}" />
+                </HeaderedContentControl>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+        </materialDesign:DrawerHost>
+
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="ghqouwdf[fiuhfq" />
+    </Grid>
 </Window>

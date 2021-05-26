@@ -11,29 +11,31 @@ namespace Services
 {
     public class StateMachine : IStateMachine
     {
-        Stateless.StateMachine<State, Trigger> machine = new Stateless.StateMachine<State, Trigger>(State.Disconnected);
+        Stateless.StateMachine<States, Triggers> machine = new Stateless.StateMachine<States, Triggers>(States.Disconnected);
 
-        public State CurrentState
+        public States CurrentState
         {
             get { return machine.State; }
         }
 
         public StateMachine()
         {
-            machine.Configure(State.Disconnected)
-                .Permit(Trigger.Connect, State.Connected);
+            machine.Configure(States.Disconnected)
+                .Permit(Triggers.Connect, States.Connecting);
 
-            machine.Configure(State.Connected)
-                .Permit(Trigger.Disconnect, State.Disconnected)
-                .Permit(Trigger.StreamingOn, State.Streaming);
+            machine.Configure(States.Connected)
+                .Permit(Triggers.Disconnect, States.Disconnected)
+                .Permit(Triggers.StreamingOn, States.Streaming);
 
-            machine.Configure(State.Streaming)
-                .Permit(Trigger.StreamingOff, State.Connected)
-                .Permit(Trigger.Disconnect, State.Disconnected)
-                .Permit(Trigger.Capture, State.Capturing);
+            machine.Configure(States.Streaming)
+                .Permit(Triggers.StreamingOff, States.Connected)
+                .Permit(Triggers.Disconnect, States.Disconnected)
+                .Permit(Triggers.Capture, States.Capturing);
 
-            machine.Configure(State.Capturing)
-                .Permit(Trigger.CancelCapture, State.Streaming);
+            machine.Configure(States.Capturing)
+                .Permit(Triggers.CancelCapture, States.Streaming);
+
+
 
             string graph = Stateless.Graph.UmlDotGraph.Format(machine.GetInfo());
             Debug.WriteLine(graph);
@@ -41,32 +43,32 @@ namespace Services
 
         public void Connect()
         {
-            machine.Fire(Trigger.Connect);
+            machine.Fire(Triggers.Connect);
         }
 
         public void Disconnect()
         {
-            machine.Fire(Trigger.Disconnect);
+            machine.Fire(Triggers.Disconnect);
         }
 
         public void StreamingOn()
         {
-            machine.Fire(Trigger.StreamingOn);
+            machine.Fire(Triggers.StreamingOn);
         }
 
         public void StreamingOff()
         {
-            machine.Fire(Trigger.StreamingOff);
+            machine.Fire(Triggers.StreamingOff);
         }
 
         public void Capture()
         {
-            machine.Fire(Trigger.Capture);
+            machine.Fire(Triggers.Capture);
         }
 
         public void CancelCapture()
         {
-            machine.Fire(Trigger.CancelCapture);
+            machine.Fire(Triggers.CancelCapture);
         }
     }
 }
