@@ -350,7 +350,7 @@ namespace Services
         /// </summary>
         /// <param name="regs">协议中需要的数据</param>
         /// <returns></returns>
-        public bool ReadRegs(Register[] regs, DevTypeE devType)
+        public bool ReadRegs(RegStruct[] regs, DevTypeE devType)
         {
             bool success = false;
             MsgHeader msg = new ReadRegisterRequest()
@@ -374,7 +374,7 @@ namespace Services
         /// </summary>
         /// <param name="regs">协议中需要的数据</param>
         /// <returns></returns>
-        public bool WriteRegs(Register[] regs, DevTypeE devType)
+        public bool WriteRegs(RegStruct[] regs, DevTypeE devType)
         {
             bool success = false;
             MsgHeader msg = new WriteRegisterRequest()

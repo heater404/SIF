@@ -13,6 +13,13 @@ namespace SIFP.Core.Enums
         Expert
     }
 
+    public enum RegOperateType
+    {
+        Write = 0,
+        Read,
+        WriteRead
+    }
+
     public enum DevTypeE : UInt32
     {
         TOF = 0u,

@@ -27,9 +27,9 @@ namespace Services.Interfaces
 
         bool AlgoDelCapture(UInt32 pos, UInt32 ID);
 
-        bool WriteRegs(Register[] regs, DevTypeE devType);
+        bool WriteRegs(RegStruct[] regs, DevTypeE devType);
 
-        bool ReadRegs(Register[] regs, DevTypeE devType);
+        bool ReadRegs(RegStruct[] regs, DevTypeE devType);
 
         bool SwitchUserAccess(UserAccessType accessType);
 

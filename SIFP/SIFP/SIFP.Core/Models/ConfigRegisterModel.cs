@@ -16,6 +16,6 @@ namespace SIFP.Core.Models
 
         [FieldOrder(3)]
         [FieldCount(nameof(NumRegs))]
-        public Register[] Regs { get; set; }
+        public RegStruct[] Regs { get; set; }
     }
 }
