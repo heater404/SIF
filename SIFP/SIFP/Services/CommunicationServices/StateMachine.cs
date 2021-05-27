@@ -18,18 +18,31 @@ namespace Services
         public StateMachine() : base(States.Disconnected)
         {
             this.Configure(States.Disconnected)
+                .Ignore(Triggers.Disconnect)
                 .Permit(Triggers.Connect, States.Connected);
 
             this.Configure(States.Connected)
-                .Permit(Triggers.Disconnect, States.Disconnected)
+                .PermitReentry(Triggers.ConfigVcselDriver)
+                .Permit(Triggers.ConfigCamera, States.CameraConfiged)
+                .Permit(Triggers.Disconnect, States.Disconnected);
+
+            this.Configure(States.CameraConfiged)
+                .PermitReentry(Triggers.ConfigVcselDriver)
+                .PermitReentry(Triggers.ConfigCamera)
+                .Permit(Triggers.Disconnect,States.Disconnected)
                 .Permit(Triggers.StreamingOn, States.Streaming);
 
             this.Configure(States.Streaming)
-                .Permit(Triggers.StreamingOff, States.Connected)
+                .PermitReentry(Triggers.ConfigVcselDriver)
+                .PermitReentry(Triggers.ConfigCamera)
+                .Ignore(Triggers.CancelCapture)
+                .Permit(Triggers.StreamingOff, States.CameraConfiged)
                 .Permit(Triggers.Disconnect, States.Disconnected)
                 .Permit(Triggers.Capture, States.Capturing);
 
             this.Configure(States.Capturing)
+                .PermitReentry(Triggers.ConfigCamera)
+                .PermitReentry(Triggers.ConfigVcselDriver)
                 .Permit(Triggers.CancelCapture, States.Streaming);
 
             OnTransitioned(t =>

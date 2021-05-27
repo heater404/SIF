@@ -25,6 +25,7 @@ namespace ConfigCamera.ViewModels
     {
         private ICommunication comm;
         private IDialogService dialogService;
+        private IStateMachine machine;
         private ConfigCameraModel configCameraModel;
 
         private Size maxImageSize = new Size(640, 480);
@@ -42,9 +43,10 @@ namespace ConfigCamera.ViewModels
         //SubWorkMode的集合用于后台的绑定 这个集合是根据WorkMode动态生成的
         public List<ComboBoxViewMode<SubWorkModeE>> SubWorkModes { get; set; } = new List<ComboBoxViewMode<SubWorkModeE>>();
 
-        public ConfigCameraViewModel(IInitCamera initCamera, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
+        public ConfigCameraViewModel(IStateMachine stateMachine, IInitCamera initCamera, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
+            this.machine = stateMachine;
             this.comm = communication;
             this.dialogService = dialogService;
             IntegrationTimeRange = initCamera.InitIntegrationTimesRange();
@@ -53,7 +55,7 @@ namespace ConfigCamera.ViewModels
             InitWorkModes();
             Resolution = CalculateResolution(ROISize, XStep, YStep);
 
-            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCameraAsync);
+            ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCameraAsync, () => machine.CanFire(Triggers.ConfigCamera));
 
             this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.PublisherThread, true);
 
@@ -71,6 +73,7 @@ namespace ConfigCamera.ViewModels
             this.EventAggregator.GetEvent<ConnectCameraReplyEvent>().Subscribe(reply =>
             {
                 MaxImageSize = new Size(reply.ToFMaxImageWidth, reply.ToFMaxImageHeight);
+                ApplyConfigCameraCmd.RaiseCanExecuteChanged();
             }, true);
 
             this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
@@ -145,6 +148,7 @@ namespace ConfigCamera.ViewModels
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
                     this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
+                    machine.Fire(Triggers.ConfigCamera);
                     ConfigCameraSuccess = true;
                 }
                 else
@@ -175,6 +179,7 @@ namespace ConfigCamera.ViewModels
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
                     this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
+                    machine.Fire(Triggers.ConfigCamera);
                     ConfigCameraSuccess = true;
                 }
                 else

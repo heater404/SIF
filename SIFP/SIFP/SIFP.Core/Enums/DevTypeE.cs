@@ -11,6 +11,7 @@ namespace SIFP.Core.Enums
     {
         Disconnected,
         Connected,
+        CameraConfiged,
         Streaming,
         Capturing,
     }
@@ -19,10 +20,12 @@ namespace SIFP.Core.Enums
     {
         Connect,
         Disconnect,
+        ConfigCamera,
         StreamingOn,
         StreamingOff,
         Capture,
         CancelCapture,
+        ConfigVcselDriver,
     }
 
     public enum UserAccessType
