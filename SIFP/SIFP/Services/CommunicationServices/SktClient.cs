@@ -120,12 +120,17 @@ namespace Services
             }
         }
 
+        UInt32 pktSN = UInt32.MinValue;
         public int Send(MsgHeader msg)
         {
             if (null == client)
                 return 0;
 
-            msg.PktSN = 0x12345678;
+            msg.PktSN = pktSN;
+            if (pktSN == UInt32.MaxValue)
+                pktSN = UInt32.MinValue;
+            else
+                pktSN++;
             msg.TotalMsgNum = 1;
             msg.MsgSn = 0;
             msg.MsgType = msg.GetMsgType();
