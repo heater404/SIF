@@ -117,15 +117,13 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox
-                Margin="10"
-                Header="Fusion"
-                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <GroupBox Margin="10" Header="Fusion">
                 <StackPanel Orientation="Vertical">
                     <CheckBox
                         Margin="0,5,0,5"
                         Content="SFDeAliasing"
-                        IsChecked="{Binding SFDeAliasing}" />
+                        IsChecked="{Binding SFDeAliasing}"
+                        Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                     <TextBox
                         Margin="0,5,0,5"
