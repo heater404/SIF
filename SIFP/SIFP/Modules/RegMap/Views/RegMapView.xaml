@@ -108,11 +108,13 @@
                         Margin="5,0,5,0"
                         Command="{Binding ReadSelectedRegsCmd}"
                         Content="Read"
+                        Foreground="{StaticResource MaterialDesignDarkForeground}"
                         Style="{StaticResource MaterialDesignOutlinedButton}" />
                     <Button
                         Margin="5,0,5,0"
                         Command="{Binding WriteSelectedRegsCmd}"
                         Content="Write"
+                        Foreground="{StaticResource MaterialDesignDarkForeground}"
                         Style="{StaticResource MaterialDesignOutlinedButton}" />
                 </StackPanel>
 
@@ -129,7 +131,7 @@
                             BasedOn="{StaticResource MaterialDesignListBoxItem}"
                             TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
                         </Style>
                         <Style BasedOn="{StaticResource MaterialDesignListView}" TargetType="ListView">
                             <Setter Property="Background" Value="{StaticResource MaterialDesignDarkBackground}" />
@@ -180,11 +182,18 @@
                         <GridView>
                             <GridView.ColumnHeaderContainerStyle>
                                 <Style TargetType="GridViewColumnHeader">
-                                    <Setter Property="Height" Value="0" />
+                                    <Setter Property="Height" Value="20" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Margin" Value="5" />
+                                    <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}" />
+                                    <Setter Property="Background" Value="{StaticResource MaterialDesignDarkBackground}" />
                                 </Style>
                             </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn DisplayMemberBinding="{Binding Address, StringFormat=0x{0:X4}:}" />
-                            <GridViewColumn Width="105">
+                            <GridViewColumn
+                                Width="70"
+                                DisplayMemberBinding="{Binding Address, StringFormat=0x{0:X4}}"
+                                Header="Address" />
+                            <GridViewColumn Width="105" Header="Value">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox
