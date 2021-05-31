@@ -3,6 +3,7 @@ using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
+using System.Configuration;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -14,6 +15,7 @@ using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -110,28 +112,29 @@ namespace SIFP.ViewModels
         IDialogService dialogService;
         ICommunication comm;
         IContainerExtension container;
-
         public MainWindowViewModel(ICommunication communication, IContainerExtension container, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
             this.comm = communication;
             this.dialogService = dialogService;
             this.container = container;
+            InitTitle();
+
             OpenLeftDrawerCmd = new DelegateCommand<Type>(view =>
-              {
-                  LeftDrawerContent = container.Resolve(view);
-                  IsLeftDrawerOpen = true;
-              });
+            {
+                LeftDrawerContent = container.Resolve(view);
+                IsLeftDrawerOpen = true;
+            });
 
             MainRegionNavigationCmd = new DelegateCommand<string>(view =>
-              {
-                  regionManager.RequestNavigate(RegionNames.MainRegion, view);
-              });
+            {
+                regionManager.RequestNavigate(RegionNames.MainRegion, view);
+            });
 
             OpenPasswordDialogCmd = new DelegateCommand(() =>
-              {
-                  dialogService.ShowDialog(DialogNames.PasswordDialog, SwitchModeCallback);
-              });
+            {
+                dialogService.ShowDialog(DialogNames.PasswordDialog, SwitchModeCallback);
+            });
 
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigArithParamsView);
@@ -141,6 +144,11 @@ namespace SIFP.ViewModels
 
             this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsStreaming = isStreaming, ThreadOption.BackgroundThread, true);
 
+        }
+
+        private void InitTitle()
+        {
+            Title += $" - {ConfigurationManager.AppSettings["TitleExtension"]}";
         }
     }
 }
