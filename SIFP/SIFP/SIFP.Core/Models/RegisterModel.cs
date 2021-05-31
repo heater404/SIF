@@ -45,7 +45,7 @@ namespace SIFP.Core.Models
         public UInt16 Address
         {
             get { return address; }
-            private set { address = value; RaisePropertyChanged(); }
+            set { address = value; RaisePropertyChanged(); }
         }
 
         public UInt32 RegVal

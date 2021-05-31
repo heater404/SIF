@@ -2,11 +2,13 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Services;
 using Services.Interfaces;
 using SIFP.Core.Enums;
 using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -24,19 +26,24 @@ namespace RegMap.ViewModels
     public class RegMapViewModel : RegionViewModelBase
     {
         private ICommunication comm;
-        public RegMapViewModel(IRegionManager regionManager, IEventAggregator eventAggregator, ICommunication communication) : base(regionManager, eventAggregator)
+        public RegMapViewModel(RegMapServer regMap, IRegionManager regionManager, IEventAggregator eventAggregator, ICommunication communication) : base(regionManager, eventAggregator)
         {
+            this.rms = regMap;
             this.comm = communication;
             InitRegisters();
             InitCmds();
-            Messenger.Default.Register<RegStruct[]>(this, "RecvRegs", RecvRegs);
+            this.EventAggregator.GetEvent<ReadRegisterReplyEvent>().Subscribe(reply =>
+            {
+                RecvRegs(reply.ConfigRegister.Regs);
+            });
         }
+        
         #region Field
 
-        private readonly RegMapServer rms = new RegMapServer();
+        private readonly RegMapServer rms ;
         private List<RegisterModel> registers = new List<RegisterModel>();
         private string configFilePath = "ConifgFilePath";
-        private string path = @"Config/RegMap2610.xml";
+        private string path = @"Configs/RegMap2610.xml";
         private bool canUserOperate = true;
         private bool isLoading = false;
         private List<UInt32> selectedRegsAddr = new List<UInt32>();
@@ -75,7 +82,7 @@ namespace RegMap.ViewModels
         #region Commands
 
         public DelegateCommand<string> GroupCmd { get; set; }
-        public DelegateCommand<TextChangedEventArgs> QueryCmd { get; set; }
+        public DelegateCommand<string> QueryCmd { get; set; }
         public DelegateCommand<object> ModifyBitsCmd { get; set; }
         public DelegateCommand ReadAllRegCmd { get; set; }
         public DelegateCommand WriteAllRegCmd { get; set; }
@@ -84,7 +91,7 @@ namespace RegMap.ViewModels
         public DelegateCommand WriteSelectedRegsCmd { get; set; }
         public DelegateCommand OpenConfigRegCmd { get; set; }
         public DelegateCommand WriteConfigRegCmd { get; set; }
-        public DelegateCommand<IList<RegisterModel>> SelectionChangedCmd { get; set; }
+        public DelegateCommand<IList> SelectionChangedCmd { get; set; }
 
         #endregion Commands
 
@@ -93,7 +100,7 @@ namespace RegMap.ViewModels
         private void InitCmds()
         {
             GroupCmd = new DelegateCommand<string>(GroupChoose);
-            QueryCmd = new DelegateCommand<TextChangedEventArgs>(Query);
+            QueryCmd = new DelegateCommand<string>(Query);
             ModifyBitsCmd = new DelegateCommand<object>(ModifyBits);
             ReadAllRegCmd = new DelegateCommand(ReadAllReg, CanUserOperate);
             WriteAllRegCmd = new DelegateCommand(WriteAllReg, CanUserOperate);
@@ -102,10 +109,10 @@ namespace RegMap.ViewModels
             WriteSelectedRegsCmd = new DelegateCommand(WriteSelectedRegs);
             OpenConfigRegCmd = new DelegateCommand(LoadConfigReg, CanUserOperate);
             WriteConfigRegCmd = new DelegateCommand(WriteConfigReg, CanUserOperate);
-            SelectionChangedCmd = new DelegateCommand<IList<RegisterModel>>(SelectionChanged);
+            SelectionChangedCmd = new DelegateCommand<IList>(SelectionChanged);
         }
 
-        private void SelectionChanged(IList<RegisterModel> args)
+        private void SelectionChanged(IList args)
         {
             //todo  addItems into a list and RemoveItems removed from list
             //foreach (RegisterModel remove in args.RemovedItems)
@@ -283,9 +290,9 @@ namespace RegMap.ViewModels
             {
                 rms[reg.RegAddr] = new Tuple<uint, uint>(rms[reg.RegAddr].Item1, rms[reg.RegAddr].Item1);//更新LastVal
                 rms[reg.RegAddr] = new Tuple<uint, uint>(reg.RegValue, rms[reg.RegAddr].Item2);//更新RegVal
-                                                                                             //因为socket send之后会立马recv。但是Send的日志时间不是在send之后立马执行的，recv是立马执行的。
-                                                                                             //只要从日志的打印来看感觉是先Recv的
-                                                                                             //为了避免该情况 在recv的日志这里做了延时，具体延时多少随缘
+                                                                                               //因为socket send之后会立马recv。但是Send的日志时间不是在send之后立马执行的，recv是立马执行的。
+                                                                                               //只要从日志的打印来看感觉是先Recv的
+                                                                                               //为了避免该情况 在recv的日志这里做了延时，具体延时多少随缘
                 Thread.Sleep(60);
                 //WatchLog.PrintWatchLog($"Recv One Reg=>[0x{reg.RegAddr:X4}:0x{rms[reg.RegAddr].Item1:X8}]", LogType.Warning);
             }
@@ -300,10 +307,9 @@ namespace RegMap.ViewModels
             rms.UpdateRegValue(addr, index);
         }
 
-        private void Query(TextChangedEventArgs args)
+        private void Query(string text)
         {
             ICollectionView view = CollectionViewSource.GetDefaultView(Registers);
-            TextBox textBox = args.OriginalSource as TextBox;
 
             if (view != null)
             {
@@ -313,7 +319,7 @@ namespace RegMap.ViewModels
                         if (obj is RegisterModel reg)
                         {
                             string addrUpper = "0X" + reg.Address.ToString("X4");
-                            if (addrUpper.Contains(textBox.Text) || addrUpper.ToLower().Contains(textBox.Text))
+                            if (addrUpper.Contains(text) || addrUpper.ToLower().Contains(text))
                                 return true;
                         }
 

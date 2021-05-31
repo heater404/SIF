@@ -1,4 +1,5 @@
 ﻿using Serilog;
+using Services.Interfaces;
 using SIFP.Core.Enums;
 using SIFP.Core.Models;
 using System;
@@ -16,8 +17,12 @@ namespace Services
     public class RegMapServer
     {
         private readonly Dictionary<string, List<RegisterModel>> registers = new Dictionary<string, List<RegisterModel>>();
-        private readonly Communication comm;
+        private readonly ICommunication comm;
         public const Int32 MaxRWLength = 10;
+        public RegMapServer(ICommunication communication)
+        {
+            this.comm = communication;
+        }
         public Tuple<UInt32, UInt32> this[UInt32 addr]//[value,LastValue]
         {
             get
@@ -322,9 +327,9 @@ namespace Services
                     registers.Add(rt.Name.ToString(), list);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Log.Error(ex,"GetRegMap");
             }
         }
     }
