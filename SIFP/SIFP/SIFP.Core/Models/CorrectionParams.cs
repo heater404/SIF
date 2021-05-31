@@ -122,6 +122,11 @@ namespace SIFP.Core.Models
 
         [FieldOrder(2)]
         public UInt32 PresetMaxDist { get; set; } = 7000;//最大预置距离单位mm 0~65535, step: 1 7000
+
+        //Detect white board and fix abnormal points
+        [FieldOrder(3)]
+        [FieldLength(4)]
+        public bool DetectWB { get; set; } = false;
     }
 
     public class Others

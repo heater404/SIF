@@ -209,6 +209,12 @@ namespace ConfigArithParams.ViewModels
                 ConfigArithParamsAsync();
             }
         }
+
+        public bool DetectWB
+        {
+            get { return corrParams.FusionParams.DetectWB; }
+            set { corrParams.FusionParams.DetectWB = value;RaisePropertyChanged();ConfigArithParamsAsync(); }
+        }
         #endregion
 
         #region Others

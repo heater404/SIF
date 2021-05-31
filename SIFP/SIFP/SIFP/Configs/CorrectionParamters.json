@@ -24,7 +24,8 @@
     },
     "FusionParams": {
         "SFDeAliasing": true,
-        "PresetMaxDist": 7000
+        "PresetMaxDist": 7000,
+        "DetectWB":false
     },
     "OthersParams": {
         "AE": false,
