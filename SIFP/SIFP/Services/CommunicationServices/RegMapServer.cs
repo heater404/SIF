@@ -1,7 +1,9 @@
-﻿using Serilog;
+﻿using Prism.Events;
+using Serilog;
 using Services.Interfaces;
 using SIFP.Core.Enums;
 using SIFP.Core.Models;
+using SIFP.Core.Mvvm;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,10 +20,12 @@ namespace Services
     {
         private readonly Dictionary<string, List<RegisterModel>> registers = new Dictionary<string, List<RegisterModel>>();
         private readonly ICommunication comm;
+        private IEventAggregator eventAggregator;
         public const Int32 MaxRWLength = 10;
-        public RegMapServer(ICommunication communication)
+        public RegMapServer(ICommunication communication, IEventAggregator eventAggregator)
         {
             this.comm = communication;
+            this.eventAggregator = eventAggregator;
         }
         public Tuple<UInt32, UInt32> this[UInt32 addr]//[value,LastValue]
         {
@@ -189,7 +193,7 @@ namespace Services
             for (int i = 0; i < addrs.Length; i++)
             {
                 if (IsReadableAddr(addrs[i]))
-                    regs.Add(new RegStruct { RegAddr = addrs[i], RegValue = 0 });
+                    regs.Add(new RegStruct { RegAddr = addrs[i], RegVal = 0 });
             }
 
             while (regs.Count > 0)
@@ -205,6 +209,12 @@ namespace Services
             return false;
         }
 
+        private void PrintWatchLog(string msg,LogLevel level)
+        {
+            this.eventAggregator.GetEvent<WatchLogEvent>().Publish(new LogModel(msg, level));
+        }
+
+
         private bool ReadRegs(RegStruct[] regs)
         {
             if (comm.ReadRegs(regs, GetRegDeviceType(regs)))
@@ -216,7 +226,7 @@ namespace Services
                         msg += $"[0x{reg.RegAddr:x4}] ";
                     }
 
-                    //WatchLog.PrintWatchLog($"Read Regs : {msg}", LogType.Info);
+                    PrintWatchLog($"Read Regs : {msg}", LogLevel.Info);
                 }
                 return true;
             }
@@ -230,7 +240,7 @@ namespace Services
             for (int i = 0; i < addrs.Length; i++)
             {
                 if (IsWriteableAddr(addrs[i]))
-                    regs.Add(new RegStruct { RegAddr = addrs[i], RegValue = this[(UInt16)(addrs[i])].Item1 });
+                    regs.Add(new RegStruct { RegAddr = addrs[i], RegVal = this[(UInt16)(addrs[i])].Item1 });
             }
 
             while (regs.Count > 0)
@@ -254,10 +264,10 @@ namespace Services
                     string msg = string.Empty;
                     foreach (var reg in regs)
                     {
-                        msg += $"[0x{reg.RegAddr:X4}:0x{reg.RegValue:X8}] ";
+                        msg += $"[0x{reg.RegAddr:X4}:0x{reg.RegVal:X8}] ";
                     }
 
-                    //WatchLog.PrintWatchLog($"Write Regs : {msg}", LogType.Info);
+                    PrintWatchLog($"Write Regs : {msg}", LogLevel.Info);
                 }
 
                 return true;
@@ -276,7 +286,7 @@ namespace Services
                     RegOperateStruct regOperateStruct = new RegOperateStruct
                     {
                         OperateType = reg.IsWriteable ? RegOperateType.Write : RegOperateType.Read,
-                        Register = new RegStruct { RegAddr = reg.Address, RegValue = reg.RegVal },
+                        Register = new RegStruct { RegAddr = reg.Address, RegVal = reg.RegVal },
                     };
                     script.Add(regOperateStruct);
                 }

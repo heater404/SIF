@@ -16,7 +16,7 @@ namespace SIFP.Core.Models
 
         [FieldOrder(2)]
         [JsonConverter(typeof(DecimalHexConverter))]
-        public UInt32 RegValue { get; set; }
+        public UInt32 RegVal { get; set; }
     }
     public struct RegOperateStruct
     {

@@ -155,7 +155,7 @@ namespace RegMap.ViewModels
                     if (reg.OperateType == RegOperateType.Write || reg.OperateType == RegOperateType.WriteRead)
                     {
                         rms[reg.Register.RegAddr] = new Tuple<uint, uint>(rms[reg.Register.RegAddr].Item1, rms[reg.Register.RegAddr].Item1); //需要更新LastVal
-                        rms[reg.Register.RegAddr] = new Tuple<uint, uint>(reg.Register.RegValue, rms[reg.Register.RegAddr].Item2); //再更新RegVal 
+                        rms[reg.Register.RegAddr] = new Tuple<uint, uint>(reg.Register.RegVal, rms[reg.Register.RegAddr].Item2); //再更新RegVal 
                     }
 
                     switch (reg.OperateType)
@@ -198,7 +198,11 @@ namespace RegMap.ViewModels
 
                 try
                 {
-                    configRegs = JsonSerializer.Deserialize<List<RegOperateStruct>>(script);
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        ReadCommentHandling = JsonCommentHandling.Skip,
+                    };
+                    configRegs = JsonSerializer.Deserialize<List<RegOperateStruct>>(script, options);
                     /*将此处的更新regval放在写每一个寄存器之前，
                      * 因为在这里更新regval，如果脚本中有相同地址的reg，那么上一个相同地址的regval会被覆盖
                      */
@@ -289,12 +293,12 @@ namespace RegMap.ViewModels
             foreach (var reg in regs)
             {
                 rms[reg.RegAddr] = new Tuple<uint, uint>(rms[reg.RegAddr].Item1, rms[reg.RegAddr].Item1);//更新LastVal
-                rms[reg.RegAddr] = new Tuple<uint, uint>(reg.RegValue, rms[reg.RegAddr].Item2);//更新RegVal
+                rms[reg.RegAddr] = new Tuple<uint, uint>(reg.RegVal, rms[reg.RegAddr].Item2);//更新RegVal
                                                                                                //因为socket send之后会立马recv。但是Send的日志时间不是在send之后立马执行的，recv是立马执行的。
                                                                                                //只要从日志的打印来看感觉是先Recv的
                                                                                                //为了避免该情况 在recv的日志这里做了延时，具体延时多少随缘
-                Thread.Sleep(60);
-                //WatchLog.PrintWatchLog($"Recv One Reg=>[0x{reg.RegAddr:X4}:0x{rms[reg.RegAddr].Item1:X8}]", LogType.Warning);
+                Thread.Sleep(100);
+                PrintWatchLog($"Recv One Reg=>[0x{reg.RegAddr:X4}:0x{rms[reg.RegAddr].Item1:X8}]", LogLevel.Warning);
             }
         }
 
