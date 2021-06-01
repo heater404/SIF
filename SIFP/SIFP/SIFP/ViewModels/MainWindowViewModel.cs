@@ -3,6 +3,7 @@ using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
+using System.Configuration;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -17,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace SIFP.ViewModels
 {
@@ -107,31 +109,50 @@ namespace SIFP.ViewModels
         public DelegateCommand OpenPasswordDialogCmd { get; set; }
         public DelegateCommand<Type> OpenLeftDrawerCmd { get; set; }
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
+        public DelegateCommand HelperCmd { get; set; }
         IDialogService dialogService;
         ICommunication comm;
         IContainerExtension container;
-
         public MainWindowViewModel(ICommunication communication, IContainerExtension container, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
             this.comm = communication;
             this.dialogService = dialogService;
             this.container = container;
-            OpenLeftDrawerCmd = new DelegateCommand<Type>(view =>
+            InitTitle();
+
+            HelperCmd = new DelegateCommand(() =>
               {
-                  LeftDrawerContent = container.Resolve(view);
-                  IsLeftDrawerOpen = true;
+                  try
+                  {
+                      ProcessStartInfo info = new ProcessStartInfo
+                      {
+                          UseShellExecute = true,
+                          FileName = @"Configs\helper.pdf",
+                      };
+                      Process.Start(info);
+                  }
+                  catch (Exception ex)
+                  {
+                      Log.Logger.Error(ex.Message);
+                  }
               });
+
+            OpenLeftDrawerCmd = new DelegateCommand<Type>(view =>
+            {
+                LeftDrawerContent = container.Resolve(view);
+                IsLeftDrawerOpen = true;
+            });
 
             MainRegionNavigationCmd = new DelegateCommand<string>(view =>
-              {
-                  regionManager.RequestNavigate(RegionNames.MainRegion, view);
-              });
+            {
+                regionManager.RequestNavigate(RegionNames.MainRegion, view);
+            });
 
             OpenPasswordDialogCmd = new DelegateCommand(() =>
-              {
-                  dialogService.ShowDialog(DialogNames.PasswordDialog, SwitchModeCallback);
-              });
+            {
+                dialogService.ShowDialog(DialogNames.PasswordDialog, SwitchModeCallback);
+            });
 
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigArithParamsView);
@@ -141,6 +162,20 @@ namespace SIFP.ViewModels
 
             this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsStreaming = isStreaming, ThreadOption.BackgroundThread, true);
 
+        }
+
+        private void InitTitle()
+        {
+            try
+            {
+                var extension = ConfigurationManager.AppSettings["TitleExtension"];
+                if (extension != string.Empty)
+                    Title += $" - {extension}";
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex.Message);
+            }
         }
     }
 }

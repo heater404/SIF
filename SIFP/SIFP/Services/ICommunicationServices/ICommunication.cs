@@ -38,5 +38,7 @@ namespace Services.Interfaces
         bool? ConfigArithParams(CorrectionParams correction,PostProcParams postProc);
 
         bool? ConfigVcselDriver(ConfigVcselDriver vcselDriver);
+
+        bool? GetLensArgs(int millisecondsTimeout);
     }
 }

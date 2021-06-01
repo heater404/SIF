@@ -12,7 +12,7 @@ namespace SIFP.Core.Models
     {
         public override uint GetMsgLen()
         {
-            return 160;
+            return 164;
         }
 
         [FieldOrder(1)]

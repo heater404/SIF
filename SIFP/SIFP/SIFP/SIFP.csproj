@@ -9,14 +9,19 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="App.config" />
     <None Remove="Configs\Camera.json" />
     <None Remove="Configs\ConfigAlg.json" />
     <None Remove="Configs\ConfigCamera.json" />
     <None Remove="Configs\CorrectionParamters.json" />
+    <None Remove="Configs\helper.pdf" />
     <None Remove="Configs\PostProcParameters.json" />
     <None Remove="Configs\RegMap2610.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Configs\Camera.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -30,6 +35,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Configs\PostProcParameters.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\helper.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

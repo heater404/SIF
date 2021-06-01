@@ -46,8 +46,7 @@
                         <RadioButton
                             Command="{Binding OpenLeftDrawerCmd}"
                             CommandParameter="{x:Static local:ConfigViewTypes.ConfigArithParamsView}"
-                            Style="{StaticResource MaterialDesignTabRadioButton}"
-                            Visibility="{Binding IsExpertMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            Style="{StaticResource MaterialDesignTabRadioButton}">
                             <RadioButton.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="Tune" />
@@ -137,7 +136,7 @@
                                     Content="Debug"
                                     IsChecked="{Binding IsDebug, Mode=TwoWay}" />
                                 <Separator />-->
-                                <Button Content="Help" />
+                                <Button Command="{Binding HelperCmd}" Content="Help" />
                                 <Button Content="About" />
                                 <Separator />
                                 <TextBox

@@ -24,6 +24,7 @@ namespace Services
         private readonly AutoResetEvent disconnectCameraWaitHandle = new AutoResetEvent(false);
         private readonly AutoResetEvent configAlgWaitHandle = new AutoResetEvent(false);
         private readonly AutoResetEvent captureWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent lenArgsWaitHandle = new AutoResetEvent(false);
         private readonly Dictionary<RecvMsgAttribute, Action<MsgHeader>> procMap = new Dictionary<RecvMsgAttribute, Action<MsgHeader>>();
         private void InitProcessMap()
         {
@@ -406,6 +407,26 @@ namespace Services
             return client.Send(msg) > 0;
         }
 
+        public bool? GetLensArgs(int millisecondsTimeout)
+        {
+            if (null == client)
+                return false;
+
+            LensArgsRequest msg = new LensArgsRequest()
+            {
+
+            };
+
+            if (0 < client.Send(msg))
+            {
+                if (lenArgsWaitHandle.WaitOne(millisecondsTimeout))
+                    return true;
+                else
+                    return null;
+            }
+            return false;
+        }
+
         public async Task GetSysStatusAsync(CancellationToken cancellationToken, int interval)
         {
             if (null == client)
@@ -567,6 +588,16 @@ namespace Services
             {
                 eventAggregator.GetEvent<DisconnectCameraReplyEvent>().Publish(msg);
             }
+        }
+
+        [RecvMsg(MsgTypeE.LensArgsReplyType, typeof(LensArgsReply))]
+        private void CmdProcLensArgsReply(MsgHeader pkt)
+        {
+            if (pkt is not LensArgsReply msg)
+                return;
+
+            if (lenArgsWaitHandle.Set())
+                this.eventAggregator.GetEvent<LensArgsReplyEvent>().Publish(msg);
         }
     }
 }
