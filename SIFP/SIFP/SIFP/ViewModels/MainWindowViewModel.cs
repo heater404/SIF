@@ -167,7 +167,16 @@ namespace SIFP.ViewModels
 
         private void InitTitle()
         {
-            Title += $" - {ConfigurationManager.AppSettings["TitleExtension"]}";
+            try
+            {
+                var extension = ConfigurationManager.AppSettings["TitleExtension"];
+                if (extension != string.Empty)
+                    Title += $" - {extension}";
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex.Message);
+            }
         }
     }
 }
