@@ -19,6 +19,7 @@ using System.Configuration;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace SIFP.ViewModels
 {
@@ -109,6 +110,7 @@ namespace SIFP.ViewModels
         public DelegateCommand OpenPasswordDialogCmd { get; set; }
         public DelegateCommand<Type> OpenLeftDrawerCmd { get; set; }
         public DelegateCommand<string> MainRegionNavigationCmd { get; set; }
+        public DelegateCommand HelperCmd { get; set; }
         IDialogService dialogService;
         ICommunication comm;
         IContainerExtension container;
@@ -119,6 +121,23 @@ namespace SIFP.ViewModels
             this.dialogService = dialogService;
             this.container = container;
             InitTitle();
+
+            HelperCmd = new DelegateCommand(() =>
+              {
+                  try
+                  {
+                      ProcessStartInfo info = new ProcessStartInfo
+                      {
+                          UseShellExecute = true,
+                          FileName = @"Configs\helper.pdf",
+                      };
+                      Process.Start(info);
+                  }
+                  catch (Exception ex)
+                  {
+                      Log.Logger.Error(ex.Message);
+                  }
+              });
 
             OpenLeftDrawerCmd = new DelegateCommand<Type>(view =>
             {

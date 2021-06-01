@@ -136,7 +136,7 @@
                                     Content="Debug"
                                     IsChecked="{Binding IsDebug, Mode=TwoWay}" />
                                 <Separator />-->
-                                <Button Content="Help" />
+                                <Button Command="{Binding HelperCmd}" Content="Help" />
                                 <Button Content="About" />
                                 <Separator />
                                 <TextBox

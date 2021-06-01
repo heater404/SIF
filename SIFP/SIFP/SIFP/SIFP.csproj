@@ -14,6 +14,7 @@
     <None Remove="Configs\ConfigAlg.json" />
     <None Remove="Configs\ConfigCamera.json" />
     <None Remove="Configs\CorrectionParamters.json" />
+    <None Remove="Configs\helper.pdf" />
     <None Remove="Configs\PostProcParameters.json" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +34,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Configs\PostProcParameters.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\helper.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
