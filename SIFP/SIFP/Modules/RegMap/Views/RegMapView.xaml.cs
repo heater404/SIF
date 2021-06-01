@@ -27,15 +27,15 @@ namespace RegMap.Views
 
         private void ListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateColumnsWidth(sender as ListView);
+            UpdateColumnsWidth(sender as ListView, 0);
         }
 
         private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdateColumnsWidth(sender as ListView);
+            UpdateColumnsWidth(sender as ListView, 120);
         }
 
-        private void UpdateColumnsWidth(ListView listView)
+        private void UpdateColumnsWidth(ListView listView, double margin)
         {
             int autoFillColumnIndex = (listView.View as GridView).Columns.Count - 1;
             if (listView.ActualWidth == Double.NaN)
@@ -44,7 +44,7 @@ namespace RegMap.Views
             for (int i = 0; i < (listView.View as GridView).Columns.Count; i++)
                 if (i != autoFillColumnIndex)
                     remainingSpace -= (listView.View as GridView).Columns[i].ActualWidth;
-            (listView.View as GridView).Columns[autoFillColumnIndex].Width = remainingSpace >= 0 ? remainingSpace : 0;
+            (listView.View as GridView).Columns[autoFillColumnIndex].Width = remainingSpace >= 0 ? remainingSpace - margin : 0;
         }
     }
 }

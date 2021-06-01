@@ -357,7 +357,7 @@ namespace Services
             {
                 ConfigRegister = new ConfigRegisterModel
                 {
-                    DevType = DevTypeE.TOF,
+                    DevType = devType,
                     NumRegs = (UInt32)regs.Length,
                     Regs = regs,
                 }
@@ -381,7 +381,7 @@ namespace Services
             {
                 ConfigRegister = new ConfigRegisterModel
                 {
-                    DevType = DevTypeE.TOF,
+                    DevType = devType,
                     NumRegs = (UInt32)regs.Length,
                     Regs = regs,
                 }

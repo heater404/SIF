@@ -42,7 +42,7 @@ namespace RegMap.ViewModels
 
         private readonly RegMapServer rms ;
         private List<RegisterModel> registers = new List<RegisterModel>();
-        private string configFilePath = "ConifgFilePath";
+        private string configFilePath = "";
         private string path = @"Configs/RegMap2610.xml";
         private bool canUserOperate = true;
         private bool isLoading = false;

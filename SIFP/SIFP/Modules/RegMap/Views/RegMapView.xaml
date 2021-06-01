@@ -43,18 +43,20 @@
                 <TextBox
                     MaxWidth="400"
                     MaxHeight="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Path=ActualHeight}"
-                    Margin="5"
+                    Margin="5,5,5,9"
                     VerticalAlignment="Center"
+                    materialDesign:HintAssist.Hint="ConfigFilePath"
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     Text="{Binding ConfigFilePath}"
                     TextWrapping="Wrap" />
             </StackPanel>
         </materialDesign:Card>
 
-        <materialDesign:Card Grid.Row="1" Margin="5">
+        <materialDesign:Card Grid.Row="1" Margin="5,0,5,5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
@@ -121,22 +123,33 @@
                 <ListView
                     x:Name="regList"
                     Grid.Row="1"
+                    Grid.Column="0"
                     Grid.ColumnSpan="3"
                     ItemsSource="{Binding Registers}"
                     Loaded="ListView_Loaded"
                     SizeChanged="ListView_SizeChanged">
                     <ListView.Resources>
-                        <Style
-                            x:Key="ListViewItemStyle"
-                            BasedOn="{StaticResource MaterialDesignListBoxItem}"
-                            TargetType="ListViewItem">
+                        <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
+                        <Style x:Key="ListViewItemStyle" TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="VerticalContentAlignment" Value="Center" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource AttentionToActionBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource AttentionToActionBrush}" />
+                                </Trigger>
+                            </Style.Triggers>
                         </Style>
                         <Style BasedOn="{StaticResource MaterialDesignListView}" TargetType="ListView">
+                            <Setter Property="ItemContainerStyle" Value="{StaticResource ListViewItemStyle}" />
                             <Setter Property="Background" Value="{StaticResource MaterialDesignDarkBackground}" />
                             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
                             <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True" />
+                            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible" />
                             <Setter Property="SelectionMode" Value="Extended" />
                             <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
                             <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
@@ -151,11 +164,11 @@
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate>
-                                        <Grid Margin="5,0,18,0">
+                                        <Grid Margin="5,0,5,0">
                                             <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Title}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <UniformGrid HorizontalAlignment="Stretch" Columns="32" />
+                                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" />
                                                     </ItemsPanelTemplate>
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
@@ -182,38 +195,37 @@
                         <GridView>
                             <GridView.ColumnHeaderContainerStyle>
                                 <Style TargetType="GridViewColumnHeader">
-                                    <Setter Property="Height" Value="20" />
-                                    <Setter Property="BorderThickness" Value="0" />
-                                    <Setter Property="Margin" Value="5" />
-                                    <Setter Property="Foreground" Value="{StaticResource MaterialDesignDarkForeground}" />
-                                    <Setter Property="Background" Value="{StaticResource MaterialDesignDarkBackground}" />
+                                    <Setter Property="Height" Value="0" />
                                 </Style>
                             </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn
-                                Width="70"
-                                DisplayMemberBinding="{Binding Address, StringFormat=0x{0:X4}}"
-                                Header="Address" />
-                            <GridViewColumn Width="105" Header="Value">
+                            <GridViewColumn>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBox
-                                            Width="85"
-                                            Height="20"
-                                            VerticalAlignment="Center"
-                                            HorizontalContentAlignment="Center"
-                                            VerticalContentAlignment="Center"
-                                            BorderThickness="0"
-                                            DockPanel.Dock="Left">
+                                            materialDesign:HintAssist.Hint="Address"
+                                            materialDesign:TextFieldAssist.PrefixText="0x"
+                                            IsReadOnly="True"
+                                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                            Text="{Binding Address, StringFormat={}{0:X4}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Value">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox materialDesign:HintAssist.Hint="Value" materialDesign:TextFieldAssist.PrefixText="0x">
                                             <TextBox.Text>
                                                 <Binding
                                                     Converter="{StaticResource HexConv}"
                                                     NotifyOnValidationError="True"
                                                     Path="RegVal"
-                                                    StringFormat="0x{0:X8}"
+                                                    StringFormat="{}{0:X8}"
                                                     UpdateSourceTrigger="PropertyChanged" />
                                             </TextBox.Text>
                                             <TextBox.Style>
-                                                <Style TargetType="TextBox">
+                                                <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="TextBox">
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                    <Setter Property="VerticalContentAlignment" Value="Center" />
                                                     <Style.Triggers>
                                                         <DataTrigger Value="false">
                                                             <DataTrigger.Binding>
@@ -222,7 +234,7 @@
                                                                     <Binding Mode="OneWay" Path="LastVal" />
                                                                 </MultiBinding>
                                                             </DataTrigger.Binding>
-                                                            <Setter Property="Background" Value="{StaticResource MaterialDesignLightForeground}" />
+                                                            <Setter Property="Background" Value="{StaticResource AttentionToActionBrush}" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -235,25 +247,25 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ItemsControl
-                                            Margin="0,0,10,0"
                                             HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Stretch"
-                                            FlowDirection="RightToLeft"
+                                            HorizontalContentAlignment="Center"
                                             ItemsSource="{Binding Bits}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <UniformGrid HorizontalAlignment="Stretch" Columns="32" />
+                                                    <UniformGrid
+                                                        Margin="0,0,20,0"
+                                                        HorizontalAlignment="Stretch"
+                                                        FlowDirection="RightToLeft"
+                                                        Columns="32" />
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
-
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <CheckBox
-                                                        HorizontalAlignment="Center"
-                                                        HorizontalContentAlignment="Center"
+                                                        Grid.Column="0"
                                                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.ModifyBitsCmd}"
                                                         IsChecked="{Binding Bit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                        ToolTip="{Binding Index, StringFormat=bit{0}}">
+                                                        ToolTip="{Binding Index}">
                                                         <CheckBox.IsEnabled>
                                                             <MultiBinding Converter="{StaticResource EnableConv}" Mode="OneTime">
                                                                 <Binding
@@ -275,8 +287,7 @@
                                                             </MultiBinding>
                                                         </CheckBox.CommandParameter>
                                                         <CheckBox.Style>
-                                                            <Style TargetType="CheckBox">
-                                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                                            <Style BasedOn="{StaticResource MaterialDesignCheckBox}" TargetType="CheckBox">
                                                                 <Style.Triggers>
                                                                     <DataTrigger Value="false">
                                                                         <DataTrigger.Binding>
@@ -294,21 +305,25 @@
                                                                                 <Binding Mode="OneWay" Path="Index" />
                                                                             </MultiBinding>
                                                                         </DataTrigger.Binding>
-                                                                        <Setter Property="Background" Value="{DynamicResource Checked}" />
+                                                                        <Setter Property="Background" Value="{StaticResource AttentionToActionBrush}" />
+                                                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                                                     </DataTrigger>
                                                                 </Style.Triggers>
+                                                                <!--  反转中心坐标  -->
+                                                                <!--<Setter Property="RenderTransformOrigin">
+                                                                    <Setter.Value>
+                                                                        <Point X="0.5" Y="0.5" />
+                                                                    </Setter.Value>
+                                                                </Setter>-->
+                                                                <!--  水平方向镜像反转  -->
+                                                                <!--<Setter Property="RenderTransform">
+                                                                    <Setter.Value>
+                                                                        <ScaleTransform ScaleX="1" />
+                                                                    </Setter.Value>
+                                                                </Setter>-->
                                                             </Style>
                                                         </CheckBox.Style>
-
-                                                        <!--  反转中心坐标
-                                                        <CheckBox.RenderTransformOrigin>
-                                                            <Point X="0.5" Y="0.5" />
-                                                        </CheckBox.RenderTransformOrigin>
-
-                                                         水平方向镜像反转-->
-                                                        <CheckBox.RenderTransform>
-                                                            <ScaleTransform ScaleX="-1" />
-                                                        </CheckBox.RenderTransform>
                                                     </CheckBox>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
