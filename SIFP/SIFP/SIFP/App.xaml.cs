@@ -99,6 +99,7 @@ namespace SIFP
             containerRegistry.RegisterSingleton<ConfigArithParamsView, ConfigArithParamsView>();
             containerRegistry.RegisterSingleton<ConfigAlgView, ConfigAlgView>();
             containerRegistry.RegisterSingleton<VcselDriverViewModel, VcselDriverViewModel>();
+            containerRegistry.RegisterSingleton<RegMapServer, RegMapServer>();
 
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);

@@ -350,14 +350,14 @@ namespace Services
         /// </summary>
         /// <param name="regs">协议中需要的数据</param>
         /// <returns></returns>
-        public bool ReadRegs(Register[] regs, DevTypeE devType)
+        public bool ReadRegs(RegStruct[] regs, DevTypeE devType)
         {
             bool success = false;
             MsgHeader msg = new ReadRegisterRequest()
             {
                 ConfigRegister = new ConfigRegisterModel
                 {
-                    DevType = DevTypeE.TOF,
+                    DevType = devType,
                     NumRegs = (UInt32)regs.Length,
                     Regs = regs,
                 }
@@ -374,14 +374,14 @@ namespace Services
         /// </summary>
         /// <param name="regs">协议中需要的数据</param>
         /// <returns></returns>
-        public bool WriteRegs(Register[] regs, DevTypeE devType)
+        public bool WriteRegs(RegStruct[] regs, DevTypeE devType)
         {
             bool success = false;
             MsgHeader msg = new WriteRegisterRequest()
             {
                 ConfigRegister = new ConfigRegisterModel
                 {
-                    DevType = DevTypeE.TOF,
+                    DevType = devType,
                     NumRegs = (UInt32)regs.Length,
                     Regs = regs,
                 }

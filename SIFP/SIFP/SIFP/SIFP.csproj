@@ -14,6 +14,7 @@
     <None Remove="Configs\ConfigCamera.json" />
     <None Remove="Configs\CorrectionParamters.json" />
     <None Remove="Configs\PostProcParameters.json" />
+    <None Remove="Configs\RegMap2610.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Configs\Camera.json">
@@ -55,5 +56,10 @@
     <ProjectReference Include="..\Services\CommunicationServices\Services.csproj" />
     <ProjectReference Include="..\Services\ICommunicationServices\Services.Interfaces.csproj" />
     <ProjectReference Include="..\SIFP.Core\SIFP.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Configs\RegMap2610.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
