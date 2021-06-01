@@ -27,6 +27,9 @@ namespace SIFP.Core.Enums
         ReadRegisterRequestType=0x125,
         ReadRegisterReplyType=0x126,
 
+        LensArgsRequestType=0x12A,
+        LensArgsReplyType=0x12B,
+
         DisconnectCameraRequestType =0x12E,
 
         StartStreamingRequestType=0x12f,

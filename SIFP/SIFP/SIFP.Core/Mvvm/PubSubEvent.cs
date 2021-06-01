@@ -62,4 +62,5 @@ namespace SIFP.Core.Mvvm
     public class ConfigCameraSuccessEvent : PubSubEvent<bool> { };
 
     public class MainWindowEnableEvent : PubSubEvent<bool> { };
+    public class LensArgsReplyEvent : PubSubEvent<LensArgsReply> { };
 }

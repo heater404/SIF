@@ -181,6 +181,11 @@ namespace Tool.ViewModels
             {
                 user = type;
             }, true);
+
+            this.EventAggregator.GetEvent<LensArgsReplyEvent>().Subscribe(reply =>
+            {
+                this.lensArgs = reply.LensArgs;
+            }, true);
         }
 
         private void ShowVcselDriverDialog()
@@ -285,8 +290,32 @@ namespace Tool.ViewModels
                 return false;
             }
 
+            GetLenArgs();
+            this.PrintWatchLog(this.lensArgs.ToString(), LogLevel.Info);
             string args = resolution.Width + "*" + resolution.Height + "_" + this.lensArgs.ToString();
             EventAggregator.GetEvent<OpenPointCloudEvent>().Publish(args);
+            return true;
+        }
+
+        private bool GetLenArgs()
+        {
+            var res = comm.GetLensArgs(2000);
+            if (res.HasValue)
+            {
+                if (!res.Value)
+                {
+                    this.PrintWatchLog("GetLensArgs Fail", LogLevel.Error);
+                }
+                else
+                {
+                    this.PrintWatchLog("GetLensArgs Success", LogLevel.Warning);
+                }
+            }
+            else
+            {
+                this.PrintWatchLog("GetLensArgs Timeout", LogLevel.Error);
+            }
+
             return true;
         }
 
