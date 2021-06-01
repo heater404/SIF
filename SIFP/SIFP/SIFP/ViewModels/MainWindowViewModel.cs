@@ -15,7 +15,6 @@ using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -162,6 +161,7 @@ namespace SIFP.ViewModels
             this.EventAggregator.GetEvent<MainWindowEnableEvent>().Subscribe(b => IsEnable = b, true);
 
             this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsStreaming = isStreaming, ThreadOption.BackgroundThread, true);
+
         }
 
         private void InitTitle()
