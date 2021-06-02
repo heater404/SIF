@@ -30,9 +30,11 @@ namespace RegMap.Views
             UpdateColumnsWidth(sender as ListView, 0);
         }
 
+        int count = 0;
         private void ListView_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdateColumnsWidth(sender as ListView, 120);
+            UpdateColumnsWidth(sender as ListView, count == 0 ? 120 : 0);
+            count++;
         }
 
         private void UpdateColumnsWidth(ListView listView, double margin)

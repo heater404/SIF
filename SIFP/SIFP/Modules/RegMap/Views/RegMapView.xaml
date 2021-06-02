@@ -85,7 +85,7 @@
                     ItemsSource="{Binding MapPages}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal" />
+                            <VirtualizingStackPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -255,8 +255,8 @@
                                                     <UniformGrid
                                                         Margin="0,0,20,0"
                                                         HorizontalAlignment="Stretch"
-                                                        FlowDirection="RightToLeft"
-                                                        Columns="32" />
+                                                        Columns="32"
+                                                        FlowDirection="RightToLeft" />
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
