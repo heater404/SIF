@@ -142,6 +142,7 @@ namespace Tool.ViewModels
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
         private UserAccessType user = UserAccessType.Normal;
+        AutoResetEvent lensArgsHandle = new AutoResetEvent(false);
         public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             this.comm = comm;
@@ -185,6 +186,7 @@ namespace Tool.ViewModels
             this.EventAggregator.GetEvent<LensArgsReplyEvent>().Subscribe(reply =>
             {
                 this.lensArgs = reply.LensArgs;
+                lensArgsHandle.Set();
             }, true);
         }
 
@@ -291,6 +293,7 @@ namespace Tool.ViewModels
             }
 
             GetLenArgs();
+            lensArgsHandle.WaitOne(200);
             this.PrintWatchLog(this.lensArgs.ToString(), LogLevel.Info);
             string args = resolution.Width + "*" + resolution.Height + "_" + this.lensArgs.ToString();
             EventAggregator.GetEvent<OpenPointCloudEvent>().Publish(args);
