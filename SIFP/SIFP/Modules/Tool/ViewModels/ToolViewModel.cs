@@ -402,7 +402,7 @@ namespace Tool.ViewModels
             if (!comm.Open())
             {
                 this.PrintNoticeLog("Open CommClient Fail", LogLevel.Error);
-                this.PrintWatchLog("Open Commlient Fail", LogLevel.Error);
+                this.PrintWatchLog("Open CommClient Fail", LogLevel.Error);
                 return false;
             }
 
@@ -418,13 +418,13 @@ namespace Tool.ViewModels
             }
             else
             {
-                this.PrintNoticeLog("OpenCamera Timeout", LogLevel.Error);
-                this.PrintWatchLog("OpenCamera Timeout", LogLevel.Error);
+                this.PrintNoticeLog("ConnectCamera Timeout", LogLevel.Error);
+                this.PrintWatchLog("ConnectCamera Timeout", LogLevel.Error);
                 return false;
             }
 
-            this.PrintNoticeLog("OpenCamera Success", LogLevel.Warning);
-            this.PrintWatchLog("OpenCamera Success", LogLevel.Warning);
+            this.PrintNoticeLog("ConnectCamera Success", LogLevel.Warning);
+            this.PrintWatchLog("ConnectCamera Success", LogLevel.Warning);
             return true;
         }
 

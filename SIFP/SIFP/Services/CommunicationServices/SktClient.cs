@@ -60,7 +60,7 @@ namespace Services
 
         private void RecvDataCallBack(IAsyncResult ar)
         {
-            try
+            try 
             {
                 if (client != null)
                 {
