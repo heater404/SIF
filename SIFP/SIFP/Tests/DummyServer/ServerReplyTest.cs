@@ -37,7 +37,7 @@ namespace DummyServer
                 return 0;
 
             msg.PktSN = 0x12345678;
-            msg.TotalMsgNum = 1;
+            msg.TotalMsgLen = 1;
             msg.MsgSn = 0;
             msg.MsgType = msg.GetMsgType();
             msg.MsgLen = msg.GetMsgLen();
