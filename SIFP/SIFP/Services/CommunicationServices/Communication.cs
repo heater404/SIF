@@ -25,6 +25,7 @@ namespace Services
         private readonly AutoResetEvent configAlgWaitHandle = new AutoResetEvent(false);
         private readonly AutoResetEvent captureWaitHandle = new AutoResetEvent(false);
         private readonly AutoResetEvent lenArgsWaitHandle = new AutoResetEvent(false);
+        private readonly AutoResetEvent detectWaitHandle = new AutoResetEvent(false);
         private readonly Dictionary<RecvMsgAttribute, Action<MsgHeader>> procMap = new Dictionary<RecvMsgAttribute, Action<MsgHeader>>();
         private void InitProcessMap()
         {
@@ -58,7 +59,6 @@ namespace Services
 
             if (client.Open())
             {
-                Subscribe();
                 return true;
             }
 
@@ -73,7 +73,7 @@ namespace Services
             return client.Close();
         }
 
-        private void Subscribe()
+        public void Subscribe()
         {
             List<UInt32> msgTable = new List<uint>();
             foreach (var item in procMap)
@@ -476,6 +476,36 @@ namespace Services
             return client.Send(msg) > 0;
         }
 
+        public bool Detect(int times)
+        {
+            if (null == client)
+                return false;
+
+            for (int i = 0; i < times; i++)
+            {
+                DetectRequest msg = new DetectRequest()
+                {
+                    DetectMsg = new Detect { SN = 0xffffffff },
+                };
+
+                detectAck = false;
+                if (client.Send(msg) > 0)
+                {
+                    if (detectWaitHandle.WaitOne(2000))
+                    {
+                        if (detectAck)
+                            return true;
+                        else
+                            continue;
+                    }
+                    else
+                        continue;
+                }
+                return false;
+            }
+            return false;
+        }
+
         [RecvMsg(MsgTypeE.ConfigCameraReplyType, typeof(ConfigCameraReply))]
         private void CmdProConfigCameraReply(MsgHeader pkt)
         {
@@ -598,6 +628,17 @@ namespace Services
 
             if (lenArgsWaitHandle.Set())
                 this.eventAggregator.GetEvent<LensArgsReplyEvent>().Publish(msg);
+        }
+
+        bool detectAck = false;
+        [RecvMsg(MsgTypeE.DetectReplyType, typeof(DetectReply))]
+        private void CmdProcDetectReply(MsgHeader pkt)
+        {
+            if (pkt is not DetectReply msg)
+                return;
+
+            detectAck = msg.DetectMsg.ACK == 1;
+            detectWaitHandle.Set();
         }
     }
 }

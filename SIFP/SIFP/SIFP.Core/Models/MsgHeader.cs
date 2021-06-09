@@ -38,7 +38,7 @@ namespace SIFP.Core.Models
 
         //更改为总的包个数
         [FieldOrder(2)]
-        public uint TotalMsgNum { get; set; }
+        public uint TotalMsgLen { get; set; }
 
         [FieldOrder(3)]
         public uint MsgSn { get; set; }

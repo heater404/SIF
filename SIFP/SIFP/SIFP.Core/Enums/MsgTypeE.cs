@@ -8,6 +8,9 @@ namespace SIFP.Core.Enums
 {
     public enum MsgTypeE : UInt32
     {
+        DetectRequestType=0x11,
+        DetectReplyType=0x12,
+
         HelloRequestMsgType=0x10,
         CaptureRequestType=0x11b,
         CaptureReplyType=0x11c,

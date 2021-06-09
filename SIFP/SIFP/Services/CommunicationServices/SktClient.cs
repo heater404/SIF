@@ -131,7 +131,7 @@ namespace Services
                 pktSN = UInt32.MinValue;
             else
                 pktSN++;
-            msg.TotalMsgNum = 1;
+            msg.TotalMsgLen = msg.GetMsgLen();
             msg.MsgSn = 0;
             msg.MsgType = msg.GetMsgType();
             msg.MsgLen = msg.GetMsgLen();
