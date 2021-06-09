@@ -406,6 +406,15 @@ namespace Tool.ViewModels
                 return false;
             }
 
+            if (!comm.Detect(8))
+            {
+                this.PrintNoticeLog("DetectFail", LogLevel.Error);
+                this.PrintWatchLog("DetectFail", LogLevel.Error);
+                return false;
+            }
+
+            comm.Subscribe();//detect之后再subscribe
+
             var res = comm.ConnectCamera(3000);
             if (res.HasValue)
             {

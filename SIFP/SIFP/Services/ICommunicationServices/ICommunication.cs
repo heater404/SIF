@@ -10,6 +10,7 @@ namespace Services.Interfaces
     {
         bool Open();
         bool Close();
+        public void Subscribe();
         bool? ConnectCamera(int millisecondsTimeout);
 
         bool? DisconnectCamera(int millisecondsTimeout);
@@ -40,5 +41,7 @@ namespace Services.Interfaces
         bool? ConfigVcselDriver(ConfigVcselDriver vcselDriver);
 
         bool? GetLensArgs(int millisecondsTimeout);
+
+        public bool Detect(int times);
     }
 }
