@@ -297,7 +297,7 @@ namespace ConfigCamera.ViewModels
             get
             {
                 return new Point(configCameraModel.ROISetting.XStart,
-                    configCameraModel.ROISetting.XStart);
+                    configCameraModel.ROISetting.YStart);
             }
             set
             {
