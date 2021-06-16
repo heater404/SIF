@@ -43,7 +43,11 @@ namespace SIFP.Core.Enums
 
         TRIPLE_FREQ = 2,
 
-        QUAD_FREQ,
+        QUAD_FREQ=3,
+
+        BG_OUTDOOR=7,
+
+        GRAY_ONLY =8,
     }
 
     public enum SubWorkModeE : UInt32
@@ -86,6 +90,12 @@ namespace SIFP.Core.Enums
 
         [SubWorkMode(WorkModeE.QUAD_FREQ)]
         _4PHASE_GRAY_4PHASE_BG_4PHASE_GRAY_4PHASE_BG,
+
+        [SubWorkMode(WorkModeE.BG_OUTDOOR)]
+        BG_OUTDOOR=97,
+
+        [SubWorkMode(WorkModeE.GRAY_ONLY)]
+        GRAY_ONLY=98,
     }
 
     public enum SubFrameModeE : UInt32
