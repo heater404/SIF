@@ -9,6 +9,7 @@ using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,33 +20,46 @@ namespace VcselDriverDialog.ViewModels
     {
         private ICommunication comm;
         private ConfigVcselDriver vcselDriver;
+        public DelegateCommand ConfigVcselDriverCmd { get; set; }
         public VcselDriverViewModel(ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
             this.comm = communication;
 
             this.vcselDriver = new ConfigVcselDriver();
+
+            MaxISw = (UInt32)(14.8 * 255.0) / 100 * 100;
+            MaxIBias = (UInt32)(3.75f * 255.0f) / 100 * 100;
+
+            ConfigVcselDriverCmd = new DelegateCommand(ConfigVcselDriver);
             eventAggregator.GetEvent<ConfigVcselDriverReplyEvent>().Subscribe(reply =>
             {
-                if (reply.Ack == 1)
-                {
-                    this.PrintWatchLog("ConfigVcselDriver Fail", LogLevel.Error);
-                    this.PrintNoticeLog("ConfigVcselDriver Fail", LogLevel.Error);
-                }
-                    
-                else
+                if (reply.Ack == 0)
                 {
                     this.PrintNoticeLog("ConfigVcselDriver Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigVcselDriver Success", LogLevel.Warning);
                 }
+                else
+                {
+                    this.PrintWatchLog("ConfigVcselDriver Fail", LogLevel.Error);
+                    this.PrintNoticeLog("ConfigVcselDriver Fail", LogLevel.Error);
+                }
+
+                MaxIBias = reply.MaxIBiasMicroAmp / 1000 / TickFrequency * TickFrequency;
+                MaxISw = reply.MaxISwitchMicroAmp / 1000 / TickFrequency * TickFrequency;
+                IBias = reply.IBiasMicroAmp / 1000;
+                ISw = reply.ISwitchMicroAmp / 1000;
             }, true);
         }
+
+
 
         private async void ConfigVcselDriver()
         {
             await Task.Run(() =>
             {
                 comm.ConfigVcselDriver(vcselDriver);
+                Debug.WriteLine("DragCompleted");
             });
         }
 
@@ -53,14 +67,30 @@ namespace VcselDriverDialog.ViewModels
 
         public event Action<IDialogResult> RequestClose;
 
-        public Array Isws { get; } = new float[] { 0, 1.0f, 2.0f, 3.0f };
-
-        public float Isw//A
+        public UInt32 TickFrequency { get; set; } = 100;//100mA
+        public UInt32 ISw//mA
         {
-            get { return vcselDriver.Isw; }
-            set { vcselDriver.Isw = value; RaisePropertyChanged(); ConfigVcselDriver(); }
+            get { return vcselDriver.ISw / 1000; }
+            set { vcselDriver.ISw = value * 1000; RaisePropertyChanged(); }
+        }
+        private UInt32 maxISw;//mA
+        public UInt32 MaxISw
+        {
+            get { return maxISw; }
+            set { maxISw = value; RaisePropertyChanged(); }
         }
 
+        public UInt32 IBias//mA
+        {
+            get { return vcselDriver.IBias / 1000; }
+            set { vcselDriver.IBias = value * 1000; RaisePropertyChanged();}
+        }
+        private UInt32 maxIBias;//mA
+        public UInt32 MaxIBias
+        {
+            get { return maxIBias; }
+            set { maxIBias = value; RaisePropertyChanged(); }
+        }
         public bool CanCloseDialog()
         {
             return true;
