@@ -19,7 +19,7 @@ namespace Services.Interfaces
 
         bool? StopStreaming(int millisecondsTimeout);
 
-        bool? ConfigCamera(ConfigCameraModel configCamera, int millisecondsTimeout);
+        ConfigCameraReplyE? ConfigCamera(ConfigCameraModel configCamera, int millisecondsTimeout);
 
         bool? ConfigAlg(ConfigAlgRequest configAlg, int millisecondsTimeout);
 

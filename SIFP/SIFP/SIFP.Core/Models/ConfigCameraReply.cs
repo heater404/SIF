@@ -1,4 +1,5 @@
 ﻿using BinarySerialization;
+using SIFP.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace SIFP.Core.Models
     public class ConfigCameraReply : MsgHeader
     {
         [FieldOrder(1)]
-        public UInt32 ConfigAck { get; set; }
+        public ConfigCameraReplyE ConfigAck { get; set; }
 
         [FieldOrder(2)]
         /// number of MIPI frames in a single SI_PLF_MSG_IMAGE_DATA_REPLY_t or UVC transaction

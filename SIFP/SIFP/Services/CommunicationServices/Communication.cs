@@ -142,17 +142,17 @@ namespace Services
             return (MsgHeader)serializer.Deserialize(data, type);
         }
 
-        private bool configCameraSuccess;
-        public bool? ConfigCamera(ConfigCameraModel configCamera, int millisecondsTimeout)
+        private ConfigCameraReplyE? configCameraSuccess=ConfigCameraReplyE.DisconnectStatus;
+        public ConfigCameraReplyE? ConfigCamera(ConfigCameraModel configCamera, int millisecondsTimeout)
         {
             if (client == null)
-                return false;
+                return ConfigCameraReplyE.DisconnectStatus;
 
             ConfigCameraRequest request = new ConfigCameraRequest
             {
                 ConfigCamera = configCamera,
             };
-
+            configCameraSuccess = null;
             if (this.client.Send(request) > 0)
             {
                 if (configCameraWaitHandle.WaitOne(millisecondsTimeout))
@@ -160,7 +160,7 @@ namespace Services
                 else
                     return null;
             }
-            return false;
+            return configCameraSuccess;
         }
 
         private UInt32 CamChipID;
@@ -512,7 +512,7 @@ namespace Services
             if (!(pkt is ConfigCameraReply msg))
                 return;
 
-            configCameraSuccess = msg.ConfigAck == 0;
+            configCameraSuccess = msg.ConfigAck;
             if (configCameraWaitHandle.Set())
             {
                 eventAggregator.GetEvent<ConfigCameraReplyEvent>().Publish(msg);

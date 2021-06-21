@@ -140,7 +140,7 @@ namespace ConfigCamera.ViewModels
             var res = await Task.Run(() => comm.ConfigCamera(configCameraModel, 5000));
             if (res.HasValue)
             {
-                if (res.Value)
+                if (res.Value==ConfigCameraReplyE.Success)
                 {
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
@@ -149,8 +149,8 @@ namespace ConfigCamera.ViewModels
                 }
                 else
                 {
-                    this.PrintNoticeLog("ConfigCamera Fail", LogLevel.Error);
-                    this.PrintWatchLog("ConfigCamera Fail", LogLevel.Error);
+                    this.PrintNoticeLog($"ConfigCamera Fail:{res.Value}", LogLevel.Error);
+                    this.PrintWatchLog($"ConfigCamera Fail:{res.Value}", LogLevel.Error);
                     ConfigCameraSuccess = false;
                 }
             }
@@ -170,7 +170,7 @@ namespace ConfigCamera.ViewModels
             var res = comm.ConfigCamera(configCameraModel, 5000);
             if (res.HasValue)
             {
-                if (res.Value)
+                if (res.Value == ConfigCameraReplyE.Success)
                 {
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
@@ -179,8 +179,8 @@ namespace ConfigCamera.ViewModels
                 }
                 else
                 {
-                    this.PrintNoticeLog("ConfigCamera Fail", LogLevel.Error);
-                    this.PrintWatchLog("ConfigCamera Fail", LogLevel.Error);
+                    this.PrintNoticeLog($"ConfigCamera Fail:{res.Value}", LogLevel.Error);
+                    this.PrintWatchLog($"ConfigCamera Fail:{res.Value}", LogLevel.Error);
                     ConfigCameraSuccess = false;
                 }
             }
