@@ -1523,6 +1523,27 @@
         </Range>
       </Ranges>
     </Reg>
+    <Reg Name="Pll_Cfg1">
+      <Address>0x0c03</Address>
+      <RegVal>0x02710034</RegVal>
+      <IsRealTime>true</IsRealTime>
+      <IsWriteable>true</IsWriteable>
+      <IsReadable>true</IsReadable>
+      <Ranges>
+        <Range>
+          <Start>7</Start>
+          <End>15</End>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Range>
+        <Range>
+          <Start>28</Start>
+          <End>30</End>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Range>
+      </Ranges>
+    </Reg>
     <Reg Name="Dll_Cfg0">
       <Address>0x0c04</Address>
       <RegVal>0x00000000</RegVal>
@@ -1948,6 +1969,21 @@
     <Reg Name="Tclk_Pre_Cfg">
       <Address>0x0254</Address>
       <RegVal>0x00000001</RegVal>
+      <IsRealTime>true</IsRealTime>
+      <IsWriteable>true</IsWriteable>
+      <IsReadable>true</IsReadable>
+      <Ranges>
+        <Range>
+          <Start>8</Start>
+          <End>31</End>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Range>
+      </Ranges>
+    </Reg>
+    <Reg Name="Tclk_Prepare_Cfg">
+      <Address>0x0258</Address>
+      <RegVal>0x00000007</RegVal>
       <IsRealTime>true</IsRealTime>
       <IsWriteable>true</IsWriteable>
       <IsReadable>true</IsReadable>
@@ -3066,6 +3102,21 @@
     </Reg>
     <Reg Name="Ver16">
       <Address>0x23</Address>
+      <RegVal>0x00000000</RegVal>
+      <IsRealTime>true</IsRealTime>
+      <IsWriteable>false</IsWriteable>
+      <IsReadable>true</IsReadable>
+      <Ranges>
+        <Range>
+          <Start>8</Start>
+          <End>31</End>
+          <Min>0</Min>
+          <Max>0</Max>
+        </Range>
+      </Ranges>
+    </Reg>
+    <Reg Name="ErrorMonitor">
+      <Address>0x24</Address>
       <RegVal>0x00000000</RegVal>
       <IsRealTime>true</IsRealTime>
       <IsWriteable>false</IsWriteable>
