@@ -47,19 +47,16 @@ namespace VcselDriverDialog.ViewModels
 
                 MaxIBias = reply.MaxIBiasMicroAmp / 1000 / TickFrequency * TickFrequency;
                 MaxISw = reply.MaxISwitchMicroAmp / 1000 / TickFrequency * TickFrequency;
-                IBias = reply.IBiasMicroAmp / 1000;
-                ISw = reply.ISwitchMicroAmp / 1000;
+                IBias = reply.IBiasMicroAmp / 1000 / TickFrequency * TickFrequency;
+                ISw = reply.ISwitchMicroAmp / 1000 / TickFrequency * TickFrequency;
             }, true);
         }
-
-
 
         private async void ConfigVcselDriver()
         {
             await Task.Run(() =>
             {
                 comm.ConfigVcselDriver(vcselDriver);
-                Debug.WriteLine("DragCompleted");
             });
         }
 
