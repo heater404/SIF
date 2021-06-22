@@ -10,6 +10,7 @@ using SIFP.Core.Mvvm;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -75,7 +76,7 @@ namespace RegMap.ViewModels
             get { return Enumerable.Range(0, 32).Reverse(); }
         }
 
-        public List<RegMapPage> MapPages { get; set; } = new List<RegMapPage>();
+        public ObservableCollection<RegMapPage> MapPages { get; set; } = new ObservableCollection<RegMapPage>();
 
         #endregion Property
 
