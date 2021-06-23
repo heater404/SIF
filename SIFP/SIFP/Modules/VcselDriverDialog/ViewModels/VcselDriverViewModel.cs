@@ -28,27 +28,22 @@ namespace VcselDriverDialog.ViewModels
 
             this.vcselDriver = new ConfigVcselDriver();
 
-            MaxISw = (UInt32)(14.8 * 255.0) / 100 * 100;
-            MaxIBias = (UInt32)(3.75f * 255.0f) / 100 * 100;
-
             ConfigVcselDriverCmd = new DelegateCommand(ConfigVcselDriver);
             eventAggregator.GetEvent<ConfigVcselDriverReplyEvent>().Subscribe(reply =>
             {
                 if (reply.Ack == 0)
                 {
-                    this.PrintNoticeLog("ConfigVcselDriver Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigVcselDriver Success", LogLevel.Warning);
                 }
                 else
                 {
                     this.PrintWatchLog("ConfigVcselDriver Fail", LogLevel.Error);
-                    this.PrintNoticeLog("ConfigVcselDriver Fail", LogLevel.Error);
                 }
 
-                MaxIBias = reply.MaxIBiasMicroAmp / 1000 / TickFrequency * TickFrequency;
-                MaxISw = reply.MaxISwitchMicroAmp / 1000 / TickFrequency * TickFrequency;
-                IBias = reply.IBiasMicroAmp / 1000 / TickFrequency * TickFrequency;
-                ISw = reply.ISwitchMicroAmp / 1000 / TickFrequency * TickFrequency;
+                MaxIBias = (UInt32)(Math.Round(reply.MaxIBiasMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
+                MaxISw = (UInt32)(Math.Round(reply.MaxISwitchMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
+                IBias = (UInt32)(Math.Round(reply.IBiasMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
+                ISw = (UInt32)(Math.Round(reply.ISwitchMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
             }, true);
         }
 
@@ -64,10 +59,10 @@ namespace VcselDriverDialog.ViewModels
 
         public event Action<IDialogResult> RequestClose;
 
-        public UInt32 TickFrequency { get; set; } = 100;//100mA
+        public double TickFrequency { get; set; } = 100.0;//100mA
         public UInt32 ISw//mA
         {
-            get { return vcselDriver.ISw / 1000; }
+            get { return (UInt32)Math.Round(vcselDriver.ISw / 1000.0); }
             set { vcselDriver.ISw = value * 1000; RaisePropertyChanged(); }
         }
         private UInt32 maxISw;//mA
@@ -79,8 +74,8 @@ namespace VcselDriverDialog.ViewModels
 
         public UInt32 IBias//mA
         {
-            get { return vcselDriver.IBias / 1000; }
-            set { vcselDriver.IBias = value * 1000; RaisePropertyChanged();}
+            get { return (UInt32)Math.Round(vcselDriver.IBias / 1000.0); }
+            set { vcselDriver.IBias = value * 1000; RaisePropertyChanged(); }
         }
         private UInt32 maxIBias;//mA
         public UInt32 MaxIBias
@@ -100,7 +95,11 @@ namespace VcselDriverDialog.ViewModels
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-
+            ConfigVcselDriverReply reply = parameters.GetValue<ConfigVcselDriverReply>("ConfigVcselDriverReply");
+            MaxIBias = (UInt32)(Math.Round(reply.MaxIBiasMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
+            MaxISw = (UInt32)(Math.Round(reply.MaxISwitchMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
+            IBias = (UInt32)(Math.Round(reply.IBiasMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
+            ISw = (UInt32)(Math.Round(reply.ISwitchMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
         }
     }
 }

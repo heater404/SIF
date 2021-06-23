@@ -188,11 +188,19 @@ namespace Tool.ViewModels
                 this.lensArgs = reply.LensArgs;
                 lensArgsHandle.Set();
             }, true);
+
+            this.EventAggregator.GetEvent<ConfigVcselDriverReplyEvent>().Subscribe(reply =>
+            {
+                this.reply = reply;
+            }, true);
         }
 
+        private ConfigVcselDriverReply reply;
         private void ShowVcselDriverDialog()
         {
-            dialogService.Show(DialogNames.VcselDriverDialog);
+            IDialogParameters parameters = new DialogParameters();
+            parameters.Add("ConfigVcselDriverReply", reply);
+            dialogService.Show(DialogNames.VcselDriverDialog, parameters, null);
         }
 
         private void RecvConfigCameraReply(ConfigCameraReply reply)
