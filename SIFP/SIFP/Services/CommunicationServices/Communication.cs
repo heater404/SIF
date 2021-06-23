@@ -101,7 +101,7 @@ namespace Services
                 {
                     foreach (var proc in procMap)
                         if (msg?.MsgType == proc.Key.MsgType)
-                            proc.Value?.Invoke(msg);
+                            Task.Run(() => proc.Value?.Invoke(msg));//BeginInvoke is not supported on this platform
                 }
             }
         }
