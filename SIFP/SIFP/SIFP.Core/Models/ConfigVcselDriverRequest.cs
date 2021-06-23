@@ -17,6 +17,5 @@ namespace SIFP.Core.Models
 
         [FieldOrder(1)]
         public ConfigVcselDriver VcselDriver { get; set; }
-
     }
 }

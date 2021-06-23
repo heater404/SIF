@@ -13,19 +13,10 @@ namespace SIFP.Core.Models
         public VDriverWorkModeE Mode { get; set; } = VDriverWorkModeE.Fix;
 
         [FieldOrder(2)]
-        public UInt32 IBias
-        {
-            get
-            {
-                if (Isw == 0) return 0;
-                else return 400;
-            }
-        }//threshold current mA
+        public UInt32 IBias { get; set; }//threshold current uA
 
         [FieldOrder(3)]
-        [SerializeAs(serializedType: SerializedType.UInt4)]
-        [FieldScale(1000)]//协议中需要mA，放大1000倍
-        public float Isw { get; set; } = 3;//switch current A
+        public UInt32 ISw { get; set; } = 3;//switch current uA
     }
 
     public enum VDriverWorkModeE

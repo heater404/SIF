@@ -155,6 +155,81 @@
         },
         {
             "WorkMode": 1,
+            "SubWorkMode": 5,
+            "SubFrameModes": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "SpecialFrameModes": [
+                0,
+                0,
+                0,
+                0
+            ],
+            "DifferentialBG": 0,
+            "FrameSeqSchedule": {
+                "Slot0FrameNum": 0,
+                "Slot1FrameNum": 1,
+                "Slot2FrameNum": 2,
+                "Slot3FrameNum": 3
+            },
+            "IntegrationTimes": [
+                {
+                    "Phase1_4Int": 1000000,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 1000000,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                }
+            ],
+            "PLLDLLDivs": [
+                {
+                    "Phase1_4Div": 5,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 8,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                }
+            ],
+            "NumSubFramePerFrame": [
+                1,
+                1,
+                0,
+                0
+            ],
+            "NumDepthSequencePerDepthMap": 1,
+            "MIPI_FS_FE_Pos": 0
+        },
+        {
+            "WorkMode": 1,
             "SubWorkMode": 6,
             "SubFrameModes": [
                 5,
@@ -227,6 +302,81 @@
             ],
             "NumDepthSequencePerDepthMap": 1,
             "MIPI_FS_FE_Pos": 0
+        },
+        {
+            "WorkMode": 7,
+            "SubWorkMode": 97,
+            "SubFrameModes": [
+                4,
+                0,
+                0,
+                0
+            ],
+            "SpecialFrameModes": [
+                2,
+                0,
+                0,
+                0
+            ],
+            "DifferentialBG": 0,
+            "FrameSeqSchedule": {
+                "Slot0FrameNum": 0,
+                "Slot1FrameNum": 1,
+                "Slot2FrameNum": 2,
+                "Slot3FrameNum": 3
+            },
+            "IntegrationTimes": [
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 1000000
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                },
+                {
+                    "Phase1_4Int": 0,
+                    "Phase5_8Int": 0,
+                    "SpecialPhaseInt": 0
+                }
+            ],
+            "PLLDLLDivs": [
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                },
+                {
+                    "Phase1_4Div": 2,
+                    "Phase5_8Div": 2,
+                    "SpecialPhaseDiv": 2
+                }
+            ],
+            "NumSubFramePerFrame": [
+                1,
+                0,
+                0,
+                0
+            ],
+            "NumDepthSequencePerDepthMap": 1,
+            "MIPI_FS_FE_Pos": 1
         },
         {
             "WorkMode": 8,

@@ -186,4 +186,14 @@ namespace SIFP.Core.Enums
         Horizontal,
         Both,
     }
+
+    public enum ConfigCameraReplyE : UInt32
+    {
+        Success=0,
+        InvalidArgs,
+        InvalidResolution,
+        InvalidWokeMode,
+        InternalError,
+        DisconnectStatus=99,
+    }
 }

@@ -2,7 +2,9 @@
     x:Class="VcselDriverDialog.Views.VcselDriverView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customCtrs="clr-namespace:SIFP.Core.CustomCtrs;assembly=SIFP.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:VcselDriverDialog.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,15 +23,57 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="ShowInTaskbar" Value="False" />
             <Setter Property="Width" Value="450" />
-            <Setter Property="Height" Value="200" />
+            <Setter Property="Height" Value="260" />
         </Style>
     </prism:Dialog.WindowStyle>
-    <Grid>
-        <ComboBox
-            Width="100"
-            materialDesign:TextFieldAssist.PrefixText="Current : "
-            materialDesign:TextFieldAssist.SuffixText="A"
-            ItemsSource="{Binding Isws}"
-            SelectedItem="{Binding Isw}" />
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Style="{StaticResource MaterialDesignCardGroupBox}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="Black" Text="IBias(mA) : " />
+                    <TextBlock Text="{Binding IBias}" />
+                </StackPanel>
+            </GroupBox.Header>
+            <customCtrs:ThumbDragCompletedSlider
+                LargeChange="0"
+                Maximum="{Binding MaxIBias}"
+                Minimum="0"
+                SmallChange="0"
+                Style="{StaticResource MaterialDesignDiscreteHorizontalSlider}"
+                TickFrequency="{Binding TickFrequency}"
+                Value="{Binding IBias}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="ThumbDragCompleted">
+                        <prism:InvokeCommandAction Command="{Binding ConfigVcselDriverCmd}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </customCtrs:ThumbDragCompletedSlider>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Style="{StaticResource MaterialDesignCardGroupBox}">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="Black" Text="ISw(mA) : " />
+                    <TextBlock Text="{Binding ISw}" />
+                </StackPanel>
+            </GroupBox.Header>
+            <customCtrs:ThumbDragCompletedSlider
+                LargeChange="0"
+                Maximum="{Binding MaxISw}"
+                Minimum="0"
+                SmallChange="0"
+                Style="{StaticResource MaterialDesignDiscreteHorizontalSlider}"
+                TickFrequency="{Binding TickFrequency}"
+                Value="{Binding ISw}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="ThumbDragCompleted">
+                        <prism:InvokeCommandAction Command="{Binding ConfigVcselDriverCmd}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </customCtrs:ThumbDragCompletedSlider>
+        </GroupBox>
     </Grid>
 </UserControl>
