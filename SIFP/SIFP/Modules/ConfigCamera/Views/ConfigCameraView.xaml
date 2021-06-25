@@ -429,8 +429,8 @@
                     IsEnabled="{Binding IsEnable}">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Foreground="Black" Text="Resolution : " />
-                            <TextBlock Text="{Binding Resolution}" />
+                            <TextBlock Foreground="Black" Text="ExpectedResolution : " />
+                            <TextBlock Text="{Binding Resolution, ValidatesOnExceptions=True}" />
                         </StackPanel>
                     </GroupBox.Header>
                     <Grid Margin="0,10">
