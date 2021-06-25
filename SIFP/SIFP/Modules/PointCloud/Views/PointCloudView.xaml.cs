@@ -37,7 +37,7 @@ namespace PointCloud.Views
 
         private void OpenPointCloud(string args)
         {
-            PointCloud.StartAndEmbedProcess(@"View3D\PowerPixel3D.exe", args);
+            PointCloud.StartAndEmbedProcess(@"View3D\PointCloud.exe", args);
         }
     }
 }
