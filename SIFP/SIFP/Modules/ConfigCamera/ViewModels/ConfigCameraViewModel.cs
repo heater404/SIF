@@ -499,12 +499,12 @@ namespace ConfigCamera.ViewModels
             //切换SubWorkMode后需要重新选择。
             var select = SubWorkModes.Find(swm =>
             {
-                return swm.IsShow == Visibility.Visible && 
-                (swm.SelectedModel == SubWorkModeE._4PHASE_GRAY_4PHASE_BG||
-                swm.SelectedModel==SubWorkModeE._4PHASE_GRAY);
+                return swm.IsShow == Visibility.Visible &&
+                (swm.SelectedModel == SubWorkModeE._4PHASE_GRAY_4PHASE_BG ||
+                swm.SelectedModel == SubWorkModeE._4PHASE_GRAY);
             });
-            if (select==null)
-                select = SubWorkModes.First(swm=> swm.IsShow == Visibility.Visible);
+            if (select == null)
+                select = SubWorkModes.First(swm => swm.IsShow == Visibility.Visible);
 
             SubWorkMode = select.SelectedModel;
         }
@@ -513,7 +513,13 @@ namespace ConfigCamera.ViewModels
         public Size Resolution
         {
             get { return resolution; }
-            set { resolution = value; RaisePropertyChanged(); }
+            set
+            {
+                resolution = value;
+                RaisePropertyChanged();
+                if (value.Width < 1 || value.Height < 1)
+                    throw new ArgumentException($"Invalid resolution:{value}");
+            }
         }
         private Size CalculateResolution(Size roi, UInt16 xstep, UInt16 ystep)
         {
