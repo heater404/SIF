@@ -376,7 +376,7 @@
                 0
             ],
             "NumDepthSequencePerDepthMap": 1,
-            "MIPI_FS_FE_Pos": 1
+            "MIPI_FS_FE_Pos": 0
         },
         {
             "WorkMode": 8,
@@ -451,7 +451,7 @@
                 0
             ],
             "NumDepthSequencePerDepthMap": 1,
-            "MIPI_FS_FE_Pos": 1
+            "MIPI_FS_FE_Pos": 0
         }
     ],
     "DepthFPS": 5,
