@@ -274,8 +274,15 @@ namespace ConfigCamera.ViewModels
             get { return configCameraModel.CurrentUserCase.MaxFPS; }
             set { configCameraModel.CurrentUserCase.MaxFPS = value; RaisePropertyChanged(); }
         }
-        //深度帧帧率
 
+        public UInt32 PhaseMode
+        {
+            get { return (UInt32)configCameraModel.PhaseMode; }
+            set { configCameraModel.PhaseMode = (PhaseModeE)value;RaisePropertyChanged(); }
+        }
+        
+
+        //深度帧帧率
         public UInt32 FPS
         {
             get { return configCameraModel.DepthFPS; }

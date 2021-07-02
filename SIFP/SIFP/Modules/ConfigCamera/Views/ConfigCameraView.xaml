@@ -510,6 +510,28 @@
                             IsChecked="{Binding VerticalMirror}" />
                     </Grid>
                 </GroupBox>
+                <GroupBox
+                    Margin="10"
+                    Header="PhaseMode"
+                    Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <GroupBox.Resources>
+                        <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
+                            <Setter Property="Margin" Value="0,0,0,0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="10" />
+                        </Style>
+                    </GroupBox.Resources>
+                    <ComboBox
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        SelectedIndex="{Binding PhaseMode}">
+                        <ComboBoxItem Content="1PhaseMode" />
+                        <ComboBoxItem Content="2PhaseMode" />
+                        <ComboBoxItem Content="4PhaseMode" />
+                        <ComboBoxItem Content="8PhaseMode" />
+                        <ComboBoxItem Content="16PhaseMode" />
+                    </ComboBox>
+                </GroupBox>
             </StackPanel>
         </ScrollViewer>
 
