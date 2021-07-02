@@ -55,5 +55,11 @@ namespace SIFP.Core.Models
 
         [FieldOrder(14)]
         public ClkDIvOverride ClkDivOverride { get; set; }
+
+        [FieldOrder(15)]
+        public PhaseModeE PhaseMode { get; set; }
+
+        [FieldOrder(16)]
+        public UInt32 NeedReply { get; set; }
     }
 }

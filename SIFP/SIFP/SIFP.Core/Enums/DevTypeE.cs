@@ -141,7 +141,16 @@ namespace SIFP.Core.Enums
         DepthMap,
     }
 
-    public enum SequencerRepeatModeE : UInt32
+    public enum PhaseModeE:UInt32
+    {
+        PhaseMode1,
+        PhaseMode2,
+        PhaseMode4,
+        PhaseMode8,
+        PhaseMode16,
+    }
+
+public enum SequencerRepeatModeE : UInt32
     {
         //not auto repeating, after triggering, only perform 1 depth map
         Non_Auto = 0,

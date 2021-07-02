@@ -474,5 +474,7 @@
         "PLLPreDiv": 0,
         "PLLFBDiv": 0,
         "ClkDigSlowDiv": 0
-    }
+    },
+    "PhaseMode":0,
+    "NeedReply":1
 }
