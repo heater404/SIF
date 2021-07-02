@@ -60,17 +60,22 @@ namespace SIFP.ViewModels
         {
             if (result.Result == ButtonResult.Yes)
             {
-                comm.SwitchUserAccess(!isExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
-                IsExpertMode = !isExpertMode;
-                if (!IsExpertMode)
-                {
-                    this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
-                    LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
-                }
-                this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+                SwitchMode();
             }
             else
                 IsExpertMode = isExpertMode;
+        }
+
+        private void SwitchMode()
+        {
+            comm.SwitchUserAccess(!isExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
+            IsExpertMode = !isExpertMode;
+            if (!IsExpertMode)
+            {
+                this.RegionManager.RequestNavigate(RegionNames.MainRegion, ViewNames.PointCloudView);
+                LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
+            }
+            this.EventAggregator.GetEvent<UserAccessChangedEvent>().Publish(IsExpertMode ? UserAccessType.Expert : UserAccessType.Normal);
         }
 
         private bool isDebug;
@@ -151,7 +156,10 @@ namespace SIFP.ViewModels
 
             OpenPasswordDialogCmd = new DelegateCommand(() =>
             {
-                dialogService.ShowDialog(DialogNames.PasswordDialog, SwitchModeCallback);
+                if (isExpertMode)
+                    SwitchMode();
+                else
+                    dialogService.ShowDialog(DialogNames.PasswordDialog, SwitchModeCallback);
             });
 
             LeftDrawerContent = container.Resolve(ConfigViewTypes.ConfigCameraView);
