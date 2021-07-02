@@ -15,7 +15,7 @@ namespace SIFP.Core.Models
 
         public override uint GetMsgLen()
         {
-            return 236;
+            return 244;
         }
     }
 }
