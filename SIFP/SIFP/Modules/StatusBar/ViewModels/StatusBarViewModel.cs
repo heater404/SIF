@@ -85,7 +85,7 @@ namespace StatusBar.ViewModels
             }
         }
 
-        private ServerHeartBeat beat = new ServerHeartBeat(5000);
+        private ServerHeartBeat beat = new ServerHeartBeat(10000);
         public StatusBarViewModel(IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             beat.HeartBeatTimeoutEvent += HeartBeatTimeoutEvent;
