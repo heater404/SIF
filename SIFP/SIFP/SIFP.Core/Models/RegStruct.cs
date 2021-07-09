@@ -23,6 +23,8 @@ namespace SIFP.Core.Models
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public RegOperateType OperateType { get; set; }
 
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public DevTypeE RegType { get; set; }
         public RegStruct Register { get; set; }
     }
 }

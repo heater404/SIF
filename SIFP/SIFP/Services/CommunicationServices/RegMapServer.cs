@@ -209,7 +209,7 @@ namespace Services
             return false;
         }
 
-        private void PrintWatchLog(string msg,LogLevel level)
+        private void PrintWatchLog(string msg, LogLevel level)
         {
             this.eventAggregator.GetEvent<WatchLogEvent>().Publish(new LogModel(msg, level));
         }
@@ -279,12 +279,13 @@ namespace Services
         public void SaveAllRegs(string path)
         {
             List<RegOperateStruct> script = new List<RegOperateStruct>();
-            foreach (var register in registers.Values)
+            foreach (var registerItem in registers)
             {
-                foreach (var reg in register)
+                foreach (var reg in registerItem.Value)
                 {
                     RegOperateStruct regOperateStruct = new RegOperateStruct
                     {
+                        RegType = registerItem.Key == "VDriver" ? DevTypeE.VDRIVER : DevTypeE.TOF,
                         OperateType = reg.IsWriteable ? RegOperateType.Write : RegOperateType.Read,
                         Register = new RegStruct { RegAddr = reg.Address, RegVal = reg.RegVal },
                     };
@@ -339,7 +340,7 @@ namespace Services
             }
             catch (Exception ex)
             {
-                Log.Error(ex,"GetRegMap");
+                Log.Error(ex, "GetRegMap");
             }
         }
     }
