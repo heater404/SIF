@@ -31,7 +31,7 @@ namespace SIFP.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        private string version = "1.05.210702p1";
+        private string version = "1.05.210712";
         public string Version
         {
             get { return version; }
