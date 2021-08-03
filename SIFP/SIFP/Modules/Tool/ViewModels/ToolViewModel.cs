@@ -310,7 +310,7 @@ namespace Tool.ViewModels
 
         private bool GetLenArgs()
         {
-            var res = comm.GetLensArgs(2000);
+            var res = comm.GetLensArgs(5000);
             if (res.HasValue)
             {
                 if (!res.Value)
