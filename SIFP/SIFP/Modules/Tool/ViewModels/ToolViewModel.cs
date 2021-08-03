@@ -156,14 +156,14 @@ namespace Tool.ViewModels
             {
                 if (isStreaming)
                 {
-                    comm.StopStreaming(0);
+                    comm.StopStreaming(1);
                     EventAggregator.GetEvent<ClosePointCloudEvent>().Publish();
                 }
 
                 if (isConnected)
                 {
+                    comm.DisconnectCamera(1);
                     KillAssembly(processor);
-                    comm.DisconnectCamera(0);
                 }
             }, true);//CLose窗体的时候触发
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
