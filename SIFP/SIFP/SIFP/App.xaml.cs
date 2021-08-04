@@ -13,7 +13,6 @@ using System.IO;
 using SIFP.Core.Models;
 using WatchLog;
 using ConfigCamera;
-using StatusBar;
 using CaptureDataDialog.Views;
 using SIFP.Core;
 using WaitingDialog.Views;
@@ -100,6 +99,9 @@ namespace SIFP
             containerRegistry.RegisterSingleton<ConfigAlgView, ConfigAlgView>();
             containerRegistry.RegisterSingleton<VcselDriverViewModel, VcselDriverViewModel>();
             containerRegistry.RegisterSingleton<RegMapServer, RegMapServer>();
+
+            containerRegistry.RegisterInstance(typeof(int), 10000);
+            containerRegistry.RegisterSingleton<HeartBeat, HeartBeat>();
 
             containerRegistry.RegisterDialog<CaptureDataView>(DialogNames.CaptureDataDialog);
             containerRegistry.RegisterDialog<WaitingView>(DialogNames.WaitingDialog);

@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using Serilog;
+using Services;
 using Services.Interfaces;
 using SIFP.Core;
 using SIFP.Core.Enums;
@@ -143,7 +144,7 @@ namespace Tool.ViewModels
         private Size resolution = new Size();
         private UserAccessType user = UserAccessType.Normal;
         AutoResetEvent lensArgsHandle = new AutoResetEvent(false);
-        public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        public ToolViewModel(HeartBeat beat, ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             this.comm = comm;
             this.dialogService = dialogService;
@@ -152,20 +153,20 @@ namespace Tool.ViewModels
             ConnectCtrlCmd = new DelegateCommand(ConnectCtrl).ObservesCanExecute(() => CanConnectCtrlCmd);
             StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => CanStreamingCtrlCmd);
             EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply, true);
-            EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
+            EventAggregator.GetEvent<CloseAppEvent>().Subscribe(() =>
             {
                 if (isStreaming)
                 {
-                    comm.StopStreaming(1);
+                    comm.StopStreaming(beat.Alive ? 5000 : 0);
                     EventAggregator.GetEvent<ClosePointCloudEvent>().Publish();
                 }
 
                 if (isConnected)
                 {
-                    comm.DisconnectCamera(1);
+                    comm.DisconnectCamera(beat.Alive ? 3000 : 0);
                     KillAssembly(processor);
                 }
-            }, true);//CLose窗体的时候触发
+            }, ThreadOption.PublisherThread, true);//CLose窗体的时候触发
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
                 IsCapturing = false;

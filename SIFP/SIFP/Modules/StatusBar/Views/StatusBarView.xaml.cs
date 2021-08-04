@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StatusBar.Views
+namespace Services.Views
 {
     /// <summary>
     /// Interaction logic for ViewA.xaml
