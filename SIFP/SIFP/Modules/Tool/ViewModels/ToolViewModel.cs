@@ -157,13 +157,15 @@ namespace Tool.ViewModels
             {
                 if (isStreaming)
                 {
-                    comm.StopStreaming(beat.Alive ? 5000 : 0);
+                    if (beat.Alive)
+                        comm.StopStreaming(5000);
                     EventAggregator.GetEvent<ClosePointCloudEvent>().Publish();
                 }
 
                 if (isConnected)
                 {
-                    comm.DisconnectCamera(beat.Alive ? 3000 : 0);
+                    if (beat.Alive)
+                        comm.DisconnectCamera(3000);
                     KillAssembly(processor);
                 }
             }, ThreadOption.PublisherThread, true);//CLose窗体的时候触发
