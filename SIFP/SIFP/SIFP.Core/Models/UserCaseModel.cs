@@ -43,10 +43,15 @@ namespace SIFP.Core.Models
         [FieldCount(4)]
         public UInt32[] NumSubFramePerFrame { get; set; }
 
+        //switch between pulse light and always-on light for gray frame
+        //1--pulse light  0--always-on light
         [FieldOrder(10)]
-        public UInt32 NumDepthSequencePerDepthMap { get; set; }
+        public UInt32 EnableLedMod { get; set; }
 
         [FieldOrder(11)]
+        public UInt32 NumDepthSequencePerDepthMap { get; set; }
+
+        [FieldOrder(12)]
         public MIPI_FS_FE_PosE MIPI_FS_FE_Pos { get; set; }
 
         //number of phase frames in a MIPI frame (determines the expected data size per MIPI frame)

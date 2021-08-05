@@ -51,22 +51,22 @@
                 {
                     "Phase1_4Div": 5,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 }
             ],
             "NumSubFramePerFrame": [
@@ -75,6 +75,7 @@
                 0,
                 0
             ],
+            "EnableLedMod":1,
             "NumDepthSequencePerDepthMap": 1,
             "MIPI_FS_FE_Pos": 0
         },
@@ -126,22 +127,22 @@
                 {
                     "Phase1_4Div": 5,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 }
             ],
             "NumSubFramePerFrame": [
@@ -150,6 +151,7 @@
                 0,
                 0
             ],
+            "EnableLedMod":1,
             "NumDepthSequencePerDepthMap": 1,
             "MIPI_FS_FE_Pos": 0
         },
@@ -201,22 +203,22 @@
                 {
                     "Phase1_4Div": 5,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 8,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 }
             ],
             "NumSubFramePerFrame": [
@@ -225,6 +227,7 @@
                 0,
                 0
             ],
+            "EnableLedMod":1,
             "NumDepthSequencePerDepthMap": 1,
             "MIPI_FS_FE_Pos": 0
         },
@@ -276,22 +279,22 @@
                 {
                     "Phase1_4Div": 5,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 8,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 }
             ],
             "NumSubFramePerFrame": [
@@ -300,6 +303,7 @@
                 0,
                 0
             ],
+            "EnableLedMod":1,
             "NumDepthSequencePerDepthMap": 1,
             "MIPI_FS_FE_Pos": 0
         },
@@ -351,22 +355,22 @@
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 }
             ],
             "NumSubFramePerFrame": [
@@ -375,6 +379,7 @@
                 0,
                 0
             ],
+            "EnableLedMod":1,
             "NumDepthSequencePerDepthMap": 1,
             "MIPI_FS_FE_Pos": 0
         },
@@ -426,22 +431,22 @@
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 },
                 {
                     "Phase1_4Div": 2,
                     "Phase5_8Div": 2,
-                    "SpecialPhaseDiv": 2
+                    "SpecialPhaseDiv": 24
                 }
             ],
             "NumSubFramePerFrame": [
@@ -450,6 +455,7 @@
                 0,
                 0
             ],
+            "EnableLedMod":1,
             "NumDepthSequencePerDepthMap": 1,
             "MIPI_FS_FE_Pos": 0
         }

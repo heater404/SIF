@@ -89,7 +89,7 @@
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Right"
                                 Background="{StaticResource MaterialDesignDarkBackground}"
-                                Content="EnableLedMod"
+                                Content="LedMod"
                                 DockPanel.Dock="Right"
                                 IsChecked="{Binding EnableLedMod}" />
                         </DockPanel>
@@ -204,6 +204,10 @@
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[0]}" />
+                                    <ComboBox
+                                        Grid.Column="1"
+                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
+                                        SelectedValue="{Binding PLLDLLDivs[0].SpecialPhaseDiv}" />
                                     <Slider
                                         x:Name="Slider2"
                                         Grid.Column="2"
