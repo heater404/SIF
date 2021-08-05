@@ -81,10 +81,17 @@
                                 Foreground="Black"
                                 Text="Frequency&amp;IntegrationTime" />
                             <CheckBox
-                                HorizontalAlignment="Right"
                                 Background="{StaticResource MaterialDesignDarkBackground}"
                                 Content="EnableAE"
+                                DockPanel.Dock="Right"
                                 IsChecked="{Binding EnableAE}" />
+                            <CheckBox
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Right"
+                                Background="{StaticResource MaterialDesignDarkBackground}"
+                                Content="EnableLedMod"
+                                DockPanel.Dock="Right"
+                                IsChecked="{Binding EnableLedMod}" />
                         </DockPanel>
                     </GroupBox.Header>
                     <Grid Margin="0,10">
