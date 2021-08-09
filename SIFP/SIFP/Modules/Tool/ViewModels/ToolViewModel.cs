@@ -313,7 +313,7 @@ namespace Tool.ViewModels
 
         private bool GetLenArgs()
         {
-            var res = comm.GetLensArgs(5000);
+            var res = comm.GetLensArgs(6000);
             if (res.HasValue)
             {
                 if (!res.Value)
@@ -335,7 +335,7 @@ namespace Tool.ViewModels
 
         private bool StreamingOff()
         {
-            var res = comm.StopStreaming(5000);
+            var res = comm.StopStreaming(6000);
             if (res.HasValue)
             {
                 if (!res.Value)
