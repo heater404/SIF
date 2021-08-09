@@ -304,6 +304,7 @@ namespace Tool.ViewModels
             }
 
             GetLenArgs();
+            lensArgsHandle.Reset();
             lensArgsHandle.WaitOne(200);
             this.PrintWatchLog(this.lensArgs.ToString(), LogLevel.Info);
             string args = resolution.Width + "*" + resolution.Height + "_" + this.lensArgs.ToString();
