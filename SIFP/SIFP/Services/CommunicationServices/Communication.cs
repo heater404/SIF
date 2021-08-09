@@ -155,6 +155,7 @@ namespace Services
             configCameraSuccess = null;
             if (this.client.Send(request) > 0)
             {
+                configCameraWaitHandle.Reset();
                 if (configCameraWaitHandle.WaitOne(millisecondsTimeout))
                     return configCameraSuccess;
                 else
@@ -183,6 +184,7 @@ namespace Services
             CamChipID = 0;
             if (this.client.Send(msg) > 0)
             {
+                configCameraWaitHandle.Reset();
                 if (connectCameraWaitHandle.WaitOne(millisecondsTimeout))
                     return CamChipID != 0xdeadbeef;
                 else
@@ -223,6 +225,7 @@ namespace Services
 
             if (this.client.Send(msg) > 0)
             {
+                stopStreamingWaitHandle.Reset();
                 if (stopStreamingWaitHandle.WaitOne(millisecondsTimeout))
                     return true;
                 else
@@ -246,6 +249,7 @@ namespace Services
             disconnectCameraAck = false;
             if (this.client.Send(msg) > 0)
             {
+                disconnectCameraWaitHandle.Reset();
                 if (disconnectCameraWaitHandle.WaitOne(millisecondsTimeout))
                     return disconnectCameraAck;
                 else
@@ -263,6 +267,7 @@ namespace Services
             configAlgAck = false;
             if (this.client.Send(configAlg) > 0)
             {
+                disconnectCameraWaitHandle.Reset();
                 if (configAlgWaitHandle.WaitOne(millisecondsTimeout))
                     return configAlgAck;
                 else
@@ -298,6 +303,7 @@ namespace Services
             captureAck = false;
             if (0 < client.Send(msg))
             {
+                disconnectCameraWaitHandle.Reset();
                 if (captureWaitHandle.WaitOne((int)frameNum * 1000))
                     return this.captureAck;
                 else
@@ -423,6 +429,7 @@ namespace Services
 
             if (0 < client.Send(msg))
             {
+                lenArgsWaitHandle.Reset();
                 if (lenArgsWaitHandle.WaitOne(millisecondsTimeout))
                     return true;
                 else
@@ -495,6 +502,7 @@ namespace Services
                 detectAck = false;
                 if (client.Send(msg) > 0)
                 {
+                    detectWaitHandle.Reset();
                     if (detectWaitHandle.WaitOne(2000))
                     {
                         if (detectAck)
