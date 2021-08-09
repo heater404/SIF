@@ -2,9 +2,9 @@
 using Prism.Modularity;
 using Prism.Regions;
 using SIFP.Core;
-using StatusBar.Views;
+using Services.Views;
 
-namespace StatusBar
+namespace Services
 {
     public class StatusBarModule : IModule
     {

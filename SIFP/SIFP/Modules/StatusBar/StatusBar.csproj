@@ -8,6 +8,7 @@
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\CommunicationServices\Services.csproj" />
     <ProjectReference Include="..\..\Services\ICommunicationServices\Services.Interfaces.csproj" />
     <ProjectReference Include="..\..\SIFP.Core\SIFP.Core.csproj" />
   </ItemGroup>

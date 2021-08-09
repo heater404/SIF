@@ -6,22 +6,38 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace StatusBar
+namespace Services
 {
-    public class ServerHeartBeat
+    public class HeartBeat
     {
         private CancellationTokenSource tokenSource;
         private int timeoutms;
+        public int Timeoutms
+        {
+            get { return timeoutms; }
+            private set { timeoutms = value; }
+        }
+
         private DateTime heartBeatTime;
         public event EventHandler HeartBeatTimeoutEvent;
         public event EventHandler HeartBeatAliveEvent;
         ReaderWriterLockSlim lockSlim = new ReaderWriterLockSlim();
-        public ServerHeartBeat(int millisecondsTimeout)
+        private bool alive;
+        public bool Alive
+        {
+            get { return alive; }
+            private set 
+            {
+                alive = value; 
+            }
+        }
+
+        public HeartBeat(int millisecondsTimeout)
         {
             timeoutms = millisecondsTimeout;
         }
 
-        public void HeartBeat(DateTime time)
+        public void UpdateHeartBeat(DateTime time)
         {
             lockSlim.EnterWriteLock();
             this.heartBeatTime = time;
@@ -46,10 +62,19 @@ namespace StatusBar
                     if (elapsed.TotalMilliseconds > timeoutms)
                     {
                         Debug.WriteLine("HeartBeatTimeout");
+                        lockSlim.EnterWriteLock();
+                        alive = false;
+                        lockSlim.ExitWriteLock();
                         HeartBeatTimeoutEvent?.Invoke(null, null);
                     }
                     else
+                    {
+                        lockSlim.EnterWriteLock();
+                        alive = true;
+                        lockSlim.ExitWriteLock();
                         HeartBeatAliveEvent?.Invoke(null, null);
+                    }
+
                     Thread.Sleep(1000);
                 }
             }, tokenSource.Token);

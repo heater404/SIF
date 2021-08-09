@@ -1,7 +1,13 @@
 ﻿using Prism.Events;
+using Prism.Services.Dialogs;
+using Services.Interfaces;
+using SIFP.Core;
 using SIFP.Core.Mvvm;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace SIFP.Views
@@ -12,10 +18,20 @@ namespace SIFP.Views
     public partial class MainWindow : Window
     {
         private IEventAggregator eventAggregator;
-        public MainWindow(IEventAggregator eventAggregator)
+        private IDialogService dialogService;
+        private ICommunication comm;
+        public MainWindow(IEventAggregator eventAggregator, ICommunication comm, IDialogService dialogService)
         {
             InitializeComponent();
             this.eventAggregator = eventAggregator;
+            this.comm = comm;
+            this.dialogService = dialogService;
+            this.Closing += MainWindow_Closing;
+        }
+
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            this.eventAggregator.GetEvent<CloseAppEvent>().Publish();
         }
 
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -31,12 +47,6 @@ namespace SIFP.Views
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             this.eventAggregator.GetEvent<ChangeDrawerRegionSizeEvent>().Publish(e.NewSize);
-        }
-
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            this.eventAggregator.GetEvent<DisconnectCameraRequestEvent>().Publish();
-            base.OnClosing(e);
         }
     }
 }

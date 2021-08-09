@@ -180,6 +180,7 @@ namespace Services
                 Reset = false,
             };
 
+            CamChipID = 0;
             if (this.client.Send(msg) > 0)
             {
                 if (connectCameraWaitHandle.WaitOne(millisecondsTimeout))
@@ -242,6 +243,7 @@ namespace Services
 
             };
 
+            disconnectCameraAck = false;
             if (this.client.Send(msg) > 0)
             {
                 if (disconnectCameraWaitHandle.WaitOne(millisecondsTimeout))
@@ -258,6 +260,7 @@ namespace Services
             if (client == null)
                 return false;
 
+            configAlgAck = false;
             if (this.client.Send(configAlg) > 0)
             {
                 if (configAlgWaitHandle.WaitOne(millisecondsTimeout))
@@ -292,6 +295,7 @@ namespace Services
                 CaptureSN = sn.ToArray<Int32>(),
             };
 
+            captureAck = false;
             if (0 < client.Send(msg))
             {
                 if (captureWaitHandle.WaitOne((int)frameNum * 1000))

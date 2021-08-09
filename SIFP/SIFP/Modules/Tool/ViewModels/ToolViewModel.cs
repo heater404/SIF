@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using Serilog;
+using Services;
 using Services.Interfaces;
 using SIFP.Core;
 using SIFP.Core.Enums;
@@ -143,7 +144,7 @@ namespace Tool.ViewModels
         private Size resolution = new Size();
         private UserAccessType user = UserAccessType.Normal;
         AutoResetEvent lensArgsHandle = new AutoResetEvent(false);
-        public ToolViewModel(ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
+        public ToolViewModel(HeartBeat beat, ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
             this.comm = comm;
             this.dialogService = dialogService;
@@ -152,20 +153,22 @@ namespace Tool.ViewModels
             ConnectCtrlCmd = new DelegateCommand(ConnectCtrl).ObservesCanExecute(() => CanConnectCtrlCmd);
             StreamingCtrlCmd = new DelegateCommand(StreamingCtrl).ObservesCanExecute(() => CanStreamingCtrlCmd);
             EventAggregator.GetEvent<ConfigCameraReplyEvent>().Subscribe(RecvConfigCameraReply, true);
-            EventAggregator.GetEvent<DisconnectCameraRequestEvent>().Subscribe(() =>
+            EventAggregator.GetEvent<CloseAppEvent>().Subscribe(() =>
             {
                 if (isStreaming)
                 {
-                    comm.StopStreaming(0);
+                    if (beat.Alive)
+                        comm.StopStreaming(5000);
                     EventAggregator.GetEvent<ClosePointCloudEvent>().Publish();
                 }
 
                 if (isConnected)
                 {
+                    if (beat.Alive)
+                        comm.DisconnectCamera(3000);
                     KillAssembly(processor);
-                    comm.DisconnectCamera(0);
                 }
-            }, true);//CLose窗体的时候触发
+            }, ThreadOption.PublisherThread, true);//CLose窗体的时候触发
             EventAggregator.GetEvent<CaptureReplyEvent>().Subscribe(reply =>
             {
                 IsCapturing = false;
@@ -310,7 +313,7 @@ namespace Tool.ViewModels
 
         private bool GetLenArgs()
         {
-            var res = comm.GetLensArgs(2000);
+            var res = comm.GetLensArgs(5000);
             if (res.HasValue)
             {
                 if (!res.Value)
