@@ -106,7 +106,7 @@
                             <conver:GrayFrequencyVisibility x:Key="GrayFreqConver" />
 
                             <Style BasedOn="{StaticResource MaterialDesignBody1TextBlock}" TargetType="TextBlock">
-                                <Setter Property="Width" Value="40" />
+                                <Setter Property="Width" Value="45" />
                                 <Setter Property="TextAlignment" Value="Center" />
                                 <Setter Property="VerticalAlignment" Value="Center" />
                             </Style>
@@ -166,7 +166,7 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="N1" />
+                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
@@ -186,7 +186,7 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="N2" />
+                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
@@ -241,7 +241,7 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="N3" />
+                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
@@ -262,7 +262,7 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="N4" />
+                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
@@ -317,7 +317,7 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="N5" />
+                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
@@ -338,7 +338,7 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="N6" />
+                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
@@ -394,7 +394,7 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="N7" />
+                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
@@ -413,9 +413,8 @@
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="N8" />
+                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
