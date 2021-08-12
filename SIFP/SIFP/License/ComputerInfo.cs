@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Management;
 using System.Text;
 
@@ -36,7 +37,9 @@ namespace License
             string result = string.Empty;
             foreach (var obj in query)
             {
-                result = obj["VolumeSerialNumber"].ToString();
+                var vsn = obj["VolumeSerialNumber"];
+                if (null != vsn)
+                    result = vsn.ToString();
                 break;
             }
 
@@ -48,9 +51,12 @@ namespace License
             var query = managementObjectDict[WmiType.Win32_Processor.ToString()];
 
             string result = string.Empty;
+
             foreach (var obj in query)
             {
-                result = obj["Processorid"].ToString();
+                var pid = obj["Processorid"];
+                if (null != pid)
+                    result = pid.ToString();
                 break;
             }
 
@@ -64,7 +70,9 @@ namespace License
             string result = string.Empty;
             foreach (var obj in query)
             {
-                result = obj["PartNumber"].ToString();
+                var pn = obj["PartNumber"];
+                if (null != pn)
+                    result = pn.ToString();
                 break;
             }
             return result;
@@ -77,7 +85,9 @@ namespace License
             string result = string.Empty;
             foreach (var obj in query)
             {
-                result = obj["SerialNumber"].ToString();
+                var sn = obj["SerialNumber"];
+                if (null != sn)
+                    result = sn.ToString();
                 break;
             }
             return result;
