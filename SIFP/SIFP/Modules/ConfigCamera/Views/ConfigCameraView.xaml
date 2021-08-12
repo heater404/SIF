@@ -91,7 +91,9 @@
                                 Background="{StaticResource MaterialDesignDarkBackground}"
                                 Content="LedMod"
                                 DockPanel.Dock="Right"
-                                IsChecked="{Binding EnableLedMod}" />
+                                IsChecked="{Binding EnableLedMod}"
+                                IsEnabled="{Binding IsEnable}"
+                                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         </DockPanel>
                     </GroupBox.Header>
                     <Grid Margin="0,10">
@@ -101,6 +103,7 @@
                             <conver:SubFrameModeVisibilityConverter x:Key="SubFrameModeConver" />
                             <conver:FourBgEnableConverter x:Key="4BgEnableConver" />
                             <conver:FourBgVisibilityConverter x:Key="4BgVisibilityConver" />
+                            <conver:GrayFrequencyVisibility x:Key="GrayFreqConver" />
 
                             <Style BasedOn="{StaticResource MaterialDesignBody1TextBlock}" TargetType="TextBlock">
                                 <Setter Property="Width" Value="40" />
@@ -207,7 +210,14 @@
                                     <ComboBox
                                         Grid.Column="1"
                                         ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[0].SpecialPhaseDiv}" />
+                                        SelectedValue="{Binding PLLDLLDivs[0].SpecialPhaseDiv}">
+                                        <ComboBox.Visibility>
+                                            <MultiBinding Converter="{StaticResource GrayFreqConver}">
+                                                <Binding Path="SpecialFrameModes[0]" />
+                                                <Binding Path="EnableLedMod" />
+                                            </MultiBinding>
+                                        </ComboBox.Visibility>
+                                    </ComboBox>
                                     <Slider
                                         x:Name="Slider2"
                                         Grid.Column="2"
@@ -274,6 +284,17 @@
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[1]}" />
+                                    <ComboBox
+                                        Grid.Column="1"
+                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
+                                        SelectedValue="{Binding PLLDLLDivs[1].SpecialPhaseDiv}">
+                                        <ComboBox.Visibility>
+                                            <MultiBinding Converter="{StaticResource GrayFreqConver}">
+                                                <Binding Path="SpecialFrameModes[1]" />
+                                                <Binding Path="EnableLedMod" />
+                                            </MultiBinding>
+                                        </ComboBox.Visibility>
+                                    </ComboBox>
                                     <Slider
                                         x:Name="Slider5"
                                         Grid.Column="2"
@@ -339,6 +360,17 @@
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[2]}" />
+                                    <ComboBox
+                                        Grid.Column="1"
+                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
+                                        SelectedValue="{Binding PLLDLLDivs[2].SpecialPhaseDiv}">
+                                        <ComboBox.Visibility>
+                                            <MultiBinding Converter="{StaticResource GrayFreqConver}">
+                                                <Binding Path="SpecialFrameModes[2]" />
+                                                <Binding Path="EnableLedMod" />
+                                            </MultiBinding>
+                                        </ComboBox.Visibility>
+                                    </ComboBox>
                                     <Slider
                                         x:Name="Slider8"
                                         Grid.Column="2"
@@ -405,6 +437,17 @@
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[3]}" />
+                                    <ComboBox
+                                        Grid.Column="1"
+                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
+                                        SelectedValue="{Binding PLLDLLDivs[3].SpecialPhaseDiv}">
+                                        <ComboBox.Visibility>
+                                            <MultiBinding Converter="{StaticResource GrayFreqConver}">
+                                                <Binding Path="SpecialFrameModes[3]" />
+                                                <Binding Path="EnableLedMod" />
+                                            </MultiBinding>
+                                        </ComboBox.Visibility>
+                                    </ComboBox>
                                     <Slider
                                         x:Name="Slider11"
                                         Grid.Column="2"
