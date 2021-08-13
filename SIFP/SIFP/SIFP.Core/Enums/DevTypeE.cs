@@ -67,6 +67,9 @@ namespace SIFP.Core.Enums
         [SubWorkMode(WorkModeE.SINGLE_FREQ)]
         _4PHASE_GRAY_5BG,
 
+        [SubWorkMode(WorkModeE.SINGLE_FREQ)]
+        GRAY_BG_4PHASE_GRAY_BG,
+
         [SubWorkMode(WorkModeE.DOUBLE_FREQ)]
         _4PHASE_4PHASE,
 

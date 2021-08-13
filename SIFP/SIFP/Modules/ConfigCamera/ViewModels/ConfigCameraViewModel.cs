@@ -241,6 +241,7 @@ namespace ConfigCamera.ViewModels
                 SubFrameModes = configCameraModel.CurrentUserCase.SubFrameModes;
                 SpecialFrameModes = configCameraModel.CurrentUserCase.SpecialFrameModes;
                 MaxFPS = configCameraModel.CurrentUserCase.MaxFPS;
+                EnableLedMod = configCameraModel.CurrentUserCase.EnableLedMod == 1;
                 RaisePropertyChanged();
             }
         }
@@ -275,12 +276,18 @@ namespace ConfigCamera.ViewModels
             set { configCameraModel.CurrentUserCase.MaxFPS = value; RaisePropertyChanged(); }
         }
 
+        public bool EnableLedMod
+        {
+            get { return configCameraModel.CurrentUserCase.EnableLedMod == 1; }
+            set { configCameraModel.CurrentUserCase.EnableLedMod = value ? 1 : 0; RaisePropertyChanged(); }
+        }
+
         public UInt32 PhaseMode
         {
             get { return (UInt32)configCameraModel.PhaseMode; }
-            set { configCameraModel.PhaseMode = (PhaseModeE)value;RaisePropertyChanged(); }
+            set { configCameraModel.PhaseMode = (PhaseModeE)value; RaisePropertyChanged(); }
         }
-        
+
 
         //深度帧帧率
         public UInt32 FPS
