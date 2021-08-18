@@ -142,7 +142,7 @@ namespace Services
             return (MsgHeader)serializer.Deserialize(data, type);
         }
 
-        private ConfigCameraReplyE? configCameraSuccess=ConfigCameraReplyE.DisconnectStatus;
+        private ConfigCameraReplyE? configCameraSuccess = ConfigCameraReplyE.DisconnectStatus;
         public ConfigCameraReplyE? ConfigCamera(ConfigCameraModel configCamera, int millisecondsTimeout)
         {
             if (client == null)
@@ -492,13 +492,13 @@ namespace Services
             if (null == client)
                 return false;
 
+
+            DetectRequest msg = new DetectRequest()
+            {
+                DetectMsg = new Detect { SN = 0xffffffff },
+            };
             for (int i = 0; i < times; i++)
             {
-                DetectRequest msg = new DetectRequest()
-                {
-                    DetectMsg = new Detect { SN = 0xffffffff },
-                };
-
                 detectAck = false;
                 detectWaitHandle.Reset();
                 if (client.Send(msg) > 0)
@@ -508,10 +508,16 @@ namespace Services
                         if (detectAck)
                             return true;
                         else
+                        {
+                            Thread.Sleep(1000);
                             continue;
+                        }
                     }
                     else
+                    {
+                        Thread.Sleep(1000);
                         continue;
+                    }
                 }
                 return false;
             }
