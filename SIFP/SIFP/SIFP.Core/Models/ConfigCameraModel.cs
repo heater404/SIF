@@ -9,12 +9,15 @@ namespace SIFP.Core.Models
     public class ConfigCameraModel
     {
         [FieldOrder(1)]
+        [FieldLength(4)]
         public UInt32 DoReset { get; set; }//0--false 1--true
 
         [FieldOrder(2)]
+        [FieldLength(4)]
         public StandByModeE StandByMode { get; set; }
 
         [FieldOrder(3)]
+        [FieldLength(4)]
         public UInt32 SysXtalClkKHz { get; set; }
 
         [FieldOrder(4)]
@@ -25,12 +28,15 @@ namespace SIFP.Core.Models
 
         //深度帧帧率 但是协议需要MIPI帧率
         [FieldOrder(5)]
+        [FieldLength(4)]
         public UInt32 DepthFPS { get; set; }
 
         [FieldOrder(6)]
+        [FieldLength(4)]
         public SequencerRepeatModeE SequencerRepeatMode { get; set; }
 
         [FieldOrder(7)]
+        [FieldLength(4)]
         public TriggerModeE TriggerMode { get; set; }
 
         //configure XVS trigger polarity (only used when triggerMode is TRIGGER_MODE_SLAVE_MODE). true: being triggerd on positive level signal
@@ -42,24 +48,34 @@ namespace SIFP.Core.Models
         public ROISetting ROISetting { get; set; }
 
         [FieldOrder(10)]
+        [FieldLength(4)]
         public BinningModeE BinningMode { get; set; }
 
         [FieldOrder(11)]
+        [FieldLength(4)]
+
         public MirrorModeE MirrorMode { get; set; }
 
         [FieldOrder(12)]
+        [FieldLength(4)]
+
         public TSensorModeE TSensorMode { get; set; }
 
         [FieldOrder(13)]
+        [FieldLength(4)]
+
         public uint PerformClkChanges { get; set; }
 
         [FieldOrder(14)]
         public ClkDIvOverride ClkDivOverride { get; set; }
 
         [FieldOrder(15)]
+        [FieldLength(4)]
+
         public PhaseModeE PhaseMode { get; set; }
 
         [FieldOrder(16)]
+        [FieldLength(4)]
         public UInt32 NeedReply { get; set; }
     }
 }

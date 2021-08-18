@@ -16,7 +16,28 @@ namespace SIFP.Core.Models
         public const UInt32 HeaderLen = 24;
         public virtual UInt32 GetMsgLen()
         {
-            return (UInt32)Marshal.SizeOf(this.GetType()) - HeaderLen;
+            return GetMsgLen(this.GetType()) - HeaderLen;
+        }
+
+        private uint GetMsgLen(Type type)
+        {
+            uint count = 0;
+            var properties = type.GetProperties();
+            if (properties.Length == 0)
+                return count;
+            foreach (var pro in properties)
+            {
+                foreach (var attr in pro.GetCustomAttributes(false))
+                {
+                    if (attr.GetType() == typeof(FieldLengthAttribute))
+                    {
+                        count += (uint)((FieldLengthAttribute)attr).ConstLength;
+                    }
+                    else
+                        count += GetMsgLen(pro.GetType());
+                }
+            }
+            return count;
         }
 
         public virtual MsgTypeE GetMsgType()
@@ -34,22 +55,28 @@ namespace SIFP.Core.Models
 
         // pkt Header
         [FieldOrder(1)]
+        [FieldLength(4)]
         public uint PktSN { get; set; }
 
         //更改为总的包个数
         [FieldOrder(2)]
+        [FieldLength(4)]
         public uint TotalMsgLen { get; set; }
 
         [FieldOrder(3)]
+        [FieldLength(4)]
         public uint MsgSn { get; set; }
 
         [FieldOrder(4)]
+        [FieldLength(4)]
         public MsgTypeE MsgType { get; set; }
 
         [FieldOrder(5)]
+        [FieldLength(4)]
         public uint MsgLen { get; set; }//msgLen后面实际数据域字段长度
 
         [FieldOrder(6)]
+        [FieldLength(4)]
         public uint Timeout { get; set; }
     }
 }

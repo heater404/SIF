@@ -10,10 +10,10 @@ namespace SIFP.Core.Models
     [MsgType(MsgTypeE.ConfigAlgRequestType)]
     public class ConfigAlgRequest : MsgHeader
     {
-        public override uint GetMsgLen()
-        {
-            return 36; 
-        }
+        //public override uint GetMsgLen()
+        //{
+        //    return 36; 
+        //}
         
         [FieldOrder(1)]
         public ConfigAlg Config { get; set; }

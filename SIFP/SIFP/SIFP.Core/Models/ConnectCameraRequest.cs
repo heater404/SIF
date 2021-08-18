@@ -20,9 +20,9 @@ namespace SIFP.Core.Models
         [FieldOrder(1)]
         public bool Reset { set; get; }
 
-        public override uint GetMsgLen()
-        {
-            return 8;
-        }
+        //public override uint GetMsgLen()
+        //{
+        //    return 8;
+        //}
     }
 }

@@ -12,28 +12,35 @@ namespace SIFP.Core.Models
     {
         public override uint GetMsgLen()
         {
-            return 7 * 4 + 4 * CaptureNum;
+            return base.GetMsgLen() + 4 * CaptureNum;
         }
 
         [FieldOrder(1)]
+        [FieldLength(4)]
         public uint CaptureOpt { get; set; }
 
         [FieldOrder(2)]
+        [FieldLength(4)]
         public uint CapturePos { get; set; }
 
         [FieldOrder(3)]
+        [FieldLength(4)]
         public uint CaptureID { get; set; }
 
         [FieldOrder(4)]
+        [FieldLength(4)]
         public uint CaptureType { get; set; }
 
         [FieldOrder(5)]
+        [FieldLength(4)]
         public uint CaptureCnt { get; set; }
 
         [FieldOrder(6)]
+        [FieldLength(4)]
         public uint CaptureCycle { get; set; }
 
         [FieldOrder(7)]
+        [FieldLength(4)]
         public uint CaptureNum { get; set; }
 
         [FieldCount(nameof(CaptureNum))]
