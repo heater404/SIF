@@ -51,7 +51,7 @@ namespace ConfigCamera.ViewModels
             Frequencies = initCamera.InitFrequencies();
             configCameraModel = initCamera.InitConfigCamera(SubWorkModeE._4PHASE_GRAY_4PHASE_BG);
             InitWorkModes();
-            Resolution = CalculateResolution(ROISize, XStep, YStep);
+            Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
 
             ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCameraAsync);
 
@@ -348,7 +348,7 @@ namespace ConfigCamera.ViewModels
                 configCameraModel.ROISetting.XSize = (UInt16)value.Width;
                 configCameraModel.ROISetting.YSize = (UInt16)value.Height;
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep);
+                Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
             }
         }
         public UInt16 XStep
@@ -360,7 +360,7 @@ namespace ConfigCamera.ViewModels
                     throw new ArgumentException("OutOfRange:[1,32]");
                 configCameraModel.ROISetting.XStep = value;
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep);
+                Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
             }
         }
         public UInt16 YStep
@@ -372,7 +372,7 @@ namespace ConfigCamera.ViewModels
                     throw new ArgumentException("OutOfRange:[1,32]");
                 configCameraModel.ROISetting.YStep = value;
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep);
+                Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
             }
         }
         public bool AnalogBinning
@@ -402,7 +402,7 @@ namespace ConfigCamera.ViewModels
                         configCameraModel.BinningMode = BinningModeE.None;
                 }
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep);
+                Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
             }
         }
         public bool DigitalBinning
@@ -432,7 +432,7 @@ namespace ConfigCamera.ViewModels
                         configCameraModel.BinningMode = BinningModeE.None;
                 }
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep);
+                Resolution = CalculateResolution(ROISize, XStep, YStep, DigitalBinning);
             }
         }
         public bool HorizontalMirror
@@ -535,9 +535,9 @@ namespace ConfigCamera.ViewModels
                     throw new ArgumentException($"Invalid resolution:{value}");
             }
         }
-        private Size CalculateResolution(Size roi, UInt16 xstep, UInt16 ystep)
+        private Size CalculateResolution(Size roi, UInt16 xstep, UInt16 ystep, bool digitalBinning)
         {
-            uint width = (UInt16)((roi.Width + xstep - 1) / xstep / 4) * 4u;
+            uint width = (UInt16)((roi.Width + xstep - 1) / xstep / 4) * 4u / (digitalBinning ? 2u : 1u);
 
             uint height = (UInt16)((roi.Height + ystep - 1) / ystep);
 
