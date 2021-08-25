@@ -491,6 +491,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <UniformGrid Grid.Row="0" Columns="2">
                             <TextBox
@@ -513,7 +514,8 @@
                         <UniformGrid
                             Grid.Row="1"
                             Margin="0,5,0,0"
-                            Columns="2">
+                            Columns="2"
+                            Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBox
                                 HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="XStep : "
@@ -526,7 +528,7 @@
                                 ToolTip="StepRange:[1,32]" />
                         </UniformGrid>
 
-                        <UniformGrid
+                        <!--<UniformGrid
                             Grid.Row="2"
                             Margin="0,5,0,0"
                             Columns="2"
@@ -539,7 +541,46 @@
                                 HorizontalAlignment="Left"
                                 Content="AnalogBinning"
                                 IsChecked="{Binding AnalogBinning}" />
-                        </UniformGrid>
+                        </UniformGrid>-->
+                        <StackPanel
+                            Grid.Row="2"
+                            Margin="0,5,0,0"
+                            Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
+                                    <Setter Property="Margin" Value="0,0,0,0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="Padding" Value="10" />
+                                </Style>
+                            </StackPanel.Resources>
+                            <TextBlock VerticalAlignment="Center" Text="BinningMode : " />
+
+                            <ComboBox
+                                DisplayMemberPath="Description"
+                                ItemsSource="{Binding BinningModes}"
+                                SelectedValue="{Binding BinningMode}"
+                                SelectedValuePath="SelectedModel">
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="Visibility" Value="{Binding IsShow}" />
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+
+                            <!--<ComboBox x:Name="BinningModeCB">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <prism:InvokeCommandAction Command="{Binding BinningModeSelectedCmd}" CommandParameter="{Binding ElementName=BinningModeCB, Path=SelectedIndex}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBoxItem Content="1*1" IsSelected="True" />
+                                <ComboBoxItem Content="Analog" Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <ComboBoxItem Content="Digital" Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <ComboBoxItem Content="Aanlog_Digital" Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <ComboBoxItem Content="2*2" />
+                                <ComboBoxItem Content="4*4" />
+                            </ComboBox>-->
+                        </StackPanel>
                     </Grid>
                 </GroupBox>
                 <GroupBox

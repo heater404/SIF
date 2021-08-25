@@ -181,7 +181,11 @@ public enum SequencerRepeatModeE : UInt32
         Digital,
 
         //average 4 pixels
-        Both,
+        Analog_Digital,
+        
+        _2X2,
+
+        _4X4,
     }
 
     public enum TSensorModeE : UInt32
