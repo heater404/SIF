@@ -530,8 +530,8 @@ namespace Tool.ViewModels
                 {
                     if (!res.Value)
                     {
-                        this.PrintNoticeLog("DisonnectCamera Fail", LogLevel.Error);
-                        this.PrintWatchLog("DisonnectCamera Fail", LogLevel.Error);
+                        this.PrintNoticeLog("DisconnectCamera Fail", LogLevel.Error);
+                        this.PrintWatchLog("DisconnectCamera Fail", LogLevel.Error);
                     }
                     else
                     {
@@ -541,8 +541,8 @@ namespace Tool.ViewModels
                 }
                 else
                 {
-                    this.PrintNoticeLog("DisonnectCamera Timeout", LogLevel.Error);
-                    this.PrintWatchLog("DisonnectCamera Timeout", LogLevel.Error);
+                    this.PrintNoticeLog("DisconnectCamera Timeout", LogLevel.Error);
+                    this.PrintWatchLog("DisconnectCamera Timeout", LogLevel.Error);
                 }
 
                 if (!comm.Close())
