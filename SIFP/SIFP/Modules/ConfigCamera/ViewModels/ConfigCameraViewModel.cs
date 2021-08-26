@@ -452,7 +452,7 @@ namespace ConfigCamera.ViewModels
             get { return configCameraModel.BinningMode; }
             set
             {
-                configCameraModel.BinningMode = value; 
+                configCameraModel.BinningMode = value;
                 RaisePropertyChanged();
                 if (configCameraModel.BinningMode == BinningModeE.Analog
                     || configCameraModel.BinningMode == BinningModeE.Analog_Digital
@@ -461,6 +461,7 @@ namespace ConfigCamera.ViewModels
                 {
                     YStep = 2;
                     if (configCameraModel.BinningMode == BinningModeE._2X2
+                        || configCameraModel.BinningMode == BinningModeE.Analog_Digital
                     || configCameraModel.BinningMode == BinningModeE._4X4)
                     {
                         StartPoint = new Point(0, 0);

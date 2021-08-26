@@ -18,9 +18,7 @@ namespace SIFP.Core.Converters
             if (value is BinningModeE binning)
             {
                 if (binning == BinningModeE.None
-                    || binning == BinningModeE.Analog
-                    || binning == BinningModeE.Digital
-                    || binning == BinningModeE.Analog_Digital)
+                    || binning == BinningModeE.Analog)
                     return true;
                 else
                     return false;
