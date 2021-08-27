@@ -454,6 +454,8 @@ namespace ConfigCamera.ViewModels
             {
                 configCameraModel.BinningMode = value;
                 RaisePropertyChanged();
+                
+                //AnalogBinning开启的时候YStep自动设置为2（其实偶数都可以）
                 if (configCameraModel.BinningMode == BinningModeE.Analog
                     || configCameraModel.BinningMode == BinningModeE.Analog_Digital
                     || configCameraModel.BinningMode == BinningModeE._2X2
@@ -462,15 +464,17 @@ namespace ConfigCamera.ViewModels
                     YStep = 2;
 
                 }
-                else
+                else//没有开启AnalogBinning的时候YStep设置为1（其实任何值都可以）
                     YStep = 1;
 
+                //当开启digitalbinning的时候需要复原ROI和RR
                 if (configCameraModel.BinningMode == BinningModeE.Digital
                     ||configCameraModel.BinningMode == BinningModeE._2X2
                     || configCameraModel.BinningMode == BinningModeE.Analog_Digital
                     || configCameraModel.BinningMode == BinningModeE._4X4)
                 {
                     XStep = 1;
+                    YStep = 1;
                     StartPoint = new Point(0, 0);
                     ROISize = new Size(maxImageSize.Width, maxImageSize.Height);
                 }
