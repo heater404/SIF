@@ -460,16 +460,20 @@ namespace ConfigCamera.ViewModels
                     || configCameraModel.BinningMode == BinningModeE._4X4)
                 {
                     YStep = 2;
-                    if (configCameraModel.BinningMode == BinningModeE._2X2
-                        || configCameraModel.BinningMode == BinningModeE.Analog_Digital
-                    || configCameraModel.BinningMode == BinningModeE._4X4)
-                    {
-                        StartPoint = new Point(0, 0);
-                        ROISize = new Size(maxImageSize.Width, maxImageSize.Height);
-                    }
+
                 }
                 else
                     YStep = 1;
+
+                if (configCameraModel.BinningMode == BinningModeE.Digital
+                    ||configCameraModel.BinningMode == BinningModeE._2X2
+                    || configCameraModel.BinningMode == BinningModeE.Analog_Digital
+                    || configCameraModel.BinningMode == BinningModeE._4X4)
+                {
+                    XStep = 1;
+                    StartPoint = new Point(0, 0);
+                    ROISize = new Size(maxImageSize.Width, maxImageSize.Height);
+                }
 
                 Resolution = CalculateResolution(ROISize, XStep, YStep, this.BinningMode);
             }
