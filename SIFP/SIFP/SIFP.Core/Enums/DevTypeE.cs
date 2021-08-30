@@ -181,8 +181,6 @@ public enum SequencerRepeatModeE : UInt32
         Digital,
 
         //average 4 pixels
-        Analog_Digital,
-        
         _2X2,
 
         _4X4,

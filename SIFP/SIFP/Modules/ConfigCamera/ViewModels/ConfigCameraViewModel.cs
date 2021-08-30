@@ -139,10 +139,8 @@ namespace ConfigCamera.ViewModels
             else if (selectedIndex == 2)
                 configCameraModel.BinningMode = BinningModeE.Digital;
             else if (selectedIndex == 3)
-                configCameraModel.BinningMode = BinningModeE.Analog_Digital;
-            else if (selectedIndex == 4)
                 configCameraModel.BinningMode = BinningModeE._2X2;
-            else if (selectedIndex == 5)
+            else if (selectedIndex == 4)
                 configCameraModel.BinningMode = BinningModeE._4X4;
         }
 
@@ -194,7 +192,6 @@ namespace ConfigCamera.ViewModels
         {
             //使用analog binning时，yStart必须是偶数, yStep必须是(2 - 32)之间的偶数
             if (configCameraModel.BinningMode == BinningModeE.Analog
-                    || configCameraModel.BinningMode == BinningModeE.Analog_Digital
                     || configCameraModel.BinningMode == BinningModeE._2X2
                     || configCameraModel.BinningMode == BinningModeE._4X4)
             {
@@ -457,7 +454,6 @@ namespace ConfigCamera.ViewModels
                 
                 //AnalogBinning开启的时候YStep自动设置为2（其实偶数都可以）
                 if (configCameraModel.BinningMode == BinningModeE.Analog
-                    || configCameraModel.BinningMode == BinningModeE.Analog_Digital
                     || configCameraModel.BinningMode == BinningModeE._2X2
                     || configCameraModel.BinningMode == BinningModeE._4X4)
                 {
@@ -470,11 +466,9 @@ namespace ConfigCamera.ViewModels
                 //当开启digitalbinning的时候需要复原ROI和RR
                 if (configCameraModel.BinningMode == BinningModeE.Digital
                     ||configCameraModel.BinningMode == BinningModeE._2X2
-                    || configCameraModel.BinningMode == BinningModeE.Analog_Digital
                     || configCameraModel.BinningMode == BinningModeE._4X4)
                 {
                     XStep = 1;
-                    YStep = 1;
                     StartPoint = new Point(0, 0);
                     ROISize = new Size(maxImageSize.Width, maxImageSize.Height);
                 }
@@ -602,11 +596,6 @@ namespace ConfigCamera.ViewModels
                 ybinnig = 1;
             }
             else if (binning == BinningModeE.Digital)
-            {
-                xbinning = 2;
-                ybinnig = 1;
-            }
-            else if (binning == BinningModeE.Analog_Digital)
             {
                 xbinning = 2;
                 ybinnig = 1;

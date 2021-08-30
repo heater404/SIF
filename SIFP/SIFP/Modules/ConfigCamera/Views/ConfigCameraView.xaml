@@ -518,18 +518,31 @@
                             Grid.Row="1"
                             Margin="0,5,0,0"
                             Columns="2"
-                            IsEnabled="{Binding ElementName=BinningModeCB, Path=SelectedValue, Converter={StaticResource BMEnableConver}}"
                             Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBox
                                 HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="XStep : "
+                                IsEnabled="{Binding ElementName=BinningModeCB, Path=SelectedValue, Converter={StaticResource BMEnableConver}}"
                                 Text="{Binding XStep, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="StepRange:[1,32]" />
                             <TextBox
                                 HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="YStep : "
                                 Text="{Binding YStep, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
-                                ToolTip="StepRange:[1,32]" />
+                                ToolTip="StepRange:[1,32]">
+                                <TextBox.Style>
+                                    <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=BinningModeCB, Path=SelectedValue}" Value="_2X2">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=BinningModeCB, Path=SelectedValue}" Value="_4X4">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </UniformGrid>
                         <StackPanel
                             Grid.Row="2"
