@@ -11,6 +11,7 @@ using SIFP.Core.Models;
 using SIFP.Core.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,8 @@ namespace ConfigCamera.ViewModels
         //SubWorkMode的集合用于后台的绑定 这个集合是根据WorkMode动态生成的
         public List<ComboBoxViewMode<SubWorkModeE>> SubWorkModes { get; set; } = new List<ComboBoxViewMode<SubWorkModeE>>();
 
+        public List<ComboBoxViewMode<BinningModeE>> BinningModes { get; set; } = new List<ComboBoxViewMode<BinningModeE>>();
+
         public ConfigCameraViewModel(IInitCamera initCamera, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
@@ -51,9 +54,13 @@ namespace ConfigCamera.ViewModels
             Frequencies = initCamera.InitFrequencies();
             configCameraModel = initCamera.InitConfigCamera(SubWorkModeE._4PHASE_GRAY_4PHASE_BG);
             InitWorkModes();
-            Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
+
+            InitBinningModes();
+
+            Resolution = CalculateResolution(ROISize, XStep, YStep, configCameraModel.BinningMode);
 
             ApplyConfigCameraCmd = new DelegateCommand(ApplyConfigCameraAsync);
+            BinningModeSelectedCmd = new DelegateCommand<int?>(BinningModeSelected);
 
             this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.PublisherThread, true);
 
@@ -82,11 +89,70 @@ namespace ConfigCamera.ViewModels
             }, true);
         }
 
+        private void InitBinningModes()
+        {
+            foreach (BinningModeE item in Enum.GetValues(typeof(BinningModeE)))
+            {
+                var mode = new ComboBoxViewMode<BinningModeE>
+                {
+                    Description = item.ToString(),
+                    SelectedModel = item,
+                    IsShow = Visibility.Visible,
+                };
+                BinningModes.Add(mode);
+            }
+            FilterBinningMode();
+        }
+
+        private void FilterBinningMode()
+        {
+            if (IsExpert)
+            {
+                foreach (var item in BinningModes)
+                {
+                    item.IsShow = Visibility.Visible;
+                }
+            }
+            else
+            {
+                foreach (var item in BinningModes)
+                {
+                    if (item.SelectedModel == BinningModeE.None
+                        || item.SelectedModel == BinningModeE._2X2
+                        || item.SelectedModel == BinningModeE._4X4)
+                        item.IsShow = Visibility.Visible;
+                    else
+                        item.IsShow = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void BinningModeSelected(int? selectedIndex)
+        {
+            if (!selectedIndex.HasValue)
+                return;
+
+            if (selectedIndex == 0)
+                configCameraModel.BinningMode = BinningModeE.None;
+            else if (selectedIndex == 1)
+                configCameraModel.BinningMode = BinningModeE.Analog;
+            else if (selectedIndex == 2)
+                configCameraModel.BinningMode = BinningModeE.Digital;
+            else if (selectedIndex == 3)
+                configCameraModel.BinningMode = BinningModeE._2X2;
+            else if (selectedIndex == 4)
+                configCameraModel.BinningMode = BinningModeE._4X4;
+        }
+
         private bool isExpert;
         public bool IsExpert
         {
             get { return isExpert; }
-            set { isExpert = value; RaisePropertyChanged(); }
+            set
+            {
+                isExpert = value; RaisePropertyChanged();
+                FilterBinningMode();
+            }
         }
 
         private bool isEnable = true;
@@ -125,7 +191,9 @@ namespace ConfigCamera.ViewModels
         private async void ApplyConfigCameraAsync()
         {
             //使用analog binning时，yStart必须是偶数, yStep必须是(2 - 32)之间的偶数
-            if (AnalogBinning)
+            if (configCameraModel.BinningMode == BinningModeE.Analog
+                    || configCameraModel.BinningMode == BinningModeE._2X2
+                    || configCameraModel.BinningMode == BinningModeE._4X4)
             {
                 if (StartPoint.Y % 2 != 0 || YStep % 2 != 0)
                 {
@@ -216,7 +284,7 @@ namespace ConfigCamera.ViewModels
         }
 
         public DelegateCommand ApplyConfigCameraCmd { get; set; }
-
+        public DelegateCommand<int?> BinningModeSelectedCmd { get; set; }
         public WorkModeE WorkMode
         {
             get { return configCameraModel.CurrentUserCase.WorkMode; }
@@ -348,7 +416,7 @@ namespace ConfigCamera.ViewModels
                 configCameraModel.ROISetting.XSize = (UInt16)value.Width;
                 configCameraModel.ROISetting.YSize = (UInt16)value.Height;
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
+                Resolution = CalculateResolution(ROISize, XStep, YStep, this.BinningMode);
             }
         }
         public UInt16 XStep
@@ -360,7 +428,7 @@ namespace ConfigCamera.ViewModels
                     throw new ArgumentException("OutOfRange:[1,32]");
                 configCameraModel.ROISetting.XStep = value;
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
+                Resolution = CalculateResolution(ROISize, XStep, YStep, this.BinningMode);
             }
         }
         public UInt16 YStep
@@ -372,69 +440,43 @@ namespace ConfigCamera.ViewModels
                     throw new ArgumentException("OutOfRange:[1,32]");
                 configCameraModel.ROISetting.YStep = value;
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
+                Resolution = CalculateResolution(ROISize, XStep, YStep, this.BinningMode);
             }
         }
-        public bool AnalogBinning
+
+        public BinningModeE BinningMode
         {
-            get
-            {
-                if (configCameraModel.BinningMode == BinningModeE.Analog ||
-                    configCameraModel.BinningMode == BinningModeE.Both)
-                    return true;
-                else
-                    return false;
-            }
+            get { return configCameraModel.BinningMode; }
             set
             {
-                if (value)
-                {
-                    if (DigitalBinning)
-                        configCameraModel.BinningMode = BinningModeE.Both;
-                    else
-                        configCameraModel.BinningMode = BinningModeE.Analog;
-                }
-                else
-                {
-                    if (DigitalBinning)
-                        configCameraModel.BinningMode = BinningModeE.Digital;
-                    else
-                        configCameraModel.BinningMode = BinningModeE.None;
-                }
+                configCameraModel.BinningMode = value;
                 RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep, this.DigitalBinning);
+                
+                //AnalogBinning开启的时候YStep自动设置为2（其实偶数都可以）
+                if (configCameraModel.BinningMode == BinningModeE.Analog
+                    || configCameraModel.BinningMode == BinningModeE._2X2
+                    || configCameraModel.BinningMode == BinningModeE._4X4)
+                {
+                    YStep = 2;
+
+                }
+                else//没有开启AnalogBinning的时候YStep设置为1（其实任何值都可以）
+                    YStep = 1;
+
+                //当开启digitalbinning的时候需要复原ROI和RR
+                if (configCameraModel.BinningMode == BinningModeE.Digital
+                    ||configCameraModel.BinningMode == BinningModeE._2X2
+                    || configCameraModel.BinningMode == BinningModeE._4X4)
+                {
+                    XStep = 1;
+                    StartPoint = new Point(0, 0);
+                    ROISize = new Size(maxImageSize.Width, maxImageSize.Height);
+                }
+
+                Resolution = CalculateResolution(ROISize, XStep, YStep, this.BinningMode);
             }
         }
-        public bool DigitalBinning
-        {
-            get
-            {
-                if (configCameraModel.BinningMode == BinningModeE.Digital ||
-                    configCameraModel.BinningMode == BinningModeE.Both)
-                    return true;
-                else
-                    return false;
-            }
-            set
-            {
-                if (value)
-                {
-                    if (AnalogBinning)
-                        configCameraModel.BinningMode = BinningModeE.Both;
-                    else
-                        configCameraModel.BinningMode = BinningModeE.Digital;
-                }
-                else
-                {
-                    if (AnalogBinning)
-                        configCameraModel.BinningMode = BinningModeE.Analog;
-                    else
-                        configCameraModel.BinningMode = BinningModeE.None;
-                }
-                RaisePropertyChanged();
-                Resolution = CalculateResolution(ROISize, XStep, YStep, DigitalBinning);
-            }
-        }
+
         public bool HorizontalMirror
         {
             get
@@ -535,11 +577,39 @@ namespace ConfigCamera.ViewModels
                     throw new ArgumentException($"Invalid resolution:{value}");
             }
         }
-        private Size CalculateResolution(Size roi, UInt16 xstep, UInt16 ystep, bool digitalBinning)
+        private Size CalculateResolution(Size roi, UInt16 xstep, UInt16 ystep, BinningModeE binning)
         {
-            uint width = (UInt16)((roi.Width + xstep - 1) / xstep / 4) * 4u / (digitalBinning ? 2u : 1u);
+            uint xbinning = 1, ybinnig = 1;
+            if (binning == BinningModeE._2X2)
+            {
+                xbinning = 2;
+                ybinnig = 1;
+            }
+            else if (binning == BinningModeE.None)
+            {
+                xbinning = 1;
+                ybinnig = 1;
+            }
+            else if (binning == BinningModeE.Analog)
+            {
+                xbinning = 1;
+                ybinnig = 1;
+            }
+            else if (binning == BinningModeE.Digital)
+            {
+                xbinning = 2;
+                ybinnig = 1;
+            }
+            else if (binning == BinningModeE._4X4)
+            {
+                xbinning = 4;
+                ybinnig = 2;
+            }
 
-            uint height = (UInt16)((roi.Height + ystep - 1) / ystep);
+
+            uint width = (UInt16)((roi.Width + xstep - 1) / xstep / 4) * 4u / xbinning;
+
+            uint height = (UInt16)((roi.Height + ystep - 1) / ystep) / ybinnig;
 
             return new Size(width, height);
         }

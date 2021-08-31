@@ -21,6 +21,7 @@
             <ScrollViewer.Resources>
                 <Style BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" TargetType="ScrollBar" />
                 <Style BasedOn="{StaticResource MaterialDesignCardGroupBox}" TargetType="GroupBox" />
+                <conver:BinningModeEnableConverter x:Key="BMEnableConver" />
             </ScrollViewer.Resources>
             <StackPanel>
                 <GroupBox
@@ -492,7 +493,10 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <UniformGrid Grid.Row="0" Columns="2">
+                        <UniformGrid
+                            Grid.Row="0"
+                            Columns="2"
+                            IsEnabled="{Binding ElementName=BinningModeCB, Path=SelectedValue, Converter={StaticResource BMEnableConver}}">
                             <TextBox
                                 HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="ROISize : "
@@ -513,33 +517,59 @@
                         <UniformGrid
                             Grid.Row="1"
                             Margin="0,5,0,0"
-                            Columns="2">
+                            Columns="2"
+                            Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <TextBox
                                 HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="XStep : "
+                                IsEnabled="{Binding ElementName=BinningModeCB, Path=SelectedValue, Converter={StaticResource BMEnableConver}}"
                                 Text="{Binding XStep, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
                                 ToolTip="StepRange:[1,32]" />
                             <TextBox
                                 HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="YStep : "
                                 Text="{Binding YStep, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
-                                ToolTip="StepRange:[1,32]" />
+                                ToolTip="StepRange:[1,32]">
+                                <TextBox.Style>
+                                    <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=BinningModeCB, Path=SelectedValue}" Value="_2X2">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ElementName=BinningModeCB, Path=SelectedValue}" Value="_4X4">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
                         </UniformGrid>
-
-                        <UniformGrid
+                        <StackPanel
                             Grid.Row="2"
                             Margin="0,5,0,0"
-                            Columns="2"
-                            Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <CheckBox
-                                HorizontalAlignment="Left"
-                                Content="DigitalBinning"
-                                IsChecked="{Binding DigitalBinning}" />
-                            <CheckBox
-                                HorizontalAlignment="Left"
-                                Content="AnalogBinning"
-                                IsChecked="{Binding AnalogBinning}" />
-                        </UniformGrid>
+                            Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
+                                    <Setter Property="Margin" Value="0,0,0,0" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="Padding" Value="10" />
+                                </Style>
+                            </StackPanel.Resources>
+                            <TextBlock VerticalAlignment="Center" Text="BinningMode : " />
+
+                            <ComboBox
+                                x:Name="BinningModeCB"
+                                DisplayMemberPath="Description"
+                                ItemsSource="{Binding BinningModes}"
+                                SelectedValue="{Binding BinningMode}"
+                                SelectedValuePath="SelectedModel">
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="Visibility" Value="{Binding IsShow}" />
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </StackPanel>
                     </Grid>
                 </GroupBox>
                 <GroupBox
