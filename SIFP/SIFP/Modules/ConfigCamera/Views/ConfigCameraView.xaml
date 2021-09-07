@@ -25,79 +25,10 @@
             </ScrollViewer.Resources>
             <StackPanel>
                 <GroupBox
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Margin="10"
-                    Header="WorkMode"
-                    IsEnabled="{Binding IsEnable}">
-                    <Grid Margin="0,10">
-                        <Grid.Resources>
-                            <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
-                                <Setter Property="Margin" Value="10,0,0,0" />
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                <Setter Property="Padding" Value="10" />
-                            </Style>
-                        </Grid.Resources>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <ComboBox
-                            Grid.Column="0"
-                            Margin="10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            DisplayMemberPath="Description"
-                            ItemsSource="{Binding WorkModes}"
-                            SelectedValue="{Binding WorkMode}"
-                            SelectedValuePath="SelectedModel">
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="ComboBoxItem">
-                                    <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
-
-                        <ComboBox
-                            Grid.Column="1"
-                            Margin="10,0,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            DisplayMemberPath="Description"
-                            ItemsSource="{Binding SubWorkModes}"
-                            SelectedValue="{Binding SubWorkMode}"
-                            SelectedValuePath="SelectedModel">
-                            <ComboBox.ItemContainerStyle>
-                                <Style TargetType="ComboBoxItem">
-                                    <Setter Property="Visibility" Value="{Binding IsShow}" />
-                                </Style>
-                            </ComboBox.ItemContainerStyle>
-                        </ComboBox>
-                    </Grid>
-                </GroupBox>
-                <GroupBox Grid.Row="1" Margin="10">
-                    <GroupBox.Header>
-                        <DockPanel LastChildFill="True">
-                            <TextBlock
-                                DockPanel.Dock="Left"
-                                Foreground="Black"
-                                Text="Frequency&amp;IntegrationTime" />
-                            <CheckBox
-                                Background="{StaticResource MaterialDesignDarkBackground}"
-                                Content="EnableAE"
-                                DockPanel.Dock="Right"
-                                IsChecked="{Binding EnableAE}" />
-                            <CheckBox
-                                Margin="0,0,10,0"
-                                HorizontalAlignment="Right"
-                                Background="{StaticResource MaterialDesignDarkBackground}"
-                                Content="LedMod"
-                                DockPanel.Dock="Right"
-                                IsChecked="{Binding EnableLedMod}"
-                                IsEnabled="{Binding IsEnable}"
-                                Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        </DockPanel>
-                    </GroupBox.Header>
-                    <Grid Margin="0,10">
+                    Header="Frame Structure">
+                    <Grid Margin="0,0">
                         <Grid.Resources>
                             <conver:IntegrationTimeConverter x:Key="IntConver" />
                             <conver:NumSubFramePerFrameVisibilityConverter x:Key="VisibilityConver" />
@@ -105,357 +36,424 @@
                             <conver:FourBgEnableConverter x:Key="4BgEnableConver" />
                             <conver:FourBgVisibilityConverter x:Key="4BgVisibilityConver" />
                             <conver:GrayFrequencyVisibility x:Key="GrayFreqConver" />
-
-                            <Style BasedOn="{StaticResource MaterialDesignBody1TextBlock}" TargetType="TextBlock">
-                                <Setter Property="Width" Value="45" />
-                                <Setter Property="TextAlignment" Value="Center" />
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                            </Style>
-                            <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
-                                <Setter Property="Margin" Value="10,0,0,0" />
-                                <Setter Property="Width" Value="130" />
-                                <Setter Property="Padding" Value="10" />
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                <Setter Property="DisplayMemberPath" Value="Description" />
-                                <Setter Property="SelectedValuePath" Value="SelectedModel" />
-                                <Setter Property="materialDesign:TextFieldAssist.SuffixText" Value=" MHz" />
-                            </Style>
-
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Visibility" Value="{Binding IsShow}" />
-                            </Style>
-                            <Style BasedOn="{StaticResource MaterialDesignDiscreteSlider}" TargetType="Slider">
-                                <Setter Property="MinWidth" Value="120" />
-                                <Setter Property="Margin" Value="10,0,0,0" />
-                                <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                                <Setter Property="AutoToolTipPlacement" Value="None" />
-                                <Setter Property="LargeChange" Value="100" />
-                                <Setter Property="SmallChange" Value="50" />
-                                <Setter Property="TickFrequency" Value="50" />
-                                <Setter Property="IsEnabled" Value="{Binding EnableAE, Converter={StaticResource NotConverter}}" />
-                                <Setter Property="Maximum" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item2}" />
-                                <Setter Property="Minimum" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.IntegrationTimeRange.Item1}" />
-                            </Style>
-
-                            <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="TextBox">
-                                <Setter Property="materialDesign:TextFieldAssist.SuffixText" Value="us" />
-                                <Setter Property="Width" Value="50" />
-                                <Setter Property="VerticalContentAlignment" Value="Bottom" />
-                                <Setter Property="IsEnabled" Value="{Binding EnableAE, Converter={StaticResource NotConverter}}" />
-                            </Style>
                         </Grid.Resources>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
+                        <TabControl Background="#0f505050" BorderThickness="0">
+                            <TabItem Header="Frame1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        materialDesign:TextFieldAssist.PrefixText="SubFrameNum:"
+                                        Style="{StaticResource MaterialDesignTextBox}"
+                                        Text="{Binding NumSubFramePerFrame[0], UpdateSourceTrigger=PropertyChanged}" />
 
-                            <Grid Grid.Row="0" Visibility="{Binding NumSubFramePerFrame[0], Converter={StaticResource VisibilityConver}}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[0].Phase1_4Div}" />
-                                    <Slider
-                                        x:Name="Slider0"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[0].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider0, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
+                                        Grid.Row="1"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:TextFieldAssist.PrefixText="SubFrameMode : "
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding SubFrameModesE}"
+                                        SelectedValue="{Binding SubFrameModes[0]}"
+                                        SelectedValuePath="SelectedModel" />
 
-                                <Grid Grid.Row="1" Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[0].Phase5_8Div}" />
-                                    <Slider
-                                        x:Name="Slider1"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[0].Phase5_8Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider1, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
+                                        Grid.Row="2"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:TextFieldAssist.PrefixText="SpecialFrameMode : "
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding SpecialFrameModesE}"
+                                        SelectedValue="{Binding SpecialFrameModes[0]}"
+                                        SelectedValuePath="SelectedModel" />
 
-                                <Grid Grid.Row="2" Visibility="{Binding SubFrameModes[0], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[0]}" />
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="Phase1-4 : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[0].Phase1_4Div}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[0].Phase1_4Int, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="4" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="Phase5-8 : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[0].Phase5_8Div}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[0].Phase5_8Int, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="5" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="SpecialPhase : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[0].SpecialPhaseDiv}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[0].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Frame2">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        materialDesign:TextFieldAssist.PrefixText="SubFrameNum:"
+                                        Style="{StaticResource MaterialDesignTextBox}"
+                                        Text="{Binding NumSubFramePerFrame[1], UpdateSourceTrigger=PropertyChanged}" />
+
                                     <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[0].SpecialPhaseDiv}">
-                                        <ComboBox.Visibility>
-                                            <MultiBinding Converter="{StaticResource GrayFreqConver}">
-                                                <Binding Path="SpecialFrameModes[0]" />
-                                                <Binding Path="EnableLedMod" />
-                                            </MultiBinding>
-                                        </ComboBox.Visibility>
-                                    </ComboBox>
-                                    <Slider
-                                        x:Name="Slider2"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[0].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider2, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                                        Grid.Row="1"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:TextFieldAssist.PrefixText="SubFrameMode : "
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding SubFrameModesE}"
+                                        SelectedValue="{Binding SubFrameModes[1]}"
+                                        SelectedValuePath="SelectedModel" />
 
-                                </Grid>
-                            </Grid>
-
-                            <Grid Grid.Row="1" Visibility="{Binding NumSubFramePerFrame[1], Converter={StaticResource VisibilityConver}}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[1].Phase1_4Div}" />
+                                        Grid.Row="2"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:TextFieldAssist.PrefixText="SpecialFrameMode : "
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding SpecialFrameModesE}"
+                                        SelectedValue="{Binding SpecialFrameModes[1]}"
+                                        SelectedValuePath="SelectedModel" />
 
-                                    <Slider
-                                        x:Name="Slider3"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[1].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider3, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="Phase1-4 : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[1].Phase1_4Div}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[1].Phase1_4Int, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="4" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="Phase5-8 : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[1].Phase5_8Div}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[1].Phase5_8Int, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="5" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="SpecialPhase : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[1].SpecialPhaseDiv}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[1].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
                                 </Grid>
+                            </TabItem>
+                            <TabItem Header="Frame3">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        materialDesign:TextFieldAssist.PrefixText="SubFrameNum:"
+                                        Style="{StaticResource MaterialDesignTextBox}"
+                                        Text="{Binding NumSubFramePerFrame[2], UpdateSourceTrigger=PropertyChanged}" />
 
-                                <Grid Grid.Row="1" Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[1].Phase5_8Div}" />
+                                        Grid.Row="1"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:TextFieldAssist.PrefixText="SubFrameMode : "
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding SubFrameModesE}"
+                                        SelectedValue="{Binding SubFrameModes[2]}"
+                                        SelectedValuePath="SelectedModel" />
 
-                                    <Slider
-                                        x:Name="Slider4"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[1].Phase5_8Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider4, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
-
-                                <Grid Grid.Row="2" Visibility="{Binding SubFrameModes[1], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[1]}" />
                                     <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[1].SpecialPhaseDiv}">
-                                        <ComboBox.Visibility>
-                                            <MultiBinding Converter="{StaticResource GrayFreqConver}">
-                                                <Binding Path="SpecialFrameModes[1]" />
-                                                <Binding Path="EnableLedMod" />
-                                            </MultiBinding>
-                                        </ComboBox.Visibility>
-                                    </ComboBox>
-                                    <Slider
-                                        x:Name="Slider5"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[1].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider5, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
-                            </Grid>
+                                        Grid.Row="2"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:TextFieldAssist.PrefixText="SpecialFrameMode : "
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding SpecialFrameModesE}"
+                                        SelectedValue="{Binding SpecialFrameModes[2]}"
+                                        SelectedValuePath="SelectedModel" />
 
-                            <Grid Grid.Row="2" Visibility="{Binding NumSubFramePerFrame[2], Converter={StaticResource VisibilityConver}}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Phase" />
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="Phase1-4 : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[2].Phase1_4Div}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[2].Phase1_4Int, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="4" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="Phase5-8 : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[2].Phase5_8Div}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[2].Phase5_8Int, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="5" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="SpecialPhase : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[2].SpecialPhaseDiv}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[2].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Frame4">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        materialDesign:TextFieldAssist.PrefixText="SubFrameNum:"
+                                        Style="{StaticResource MaterialDesignTextBox}"
+                                        Text="{Binding NumSubFramePerFrame[3], UpdateSourceTrigger=PropertyChanged}" />
+
                                     <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[2].Phase1_4Div}" />
+                                        Grid.Row="1"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:TextFieldAssist.PrefixText="SubFrameMode : "
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding SubFrameModesE}"
+                                        SelectedValue="{Binding SubFrameModes[3]}"
+                                        SelectedValuePath="SelectedModel" />
 
-                                    <Slider
-                                        x:Name="Slider6"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[2].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider6, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
-
-                                <Grid Grid.Row="1" Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Phase" />
                                     <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[2].Phase5_8Div}" />
+                                        Grid.Row="2"
+                                        Width="auto"
+                                        HorizontalAlignment="Left"
+                                        materialDesign:TextFieldAssist.PrefixText="SpecialFrameMode : "
+                                        DisplayMemberPath="Description"
+                                        ItemsSource="{Binding SpecialFrameModesE}"
+                                        SelectedValue="{Binding SpecialFrameModes[3]}"
+                                        SelectedValuePath="SelectedModel" />
 
-                                    <Slider
-                                        x:Name="Slider7"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[2].Phase5_8Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider7, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="Phase1-4 : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[3].Phase1_4Div}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[3].Phase1_4Int, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="4" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="Phase5-8 : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[3].Phase5_8Div}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[3].Phase5_8Int, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="5" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="auto"
+                                            VerticalAlignment="Center"
+                                            Text="SpecialPhase : " />
+                                        <ComboBox
+                                            materialDesign:TextFieldAssist.SuffixText="MHz"
+                                            DisplayMemberPath="Description"
+                                            ItemsSource="{Binding Frequencies}"
+                                            SelectedValue="{Binding PLLDLLDivs[3].SpecialPhaseDiv}"
+                                            SelectedValuePath="SelectedModel" />
+                                        <TextBox
+                                            Margin="30,0,0,0"
+                                            materialDesign:TextFieldAssist.SuffixText="us"
+                                            Text="{Binding IntegrationTimes[3].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
                                 </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Margin="10" Header="Others">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <CheckBox
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Content="DifferentialBG"
+                            IsChecked="{Binding DifferentialBG}" />
+                        <CheckBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="50,0,0,0"
+                            Content="EnableLedMod"
+                            IsChecked="{Binding EnableLedMod}" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            materialDesign:TextFieldAssist.PrefixText="NumDepthSequencePerDepthMap : "
+                            Text="{Binding NumDepthSequencePerDepthMap}" />
 
-                                <Grid Grid.Row="2" Visibility="{Binding SubFrameModes[2], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[2]}" />
-                                    <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[2].SpecialPhaseDiv}">
-                                        <ComboBox.Visibility>
-                                            <MultiBinding Converter="{StaticResource GrayFreqConver}">
-                                                <Binding Path="SpecialFrameModes[2]" />
-                                                <Binding Path="EnableLedMod" />
-                                            </MultiBinding>
-                                        </ComboBox.Visibility>
-                                    </ComboBox>
-                                    <Slider
-                                        x:Name="Slider8"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[2].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider8, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                        <ComboBox
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            materialDesign:TextFieldAssist.PrefixText="MIPI_FS_FE_Pos : "
+                            ItemsSource="{Binding MIPI_FS_FE_Poss}"
+                            SelectedItem="{Binding MIPI_FS_FE_Pos}" />
 
-                                </Grid>
-                            </Grid>
-
-                            <Grid Grid.Row="3" Visibility="{Binding NumSubFramePerFrame[3], Converter={StaticResource VisibilityConver}}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase1_4}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Phase" />
-                                    <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[3].Phase1_4Div}" />
-
-                                    <Slider
-                                        x:Name="Slider9"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[3].Phase1_4Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider9, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
-
-                                <Grid Grid.Row="1" Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=Phase5_8}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Phase" />
-                                    <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[3].Phase5_8Div}" />
-
-                                    <Slider
-                                        x:Name="Slider10"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[3].Phase5_8Int, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider10, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
-
-                                <Grid Grid.Row="2" Visibility="{Binding SubFrameModes[3], Converter={StaticResource SubFrameModeConver}, ConverterParameter=SpecialPhase}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="{Binding SpecialFrameModes[3]}" />
-                                    <ComboBox
-                                        Grid.Column="1"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DataContext.Frequencies}"
-                                        SelectedValue="{Binding PLLDLLDivs[3].SpecialPhaseDiv}">
-                                        <ComboBox.Visibility>
-                                            <MultiBinding Converter="{StaticResource GrayFreqConver}">
-                                                <Binding Path="SpecialFrameModes[3]" />
-                                                <Binding Path="EnableLedMod" />
-                                            </MultiBinding>
-                                        </ComboBox.Visibility>
-                                    </ComboBox>
-                                    <Slider
-                                        x:Name="Slider11"
-                                        Grid.Column="2"
-                                        Value="{Binding IntegrationTimes[3].SpecialPhaseInt, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntConver}}" />
-                                    <TextBox Grid.Column="3" Text="{Binding ElementName=Slider11, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
-                                </Grid>
-                            </Grid>
-                        </Grid>
+                        <ComboBox
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            materialDesign:TextFieldAssist.PrefixText="SequencerRepeatMode : "
+                            ItemsSource="{Binding SequencerRepeatModes}"
+                            SelectedItem="{Binding SequencerRepeatMode}" />
                     </Grid>
                 </GroupBox>
                 <GroupBox Grid.Row="2" Margin="10">
@@ -472,15 +470,12 @@
                         HorizontalAlignment="Stretch"
                         AutoToolTipPlacement="BottomRight"
                         LargeChange="5"
-                        Maximum="{Binding MaxFPS}"
+                        Maximum="60"
                         Minimum="1"
                         SmallChange="1"
-                        Value="{Binding FPS, UpdateSourceTrigger=PropertyChanged}" />
+                        Value="{Binding DepthFPS, UpdateSourceTrigger=PropertyChanged}" />
                 </GroupBox>
-                <GroupBox
-                    Grid.Row="3"
-                    Margin="10"
-                    IsEnabled="{Binding IsEnable}">
+                <GroupBox Grid.Row="3" Margin="10">
                     <GroupBox.Header>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Foreground="Black" Text="ExpectedResolution : " />
@@ -517,8 +512,7 @@
                         <UniformGrid
                             Grid.Row="1"
                             Margin="0,5,0,0"
-                            Columns="2"
-                            Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            Columns="2">
                             <TextBox
                                 HorizontalAlignment="Left"
                                 materialDesign:TextFieldAssist.PrefixText="XStep : "
@@ -593,10 +587,7 @@
                             IsChecked="{Binding VerticalMirror}" />
                     </Grid>
                 </GroupBox>
-                <GroupBox
-                    Margin="10"
-                    Header="PhaseMode"
-                    Visibility="{Binding IsExpert, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <GroupBox Margin="10" Header="PhaseMode">
                     <GroupBox.Resources>
                         <Style BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" TargetType="ComboBox">
                             <Setter Property="Margin" Value="0,0,0,0" />

@@ -45,17 +45,43 @@ namespace ConfigCamera.ViewModels
 
         public List<ComboBoxViewMode<BinningModeE>> BinningModes { get; set; } = new List<ComboBoxViewMode<BinningModeE>>();
 
+        public List<ComboBoxViewMode<SubFrameModeE>> SubFrameModesE { get; set; } = new List<ComboBoxViewMode<SubFrameModeE>>();
+        public List<ComboBoxViewMode<SpecialFrameModeE>> SpecialFrameModesE { get; set; } = new List<ComboBoxViewMode<SpecialFrameModeE>>();
+
         public ConfigCameraViewModel(IInitCamera initCamera, IDialogService dialogService, ICommunication communication, IRegionManager regionManager, IEventAggregator eventAggregator)
             : base(regionManager, eventAggregator)
         {
             this.comm = communication;
             this.dialogService = dialogService;
-            IntegrationTimeRange = initCamera.InitIntegrationTimesRange();
+            //IntegrationTimeRange = initCamera.InitIntegrationTimesRange();
             Frequencies = initCamera.InitFrequencies();
-            configCameraModel = initCamera.InitConfigCamera(SubWorkModeE._4PHASE_GRAY_4PHASE_BG);
-            InitWorkModes();
+            //configCameraModel = initCamera.InitConfigCamera(SubWorkModeE._4PHASE_GRAY_4PHASE_BG);
+            //InitWorkModes();
+            InitConfigCameraModel();
 
             InitBinningModes();
+
+            foreach (SubFrameModeE item in Enum.GetValues(typeof(SubFrameModeE)))
+            {
+                var mode = new ComboBoxViewMode<SubFrameModeE>
+                {
+                    Description = item.ToString(),
+                    SelectedModel = item,
+                    IsShow = Visibility.Visible,
+                };
+                SubFrameModesE.Add(mode);
+            }
+
+            foreach (SpecialFrameModeE item in Enum.GetValues(typeof(SpecialFrameModeE)))
+            {
+                var mode = new ComboBoxViewMode<SpecialFrameModeE>
+                {
+                    Description = item.ToString(),
+                    SelectedModel = item,
+                    IsShow = Visibility.Visible,
+                };
+                SpecialFrameModesE.Add(mode);
+            }
 
             Resolution = CalculateResolution(ROISize, XStep, YStep, configCameraModel.BinningMode);
 
@@ -64,9 +90,9 @@ namespace ConfigCamera.ViewModels
 
             this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Subscribe(ApplyConfigCamera, ThreadOption.PublisherThread, true);
 
-            this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, ThreadOption.BackgroundThread, true);
+            //this.EventAggregator.GetEvent<IsStreamingEvent>().Subscribe(isStreaming => IsEnable = !isStreaming, ThreadOption.BackgroundThread, true);
 
-            this.EventAggregator.GetEvent<ConfigCorrectionAEChangedEvent>().Subscribe(enable => EnableAE = enable, ThreadOption.BackgroundThread, true);
+            //this.EventAggregator.GetEvent<ConfigCorrectionAEChangedEvent>().Subscribe(enable => EnableAE = enable, ThreadOption.BackgroundThread, true);
 
             this.EventAggregator.GetEvent<ConfigArithParamsReplyEvent>().Subscribe(reply =>
             {
@@ -79,14 +105,160 @@ namespace ConfigCamera.ViewModels
             {
                 MaxImageSize = new Size(reply.ToFMaxImageWidth, reply.ToFMaxImageHeight);
             }, true);
+        }
 
-            this.EventAggregator.GetEvent<UserAccessChangedEvent>().Subscribe(type =>
+        private void InitConfigCameraModel()
+        {
+            configCameraModel = new ConfigCameraModel
             {
-                if (type == SIFP.Core.Enums.UserAccessType.Expert)
-                    IsExpert = true;
-                else
-                    IsExpert = false;
-            }, true);
+                DoReset = 0,
+                StandByMode = StandByModeE.None,
+                SysXtalClkKHz = 19800,
+                CurrentUserCase = new UserCaseModel
+                {
+                    WorkMode = WorkModeE.CUSTOM,
+                    SubWorkMode = SubWorkModeE.CUSTOM,
+                    SubFrameModes = new SubFrameModeE[4]
+                    { SubFrameModeE.Mode_8Phase, SubFrameModeE.Mode_8Phase, SubFrameModeE.Mode_8Phase, SubFrameModeE.Mode_8Phase },
+                    SpecialFrameModes = new SpecialFrameModeE[4]
+                    { SpecialFrameModeE.Normal, SpecialFrameModeE.Normal, SpecialFrameModeE.Normal, SpecialFrameModeE.Normal },
+                    DifferentialBG = 0,
+                    FrameSeqSchedule = new FrameSeqSchedule { Slot0FrameNum = 0, Slot1FrameNum = 1, Slot2FrameNum = 2, Slot3FrameNum = 3 },
+                    IntegrationTimes = new IntegrationTime[4]
+                    {
+                        new IntegrationTime { Phase1_4Int = 1000, Phase5_8Int = 1000, SpecialPhaseInt = 1000 },
+                        new IntegrationTime { Phase1_4Int = 1000, Phase5_8Int = 1000, SpecialPhaseInt = 1000 },
+                        new IntegrationTime { Phase1_4Int = 1000, Phase5_8Int = 1000, SpecialPhaseInt = 1000 },
+                        new IntegrationTime { Phase1_4Int = 1000, Phase5_8Int = 1000, SpecialPhaseInt = 1000 },
+                    },
+                    PLLDLLDivs = new PLLDLLDiv[4]
+                    {
+                        new PLLDLLDiv { Phase1_4Div = 3, Phase5_8Div = 3, SpecialPhaseDiv = 3 },
+                        new PLLDLLDiv { Phase1_4Div = 3, Phase5_8Div = 3, SpecialPhaseDiv = 3 },
+                        new PLLDLLDiv { Phase1_4Div = 3, Phase5_8Div = 3 ,SpecialPhaseDiv = 3 },
+                        new PLLDLLDiv { Phase1_4Div = 3, Phase5_8Div = 3 ,SpecialPhaseDiv = 3 },
+                    },
+                    NumSubFramePerFrame = new uint[4] { 1, 1, 1, 1 },
+                    EnableLedMod = 1,
+                    NumDepthSequencePerDepthMap = 1,
+                    MIPI_FS_FE_Pos = MIPI_FS_FE_PosE.DepthMap,
+                },
+                DepthFPS = 10,
+                SequencerRepeatMode = SequencerRepeatModeE.Auto_Repeat,
+                TriggerMode = TriggerModeE.Master_Mode,
+                SlaveTriggeredOnPosLevel = false,
+                ROISetting = new ROISetting
+                {
+                    XStart = 0,
+                    XSize = 640,
+                    XStep = 1,
+                    YStart = 0,
+                    YSize = 480,
+                    YStep = 1,
+                },
+                BinningMode = BinningModeE.None,
+                MirrorMode = MirrorModeE.None,
+                TSensorMode = TSensorModeE.EveryPhase,
+                PerformClkChanges = 0,
+                ClkDivOverride = new ClkDIvOverride
+                {
+                    ClkDigSlowDiv = 0,
+                    PLLFBDiv = 0,
+                    PLLPreDiv = 0,
+                },
+                PhaseMode = PhaseModeE.PhaseMode1,
+                NeedReply = 1,
+            };
+        }
+        public SubFrameModeE[] SubFrameModes
+        {
+            get { return configCameraModel.CurrentUserCase.SubFrameModes; }
+            set { configCameraModel.CurrentUserCase.SubFrameModes = value; RaisePropertyChanged(); }
+        }
+        public SpecialFrameModeE[] SpecialFrameModes
+        {
+            get { return configCameraModel.CurrentUserCase.SpecialFrameModes; }
+            set { configCameraModel.CurrentUserCase.SpecialFrameModes = value; RaisePropertyChanged(); }
+        }
+
+        public bool DifferentialBG
+        {
+            get { return configCameraModel.CurrentUserCase.DifferentialBG != 0; }
+            set { configCameraModel.CurrentUserCase.DifferentialBG = value ? 0 : 1; RaisePropertyChanged(); }
+        }
+
+        public FrameSeqSchedule FrameSeqSchedule
+        {
+            get { return configCameraModel.CurrentUserCase.FrameSeqSchedule; }
+            set { configCameraModel.CurrentUserCase.FrameSeqSchedule = value; RaisePropertyChanged(); }
+        }
+
+        public IntegrationTime[] IntegrationTimes //ns
+        {
+            get { return configCameraModel.CurrentUserCase.IntegrationTimes; }
+            set { configCameraModel.CurrentUserCase.IntegrationTimes = value; RaisePropertyChanged(); }
+        }
+        public PLLDLLDiv[] PLLDLLDivs//这里的单位都是KHz
+        {
+            get { return configCameraModel.CurrentUserCase.PLLDLLDivs; }
+            set { configCameraModel.CurrentUserCase.PLLDLLDivs = value; RaisePropertyChanged(); }
+        }
+
+        public UInt32[] NumSubFramePerFrame
+        {
+            get { return configCameraModel.CurrentUserCase.NumSubFramePerFrame; }
+            set { configCameraModel.CurrentUserCase.NumSubFramePerFrame = value; RaisePropertyChanged(); }
+        }
+
+        public bool EnableLedMod
+        {
+            get { return configCameraModel.CurrentUserCase.EnableLedMod == 1; }
+            set { configCameraModel.CurrentUserCase.EnableLedMod = value ? 1 : 0; RaisePropertyChanged(); }
+        }
+
+        public uint NumDepthSequencePerDepthMap
+        {
+            get { return configCameraModel.CurrentUserCase.NumDepthSequencePerDepthMap; }
+            set { configCameraModel.CurrentUserCase.NumDepthSequencePerDepthMap = value; RaisePropertyChanged(); }
+        }
+
+        public MIPI_FS_FE_PosE MIPI_FS_FE_Pos
+        {
+            get { return configCameraModel.CurrentUserCase.MIPI_FS_FE_Pos; }
+            set { configCameraModel.CurrentUserCase.MIPI_FS_FE_Pos = value; RaisePropertyChanged(); }
+        }
+
+        public Array MIPI_FS_FE_Poss
+        {
+            get { return Enum.GetValues(typeof(MIPI_FS_FE_PosE)); }
+        }
+
+        public uint DepthFPS
+        {
+            get { return configCameraModel.DepthFPS; }
+            set { configCameraModel.DepthFPS = value; RaisePropertyChanged(); }
+        }
+        public SequencerRepeatModeE SequencerRepeatMode
+        {
+            get { return configCameraModel.SequencerRepeatMode; }
+            set { configCameraModel.SequencerRepeatMode = value; RaisePropertyChanged(); }
+        }
+
+        public Array SequencerRepeatModes
+        {
+            get { return Enum.GetValues(typeof(SequencerRepeatModeE)); }
+        }
+
+        public TriggerModeE TriggerMode
+        {
+            get { return configCameraModel.TriggerMode; }
+            set { configCameraModel.TriggerMode = value; RaisePropertyChanged(); }
+        }
+
+        public bool SlaveTriggeredOnPosLevel
+        {
+            get { return configCameraModel.SlaveTriggeredOnPosLevel; }
+            set { configCameraModel.SlaveTriggeredOnPosLevel = value; RaisePropertyChanged(); }
         }
 
         private void InitBinningModes()
@@ -100,30 +272,6 @@ namespace ConfigCamera.ViewModels
                     IsShow = Visibility.Visible,
                 };
                 BinningModes.Add(mode);
-            }
-            FilterBinningMode();
-        }
-
-        private void FilterBinningMode()
-        {
-            if (IsExpert)
-            {
-                foreach (var item in BinningModes)
-                {
-                    item.IsShow = Visibility.Visible;
-                }
-            }
-            else
-            {
-                foreach (var item in BinningModes)
-                {
-                    if (item.SelectedModel == BinningModeE.None
-                        || item.SelectedModel == BinningModeE._2X2
-                        || item.SelectedModel == BinningModeE._4X4)
-                        item.IsShow = Visibility.Visible;
-                    else
-                        item.IsShow = Visibility.Collapsed;
-                }
             }
         }
 
@@ -144,38 +292,7 @@ namespace ConfigCamera.ViewModels
                 configCameraModel.BinningMode = BinningModeE._4X4;
         }
 
-        private bool isExpert;
-        public bool IsExpert
-        {
-            get { return isExpert; }
-            set
-            {
-                isExpert = value; RaisePropertyChanged();
-                FilterBinningMode();
-            }
-        }
 
-        private bool isEnable = true;
-        public bool IsEnable
-        {
-            get { return isEnable; }
-            set { isEnable = value; RaisePropertyChanged(); }
-        }
-
-        private bool enableAE;
-        public bool EnableAE
-        {
-            get { return enableAE; }
-            set
-            {
-                if (value != enableAE)
-                {
-                    this.EventAggregator.GetEvent<ConfigCameraAEChangedEvent>().Publish(value);
-                    enableAE = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
         private bool configCameraSuccess;
         public bool ConfigCameraSuccess
         {
@@ -212,7 +329,7 @@ namespace ConfigCamera.ViewModels
                 {
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
-                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
+                    //this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
                     ConfigCameraSuccess = true;
                 }
                 else
@@ -242,7 +359,7 @@ namespace ConfigCamera.ViewModels
                 {
                     this.PrintNoticeLog("ConfigCamera Success", LogLevel.Warning);
                     this.PrintWatchLog("ConfigCamera Success", LogLevel.Warning);
-                    this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
+                    //this.EventAggregator.GetEvent<ConfigWorkModeSuceessEvent>().Publish(this.SubWorkMode);
                     ConfigCameraSuccess = true;
                 }
                 else
@@ -260,112 +377,14 @@ namespace ConfigCamera.ViewModels
             }
         }
 
-        /// <summary>
-        /// 初始化工作模式和SubWorkMode
-        /// </summary>
-        private void InitWorkModes()
-        {
-            if (configCameraModel == null)
-                return;
-
-            foreach (var usercase in configCameraModel.UserCases)
-            {
-                var wm = new ComboBoxViewMode<WorkModeE> { Description = usercase.WorkMode.ToString(), SelectedModel = usercase.WorkMode, IsShow = Visibility.Visible };
-                if (!WorkModes.Exists(item => item.SelectedModel == wm.SelectedModel))
-                    WorkModes.Add(wm);
-
-                var swm = new ComboBoxViewMode<SubWorkModeE> { Description = usercase.SubWorkMode.ToString(), SelectedModel = usercase.SubWorkMode, IsShow = Visibility.Visible };
-                if (!SubWorkModes.Exists(item => item.SelectedModel == swm.SelectedModel))
-                    SubWorkModes.Add(swm);
-            }
-
-            //初始化的时候默认的SubWorkMode,其实是根据默认的WorkMode
-            FilterSubWorkMode((WorkModeE)WorkMode);
-        }
-
         public DelegateCommand ApplyConfigCameraCmd { get; set; }
         public DelegateCommand<int?> BinningModeSelectedCmd { get; set; }
-        public WorkModeE WorkMode
-        {
-            get { return configCameraModel.CurrentUserCase.WorkMode; }
-            set
-            {
-                FilterSubWorkMode(value);
-                RaisePropertyChanged();
-            }
-        }
-        //被选中的SubWorkMode的索引
-        public SubWorkModeE SubWorkMode
-        {
-            get { return configCameraModel.CurrentUserCase.SubWorkMode; }
-            set
-            {
-                configCameraModel.CurrentUserCase = configCameraModel.UserCases.Find(usercase => usercase.SubWorkMode == value);
 
-                SubFrameModes = configCameraModel.CurrentUserCase.SubFrameModes;
-                IntegrationTimes = configCameraModel.CurrentUserCase.IntegrationTimes;
-                PLLDLLDivs = configCameraModel.CurrentUserCase.PLLDLLDivs;
-                NumSubFramePerFrame = configCameraModel.CurrentUserCase.NumSubFramePerFrame;
-                SubFrameModes = configCameraModel.CurrentUserCase.SubFrameModes;
-                SpecialFrameModes = configCameraModel.CurrentUserCase.SpecialFrameModes;
-                MaxFPS = configCameraModel.CurrentUserCase.MaxFPS;
-                EnableLedMod = configCameraModel.CurrentUserCase.EnableLedMod == 1;
-                RaisePropertyChanged();
-            }
-        }
-        public IntegrationTime[] IntegrationTimes //ns
-        {
-            get { return configCameraModel.CurrentUserCase.IntegrationTimes; }
-            set { configCameraModel.CurrentUserCase.IntegrationTimes = value; RaisePropertyChanged(); }
-        }
-        public PLLDLLDiv[] PLLDLLDivs//这里的单位都是KHz
-        {
-            get { return configCameraModel.CurrentUserCase.PLLDLLDivs; }
-            set { configCameraModel.CurrentUserCase.PLLDLLDivs = value; RaisePropertyChanged(); }
-        }
-        public UInt32[] NumSubFramePerFrame
-        {
-            get { return configCameraModel.CurrentUserCase.NumSubFramePerFrame; }
-            set { configCameraModel.CurrentUserCase.NumSubFramePerFrame = value; RaisePropertyChanged(); }
-        }
-        public SubFrameModeE[] SubFrameModes
-        {
-            get { return configCameraModel.CurrentUserCase.SubFrameModes; }
-            set { configCameraModel.CurrentUserCase.SubFrameModes = value; RaisePropertyChanged(); }
-        }
-        public SpecialFrameModeE[] SpecialFrameModes
-        {
-            get { return configCameraModel.CurrentUserCase.SpecialFrameModes; }
-            set { configCameraModel.CurrentUserCase.SpecialFrameModes = value; RaisePropertyChanged(); }
-        }
-        public UInt32 MaxFPS
-        {
-            get { return configCameraModel.CurrentUserCase.MaxFPS; }
-            set { configCameraModel.CurrentUserCase.MaxFPS = value; RaisePropertyChanged(); }
-        }
-
-        public bool EnableLedMod
-        {
-            get { return configCameraModel.CurrentUserCase.EnableLedMod == 1; }
-            set { configCameraModel.CurrentUserCase.EnableLedMod = value ? 1 : 0; RaisePropertyChanged(); }
-        }
 
         public UInt32 PhaseMode
         {
             get { return (UInt32)configCameraModel.PhaseMode; }
             set { configCameraModel.PhaseMode = (PhaseModeE)value; RaisePropertyChanged(); }
-        }
-
-
-        //深度帧帧率
-        public UInt32 FPS
-        {
-            get { return configCameraModel.DepthFPS; }
-            set
-            {
-                configCameraModel.DepthFPS = value;
-                RaisePropertyChanged();
-            }
         }
 
         /*
@@ -444,6 +463,12 @@ namespace ConfigCamera.ViewModels
             }
         }
 
+        public TSensorModeE TSensorMode
+        {
+            get { return configCameraModel.TSensorMode; }
+            set { configCameraModel.TSensorMode = value; RaisePropertyChanged(); }
+        }
+
         public BinningModeE BinningMode
         {
             get { return configCameraModel.BinningMode; }
@@ -451,27 +476,6 @@ namespace ConfigCamera.ViewModels
             {
                 configCameraModel.BinningMode = value;
                 RaisePropertyChanged();
-                
-                //AnalogBinning开启的时候YStep自动设置为2（其实偶数都可以）
-                if (configCameraModel.BinningMode == BinningModeE.Analog
-                    || configCameraModel.BinningMode == BinningModeE._2X2
-                    || configCameraModel.BinningMode == BinningModeE._4X4)
-                {
-                    YStep = 2;
-
-                }
-                else//没有开启AnalogBinning的时候YStep设置为1（其实任何值都可以）
-                    YStep = 1;
-
-                //当开启digitalbinning的时候需要复原ROI和RR
-                if (configCameraModel.BinningMode == BinningModeE.Digital
-                    ||configCameraModel.BinningMode == BinningModeE._2X2
-                    || configCameraModel.BinningMode == BinningModeE._4X4)
-                {
-                    XStep = 1;
-                    StartPoint = new Point(0, 0);
-                    ROISize = new Size(maxImageSize.Width, maxImageSize.Height);
-                }
 
                 Resolution = CalculateResolution(ROISize, XStep, YStep, this.BinningMode);
             }
@@ -536,34 +540,6 @@ namespace ConfigCamera.ViewModels
             }
         }
 
-        /// <summary>
-        /// 根据WorkMode动态过滤SubWorkMode，在SubWorkMode中，如果属于被选中的WorkMode则把Visibility设置为True，否则为false
-        /// </summary>
-        /// <param name="workMode">被选中的WorkMode</param>
-        private void FilterSubWorkMode(WorkModeE workMode)
-        {
-            foreach (var item in SubWorkModes)
-            {
-                SubWorkModeE subWorkMode = item.SelectedModel;
-
-                if (subWorkMode.GetTAttribute<SubWorkModeAttribute>().WorkModeType != workMode)
-                    item.IsShow = Visibility.Collapsed;
-                else
-                    item.IsShow = Visibility.Visible;
-            }
-
-            //切换SubWorkMode后需要重新选择。
-            var select = SubWorkModes.Find(swm =>
-            {
-                return swm.IsShow == Visibility.Visible &&
-                (swm.SelectedModel == SubWorkModeE._4PHASE_GRAY_4PHASE_BG ||
-                swm.SelectedModel == SubWorkModeE._4PHASE_GRAY);
-            });
-            if (select == null)
-                select = SubWorkModes.First(swm => swm.IsShow == Visibility.Visible);
-
-            SubWorkMode = select.SelectedModel;
-        }
 
         private Size resolution;
         public Size Resolution

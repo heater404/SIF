@@ -126,13 +126,13 @@
                 <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding Resolution}" />
             </StackPanel>
         </StatusBarItem>
-        <Separator />
+        <!--<Separator />
         <StatusBarItem Margin="8,0,8,0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Foreground="{StaticResource MaterialDesignDarkForeground}" Text="WorkMode : " />
                 <TextBlock Foreground="{StaticResource PrimaryHueMidBrush}" Text="{Binding WorkMode}" />
             </StackPanel>
-        </StatusBarItem>
+        </StatusBarItem>-->
         <Separator />
         <StatusBarItem HorizontalAlignment="Center">
             <TextBlock Text="{Binding Log}">

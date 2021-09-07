@@ -24,7 +24,7 @@ namespace SIFP.ViewModels
 {
     public class MainWindowViewModel : RegionViewModelBase
     {
-        private string title = "SI View";
+        private string title = "WeTest-1.05.210907";
         public string Title
         {
             get { return title; }

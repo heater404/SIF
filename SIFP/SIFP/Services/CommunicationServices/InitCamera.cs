@@ -137,64 +137,64 @@ namespace Services
             File.WriteAllText(@"Configs\ConfigCamera.json", json);
 
 #endif
-            try
-            {
-                var json = File.ReadAllText(@"Configs\ConfigCamera.json");
+            //try
+            //{
+            //    var json = File.ReadAllText(@"Configs\ConfigCamera.json");
 
-                var configs = JsonSerializer.Deserialize<ConfigCameraModel>(json);
+            //    var configs = JsonSerializer.Deserialize<ConfigCameraModel>(json);
 
                 //计算每一个UserCase的最大深度帧帧率
-                foreach (var usercase in configs.UserCases)
-                {
-                    Int32[] numPhasePerFrame = new Int32[4];
-                    for (int i = 0; i < usercase.NumSubFramePerFrame.Length; i++)
-                    {
-                        switch (usercase.SubFrameModes[i])
-                        {
-                            case SubFrameModeE.Mode_4Phase:
-                                numPhasePerFrame[i] = (int)(4 * usercase.NumSubFramePerFrame[i]);
-                                break;
-                            case SubFrameModeE.Mode_2Phase:
-                                numPhasePerFrame[i] = (int)(2 * usercase.NumSubFramePerFrame[i]);
-                                break;
-                            case SubFrameModeE.Mode_8Phase:
-                                numPhasePerFrame[i] = (int)(8 * usercase.NumSubFramePerFrame[i]);
-                                break;
-                            case SubFrameModeE.Mode_2Phase_2Phase:
-                                numPhasePerFrame[i] = (int)(4 * usercase.NumSubFramePerFrame[i]);
-                                break;
-                            case SubFrameModeE.Mode_1SpecialPhase:
-                                numPhasePerFrame[i] = (int)(1 * usercase.NumSubFramePerFrame[i]);
-                                break;
-                            case SubFrameModeE.Mode_5Phase:
-                                numPhasePerFrame[i] = (int)(5 * usercase.NumSubFramePerFrame[i]);
-                                break;
-                            case SubFrameModeE.Mode_9Phase:
-                                numPhasePerFrame[i] = (int)(9 * usercase.NumSubFramePerFrame[i]);
-                                break;
-                            case SubFrameModeE.Mode_3Phase:
-                                numPhasePerFrame[i] = (int)(3 * usercase.NumSubFramePerFrame[i]);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    usercase.NumPhasePerFrameStruct = (uint)numPhasePerFrame.Sum() * usercase.NumDepthSequencePerDepthMap;
+            //    foreach (var usercase in configs.UserCases)
+            //    {
+            //        Int32[] numPhasePerFrame = new Int32[4];
+            //        for (int i = 0; i < usercase.NumSubFramePerFrame.Length; i++)
+            //        {
+            //            switch (usercase.SubFrameModes[i])
+            //            {
+            //                case SubFrameModeE.Mode_4Phase:
+            //                    numPhasePerFrame[i] = (int)(4 * usercase.NumSubFramePerFrame[i]);
+            //                    break;
+            //                case SubFrameModeE.Mode_2Phase:
+            //                    numPhasePerFrame[i] = (int)(2 * usercase.NumSubFramePerFrame[i]);
+            //                    break;
+            //                case SubFrameModeE.Mode_8Phase:
+            //                    numPhasePerFrame[i] = (int)(8 * usercase.NumSubFramePerFrame[i]);
+            //                    break;
+            //                case SubFrameModeE.Mode_2Phase_2Phase:
+            //                    numPhasePerFrame[i] = (int)(4 * usercase.NumSubFramePerFrame[i]);
+            //                    break;
+            //                case SubFrameModeE.Mode_1SpecialPhase:
+            //                    numPhasePerFrame[i] = (int)(1 * usercase.NumSubFramePerFrame[i]);
+            //                    break;
+            //                case SubFrameModeE.Mode_5Phase:
+            //                    numPhasePerFrame[i] = (int)(5 * usercase.NumSubFramePerFrame[i]);
+            //                    break;
+            //                case SubFrameModeE.Mode_9Phase:
+            //                    numPhasePerFrame[i] = (int)(9 * usercase.NumSubFramePerFrame[i]);
+            //                    break;
+            //                case SubFrameModeE.Mode_3Phase:
+            //                    numPhasePerFrame[i] = (int)(3 * usercase.NumSubFramePerFrame[i]);
+            //                    break;
+            //                default:
+            //                    break;
+            //            }
+            //        }
+            //        usercase.NumPhasePerFrameStruct = (uint)numPhasePerFrame.Sum() * usercase.NumDepthSequencePerDepthMap;
 
-                    usercase.MaxFPS = Math.Min(30, 240 / usercase.NumPhasePerFrameStruct);
-                }
+            //        usercase.MaxFPS = Math.Min(30, 240 / usercase.NumPhasePerFrameStruct);
+            //    }
                 
-                if (configs.UserCases.Exists(config => config.SubWorkMode == subWorkMode))
-                    configs.CurrentUserCase = configs.UserCases.Find(config => config.SubWorkMode == subWorkMode);
-                else
-                    configs.CurrentUserCase = configs.UserCases.First();
+            //    if (configs.UserCases.Exists(config => config.SubWorkMode == subWorkMode))
+            //        configs.CurrentUserCase = configs.UserCases.Find(config => config.SubWorkMode == subWorkMode);
+            //    else
+            //        configs.CurrentUserCase = configs.UserCases.First();
 
-                return configs;
-            }
-            catch (Exception ex)
-            {
-                Log.Logger.Error(ex.Message);
-            }
+            //    return configs;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Logger.Error(ex.Message);
+            //}
             return null;
         }
 

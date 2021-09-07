@@ -47,9 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PasswordDialog", "SIFP\Modu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConifgAlg", "SIFP\Modules\ConifgAlg\ConifgAlg.csproj", "{628D4A73-617B-44C8-B65F-1D4623ACDCC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyServer", "SIFP\Tests\DummyServer\DummyServer.csproj", "{99F1AB79-2D61-4B16-9A07-FCF33F5F58B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyServer", "SIFP\Tests\DummyServer\DummyServer.csproj", "{99F1AB79-2D61-4B16-9A07-FCF33F5F58B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigArithParams", "SIFP\Modules\ConfigArithParams\ConfigArithParams.csproj", "{4631B66A-8220-446D-8E80-D071C14E82B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigArithParams", "SIFP\Modules\ConfigArithParams\ConfigArithParams.csproj", "{4631B66A-8220-446D-8E80-D071C14E82B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

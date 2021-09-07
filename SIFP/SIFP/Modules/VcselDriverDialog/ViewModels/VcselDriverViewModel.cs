@@ -96,6 +96,8 @@ namespace VcselDriverDialog.ViewModels
         public void OnDialogOpened(IDialogParameters parameters)
         {
             ConfigVcselDriverReply reply = parameters.GetValue<ConfigVcselDriverReply>("ConfigVcselDriverReply");
+            if (null == reply)
+                return;
             MaxIBias = (UInt32)(Math.Round(reply.MaxIBiasMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
             MaxISw = (UInt32)(Math.Round(reply.MaxISwitchMicroAmp / 1000.0 / TickFrequency) * TickFrequency);
             IBias = (UInt32)(Math.Round(reply.IBiasMicroAmp / 1000.0 / TickFrequency) * TickFrequency);

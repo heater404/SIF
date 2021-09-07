@@ -142,7 +142,7 @@ namespace Tool.ViewModels
         private CancellationTokenSource cancellationTokenSource = null;
         private LensCaliArgs lensArgs = new LensCaliArgs();
         private Size resolution = new Size();
-        private UserAccessType user = UserAccessType.Normal;
+        private UserAccessType user = UserAccessType.Expert;
         AutoResetEvent lensArgsHandle = new AutoResetEvent(false);
         public ToolViewModel(HeartBeat beat, ICommunication comm, IDialogService dialogService, IRegionManager regionManager, IEventAggregator eventAggregator) : base(regionManager, eventAggregator)
         {
@@ -303,10 +303,10 @@ namespace Tool.ViewModels
                 return false;
             }
 
-            GetLenArgs();
-            lensArgsHandle.Reset();
-            lensArgsHandle.WaitOne(200);
-            this.PrintWatchLog(this.lensArgs.ToString(), LogLevel.Info);
+            //GetLenArgs();
+            //lensArgsHandle.Reset();
+            //lensArgsHandle.WaitOne(200);
+            //this.PrintWatchLog(this.lensArgs.ToString(), LogLevel.Info);
             string args = resolution.Width + "*" + resolution.Height + "_" + this.lensArgs.ToString();
             EventAggregator.GetEvent<OpenPointCloudEvent>().Publish(args);
             return true;
@@ -367,17 +367,17 @@ namespace Tool.ViewModels
             {
                 if (await Task.Run(ConnectCamera))
                 {
-                    comm.SwitchUserAccess(user);
+                    //comm.SwitchUserAccess(user);
 
                     cancellationTokenSource = new CancellationTokenSource();
                     comm.GetSysStatusAsync(cancellationTokenSource.Token, 3000);
 
                     //有这个顺序要求
-                    this.EventAggregator.GetEvent<ConfigAlgRequestEvent>().Publish();
+                    //this.EventAggregator.GetEvent<ConfigAlgRequestEvent>().Publish();
 
-                    this.EventAggregator.GetEvent<ConfigArithParamsRequestEvent>().Publish();
+                    //this.EventAggregator.GetEvent<ConfigArithParamsRequestEvent>().Publish();
 
-                    this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
+                    //this.EventAggregator.GetEvent<ConfigCameraRequestEvent>().Publish();
 
                     IsConnected = true;
                 }

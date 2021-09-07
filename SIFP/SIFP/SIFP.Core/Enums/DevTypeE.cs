@@ -48,6 +48,8 @@ namespace SIFP.Core.Enums
         BG_OUTDOOR=7,
 
         GRAY_ONLY =8,
+        
+        CUSTOM=9,
     }
 
     public enum SubWorkModeE : UInt32
@@ -99,6 +101,9 @@ namespace SIFP.Core.Enums
 
         [SubWorkMode(WorkModeE.GRAY_ONLY)]
         GRAY_ONLY=98,
+
+        [SubWorkMode(WorkModeE.CUSTOM)]
+        CUSTOM=99,
     }
 
     public enum SubFrameModeE : UInt32

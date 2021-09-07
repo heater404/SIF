@@ -20,8 +20,8 @@ namespace SIFP.Core.Models
         [FieldOrder(4)]
         public UserCaseModel CurrentUserCase { get; set; }//当前使用的UserCase
 
-        [Ignore]//协议中是不需要这个字段的，但是在初始化的时候需要
-        public List<UserCaseModel> UserCases { get; set; }//预定义的所有UserCase集合
+        //[Ignore]//协议中是不需要这个字段的，但是在初始化的时候需要
+        //public List<UserCaseModel> UserCases { get; set; }//预定义的所有UserCase集合
 
         //深度帧帧率 但是协议需要MIPI帧率
         [FieldOrder(5)]
