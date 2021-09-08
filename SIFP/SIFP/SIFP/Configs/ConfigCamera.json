@@ -282,7 +282,7 @@
                     "SpecialPhaseDiv": 24
                 },
                 {
-                    "Phase1_4Div": 8,
+                    "Phase1_4Div": 24,
                     "Phase5_8Div": 2,
                     "SpecialPhaseDiv": 24
                 },
@@ -358,7 +358,7 @@
                     "SpecialPhaseDiv": 24
                 },
                 {
-                    "Phase1_4Div": 8,
+                    "Phase1_4Div": 24,
                     "Phase5_8Div": 2,
                     "SpecialPhaseDiv": 24
                 },
